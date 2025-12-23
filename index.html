@@ -1,0 +1,2641 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" translate="no" class="notranslate">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- 🍎 إعدادات iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="الشامل">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <meta name="theme-color" content="#0d7c66">
+    <title>التطبيق الشامل | Ultimate App</title>
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- تحميل الخطوط (تم إضافة جميع الأوزان لضمان العمل) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800&family=Lateef&family=Tajawal:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================ */
+        /* 🎨 المتغيرات والتصميم الأساسي */
+        /* ============================================================ */
+        :root {
+            --primary-color: #0d7c66;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --header-bg: linear-gradient(135deg, #0d7c66, #084135);
+            --app-font: 'Cairo', sans-serif; /* الخط الافتراضي */
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* الوضع الليلي */
+        [data-theme="dark"] {
+            --primary-color: #4db6ac;
+            --bg-color: #051311;
+            --card-bg: #0f221e;
+            --text-color: #e2e8e6;
+            --text-secondary: #8b9d96;
+            --border-color: #1f3a35;
+            --shadow: 0 4px 20px rgba(0,0,0,0.4);
+            --header-bg: linear-gradient(135deg, #0f221e, #051311);
+        }
+
+        /* 🛠️ إصلاح حجم الخط (التحكم في Root Font Size) */
+        html { font-size: 16px; /* الحجم الافتراضي */ }
+        html[data-font-size="xs"] { font-size: 13px; }
+        html[data-font-size="sm"] { font-size: 14.5px; }
+        html[data-font-size="md"] { font-size: 16px; }
+        html[data-font-size="lg"] { font-size: 18px; }
+        html[data-font-size="xl"] { font-size: 20px; }
+
+        html, body {
+            /* تطبيق الخط المتغير على كامل الموقع */
+            font-family: var(--app-font) !important;
+            transition: background-color 0.4s ease, color 0.3s ease;
+            height: 100%;
+            overflow-x: hidden;
+            margin: 0; padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { padding-bottom: calc(80px + var(--safe-bottom)); line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+
+        /* الهيدر */
+        .top-nav {
+            background: var(--header-bg);
+            padding: 0.8rem 1rem;
+            padding-top: calc(0.8rem + var(--safe-top));
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15); color: white;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
+        .top-controls { display: flex; gap: 10px; align-items: center; }
+        .icon-btn {
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; width: 40px; height: 40px; cursor: pointer; color: white;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+        .lang-select {
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1);
+            color: white; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-family: inherit; font-weight: bold;
+        }
+        .lang-select option { background: #333; color: white; }
+
+        /* البطاقات والشبكة */
+        .hero-card {
+            background: linear-gradient(135deg, rgba(13, 124, 102, 0.1), rgba(13, 124, 102, 0.05));
+            border: 1px solid var(--primary-color); border-radius: 24px; padding: 2rem; text-align: center; margin-bottom: 2rem;
+        }
+        .app-logo { width: 110px; height: 110px; background: white; border-radius: 50%; padding: 6px; margin: 0 auto 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .app-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+
+        .grid-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        @media (min-width: 768px) { .grid-menu { grid-template-columns: repeat(3, 1fr); } }
+
+        .menu-item {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 1.5rem 1rem;
+            text-align: center; cursor: pointer; transition: transform 0.2s; box-shadow: var(--shadow);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .menu-item:active { transform: scale(0.95); }
+        .menu-icon { width: 55px; height: 55px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 12px; }
+
+        /* ألوان الأيقونات */
+        .bg-green { background: rgba(46, 125, 50, 0.15); color: #2e7d32; }
+        .bg-blue { background: rgba(21, 101, 192, 0.15); color: #1565c0; }
+        .bg-purple { background: rgba(123, 31, 162, 0.15); color: #7b1fa2; }
+        .bg-orange { background: rgba(239, 108, 0, 0.15); color: #ef6c00; }
+        .bg-red { background: rgba(198, 40, 40, 0.15); color: #c62828; }
+        .bg-teal { background: rgba(0, 105, 92, 0.15); color: #00695c; }
+        .bg-gray { background: rgba(66, 66, 66, 0.15); color: #616161; }
+        .bg-brown { background: rgba(121, 85, 72, 0.15); color: #795548; }
+        [data-theme="dark"] .bg-green { color: #81c784; background: rgba(129, 199, 132, 0.1); }
+        [data-theme="dark"] .bg-blue { color: #64b5f6; background: rgba(100, 181, 246, 0.1); }
+        [data-theme="dark"] .bg-purple { color: #ba68c8; background: rgba(186, 104, 200, 0.1); }
+        [data-theme="dark"] .bg-orange { color: #ffb74d; background: rgba(255, 183, 77, 0.1); }
+        [data-theme="dark"] .bg-red { color: #e57373; background: rgba(229, 115, 115, 0.1); }
+        [data-theme="dark"] .bg-teal { color: #4db6ac; background: rgba(77, 182, 172, 0.1); }
+        [data-theme="dark"] .bg-gray { color: #e0e0e0; background: rgba(224, 224, 224, 0.1); }
+        [data-theme="dark"] .bg-brown { color: #a1887f; background: rgba(161, 136, 127, 0.1); }
+
+        .item-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 4px; }
+        .item-desc { font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* الصفحات */
+        .page { display: none; animation: fadeIn 0.3s; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px; background: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 12px 24px; border-radius: 30px; color: var(--text-color); cursor: pointer; margin-bottom: 1.5rem; font-weight: bold; box-shadow: var(--shadow);
+        }
+        body[dir="ltr"] .back-btn span:first-child { transform: rotate(180deg); display: inline-block; }
+
+        .empty-content { text-align: center; padding: 4rem 1rem; color: var(--text-secondary); border: 2px dashed var(--border-color); border-radius: 16px; background: var(--card-bg); }
+
+        /* الإعدادات */
+        .settings-group { background: var(--card-bg); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
+        .settings-header { font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; color: var(--primary-color); display: flex; align-items: center; gap: 8px; }
+        .settings-row { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
+        .settings-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .label-text { display: block; margin-bottom: 10px; font-weight: bold; }
+        .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; } 
+        .theme-btn, .size-btn, .font-btn { padding: 12px; border: 2px solid var(--border-color); background: var(--bg-color); border-radius: 12px; cursor: pointer; color: var(--text-color); font-size: 1rem; transition: 0.2s; }
+        .theme-btn.active, .size-btn.active, .font-btn.active { border-color: var(--primary-color); background: rgba(13, 124, 102, 0.1); color: var(--primary-color); font-weight: bold; }
+        .size-controls { display: flex; gap: 5px; } .size-btn { flex: 1; }
+        .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+
+        /* الشريط السفلي */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-around; padding: 12px 0; padding-bottom: calc(12px + var(--safe-bottom)); z-index: 999; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+        .nav-link { display: flex; flex-direction: column; align-items: center; color: var(--text-secondary); font-size: 0.8rem; cursor: pointer; width: 50%; transition: 0.2s; }
+        .nav-link.active { color: var(--primary-color); font-weight: bold; transform: translateY(-2px); }
+        .nav-link svg { width: 26px; height: 26px; fill: currentColor; margin-bottom: 4px; }
+
+        /* ============================================================ */
+        /* 🔔 نافذة الإشعارات (Modal) */
+        /* ============================================================ */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+            z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px;
+            animation: fadeInOverlay 0.3s ease;
+        }
+        .modal-content {
+            background: var(--card-bg); width: 100%; max-width: 400px;
+            border-radius: 24px; padding: 1.5rem; text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3); border: 1px solid var(--border-color);
+            transform: scale(0.9); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-logo { width: 70px; height: 70px; margin: 0 auto 10px; background: white; border-radius: 50%; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .modal-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+        
+        .modal-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 5px; color: var(--primary-color); }
+        
+        /* التاريخ والوقت */
+        .modal-date {
+            font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 15px;
+            background: rgba(0,0,0,0.05); padding: 4px 12px; border-radius: 20px; display: inline-block; font-weight: bold;
+        }
+
+        /* الصورة - حواف مكسورة/منحنية */
+        .modal-image {
+            width: 100%; height: auto; max-height: 250px; object-fit: cover;
+            border-radius: 16px; margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            display: none; /* مخفية حتى يتم تحميلها */
+            border: 2px solid var(--border-color);
+        }
+
+        .modal-body { font-size: 1rem; color: var(--text-color); margin-bottom: 20px; line-height: 1.6; }
+        
+        .modal-btn {
+            background: var(--primary-color); color: white; border: none; padding: 12px 24px;
+            border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(13, 124, 102, 0.3);
+        }
+
+        /* قسم ما الجديد */
+        .news-card { border: 1px solid var(--border-color); border-radius: 16px; padding: 15px; background: var(--bg-color); }
+        .news-image { width: 100%; border-radius: 12px; margin-bottom: 10px; display: none; border: 1px solid var(--border-color); }
+        .news-date { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 8px; display: block; font-weight: bold; }
+
+        /* تعليمات iOS */
+        .ios-instructions { text-align: right; margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary); }
+        .ios-step { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .ios-icon { font-size: 1.2rem; }
+
+        @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* 🪑 تنسيقات قسم المواد */
+        .materials-grid { display: flex; flex-direction: column; gap: 15px; padding-bottom: 80px; }
+        .category-header { 
+            background: var(--bg-color); border-bottom: 2px solid var(--primary-color); 
+            padding: 10px; font-weight: bold; color: var(--primary-color); margin-top: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .material-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 10px; display: flex; gap: 10px; align-items: center; box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+        .material-card:active { transform: scale(0.98); }
+        .mat-thumb { 
+            width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #eee; border: 1px solid var(--border-color);
+        }
+        .mat-info { flex: 1; }
+        .mat-name { font-weight: bold; font-size: 1rem; }
+        .mat-price { color: var(--primary-color); font-weight: bold; font-size: 0.9rem; }
+        .mat-unit { font-size: 0.8rem; color: var(--text-secondary); background: rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 4px; }
+
+        /* Inputs */
+        .input-field {
+            width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: var(--bg-color); color: var(--text-color); margin-bottom: 10px;
+        }
+        .image-upload-box {
+            width: 100%; height: 150px; border: 2px dashed var(--border-color); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 10px;
+            background: rgba(0,0,0,0.02); overflow: hidden; position: relative;
+        }
+
+        /* Config List Items */
+        .config-item { 
+            display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid var(--border-color); 
+        }
+        .del-btn-small { color: #ef4444; cursor: pointer; padding: 0 5px; }
+
+        /* الطباعة */
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+
+        /* 🛠️ هيكل المودال العصري (رأس ثابت + محتوى قابل للتمرير) */
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            max-height: 85vh; /* أقصى ارتفاع 85% من الشاشة */
+            padding: 0; /* إلغاء الحواف الداخلية العامة */
+            overflow: hidden; /* منع التمرير العام */
+            border-radius: 16px;
+            background: var(--card-bg);
+        }
+
+        /* الرأس الثابت (Sticky Header) */
+        .modal-header {
+            padding: 15px 20px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 1.2rem; font-weight: bold;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* جسم المودال القابل للتمرير (Scrollable Body) */
+        .modal-body {
+            flex: 1; /* يأخذ المساحة المتبقية */
+            overflow-y: auto; /* تفعيل التمرير هنا فقط */
+            padding: 20px;
+        }
+
+        /* تذييل المودال (الأزرار) - اختياري ليكون ثابتاً أيضاً */
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-color);
+            display: flex; gap: 10px; justify-content: flex-end;
+        }
+
+        /* تنسيق حقول اللغات */
+        .lang-group {
+            background: var(--bg-color); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 10px; margin-bottom: 15px;
+        }
+        .lang-row {
+            display: flex; align-items: center; margin-bottom: 8px;
+        }
+        .lang-row:last-child { margin-bottom: 0; }
+        .lang-flag {
+            width: 40px; font-size: 0.8rem; font-weight: bold; color: var(--text-secondary);
+            text-transform: uppercase; display: flex; align-items: center;
+        }
+        .lang-input {
+            flex: 1; border: 1px solid var(--border-color); background: var(--card-bg);
+            padding: 8px; border-radius: 6px; color: var(--text-color); outline: none;
+        }
+        .lang-input:focus { border-color: var(--primary-color); }
+
+        /* زر الـمود والخامات FAB داخل الشريط السفلي */
+        .bottom-fab-btn {
+            width: 45px; height: 30px; 
+            background: var(--primary-color); color: white;
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(13, 124, 102, 0.4);
+            transition: transform 0.2s;
+        }
+        .bottom-fab-btn:active { transform: scale(0.9); }
+
+        /* القائمة المنبثقة */
+        .action-menu {
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) scale(0.8);
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 10px; width: 200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none; flex-direction: column; gap: 8px;
+            z-index: 2000; opacity: 0; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .action-menu.active {
+            display: flex; opacity: 1; transform: translateX(-50%) scale(1); bottom: 90px;
+        }
+        .action-item {
+            background: var(--bg-color); border: none; padding: 12px; border-radius: 10px;
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+            font-family: inherit; font-weight: bold; color: var(--text-color);
+            transition: background 0.2s;
+        }
+        .action-item:active { background: rgba(0,0,0,0.1); }
+
+        /* حقول لغات المواد والخامات */
+        .lang-input-group {
+            display: flex; align-items: center; margin-bottom: 5px;
+            border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;
+        }
+        .lang-badge {
+            background: var(--border-color); color: var(--text-secondary);
+            padding: 0 10px; font-size: 0.8rem; font-weight: bold;
+            display: flex; align-items: center; height: 42px; width: 45px; justify-content: center;
+        }
+        .input-field.no-m { margin-bottom: 0; border: none; border-radius: 0; }
+        .config-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px; border-bottom: 1px solid var(--border-color); font-size: 0.9rem;
+        }
+
+        /* شبكة خيارات الطباعة المواد والخامات */
+        .print-options-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 5px;
+        }
+        .print-card {
+            background: var(--bg-color); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 15px 5px; text-align: center;
+            cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 5px;
+            font-size: 0.9rem;
+        }
+        .print-card:hover { background: rgba(0,0,0,0.05); }
+        .print-card.active {
+            border-color: var(--primary-color); background: rgba(13, 124, 102, 0.1);
+            color: var(--primary-color); font-weight: bold;
+        }
+        /* تعطيل خيار البحث إذا كان فارغاً */
+        .print-card.disabled {
+            opacity: 0.5; cursor: not-allowed; pointer-events: none;
+        }
+
+        /* الحاوية الخارجية للمواد والخامات */
+        .compact-search-wrapper {
+            display: flex;
+            align-items: center;
+            background: var(--bg-color); /* خلفية فاتحة */
+            border: 1px solid var(--border-color);
+            border-radius: 30px; /* تدوير كامل للحواف */
+            padding: 6px 12px; /* حشوة صغيرة لتوفير المساحة */
+            margin: 10px 15px; /* هوامش جانبية معقولة */
+            height: 40px; /* ارتفاع ثابت وصغير */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
+        }
+
+        /* تأثير عند الكتابة */
+        .compact-search-wrapper:focus-within {
+            border-color: var(--primary-color);
+            background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(13, 124, 102, 0.15);
+            transform: translateY(-1px);
+        }
+
+        /* الأيقونة */
+        .search-icon {
+            color: #999;
+            display: flex;
+            align-items: center;
+            margin-left: 5px; /* مسافة صغيرة */
+        }
+
+        /* حقل الإدخال */
+        .compact-search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 0.9rem; /* خط أصغر قليلاً */
+            color: var(--text-color);
+            font-family: inherit;
+            padding: 0 5px;
+        }
+
+        /* تنسيق النص المخفي */
+        .compact-search-input::placeholder {
+            color: #bbb;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .compact-search-wrapper:focus-within .compact-search-input::placeholder {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🖨️ نافذة خيارات الطباعة المتقدمة -->
+    <div id="printModal" class="modal-overlay" style="z-index: 5000;">
+        <div class="modal-content" style="max-width: 500px;">
+            <h3 style="margin-bottom:15px;">
+                <span data-ar="خيارات الطباعة" data-en="Print Options" data-tr="Yazdırma Seçenekleri">خيارات الطباعة</span>
+            </h3>
+
+            <!-- 1. نوع التقرير -->
+            <label class="label-text" data-ar="نوع التقرير" data-en="Report Type" data-tr="Rapor Türü">نوع التقرير</label>
+            <div class="print-options-grid">
+                <div class="print-card active" onclick="selectPrintType(this, 'all')">
+                    <span>📑</span>
+                    <span data-ar="الكل" data-en="All" data-tr="Tümü">الكل</span>
+                </div>
+                <div class="print-card" onclick="selectPrintType(this, 'search')" id="optSearch">
+                    <span>🔍</span>
+                    <span data-ar="نتائج البحث" data-en="Search Results" data-tr="Arama Sonuçları">نتائج البحث</span>
+                </div>
+                <div class="print-card" onclick="selectPrintType(this, 'cat')">
+                    <span>📂</span>
+                    <span data-ar="حسب التصنيف" data-en="By Category" data-tr="Kategoriye Göre">حسب التصنيف</span>
+                </div>
+            </div>
+
+            <!-- خيارات إضافية (تظهر عند اختيار التصنيف) -->
+            <div id="printCatSelectWrapper" style="display:none; margin-top:10px;">
+                <select id="printCatSelect" class="input-field"></select>
+            </div>
+
+            <div style="margin-top:15px; display:flex; align-items:center; gap:10px;">
+                <input type="checkbox" id="printIncImg" checked style="width:18px; height:18px;">
+                <label for="printIncImg" data-ar="تضمين الصور" data-en="Include Images" data-tr="Resimleri Dahil Et">تضمين الصور</label>
+            </div>
+
+            <hr style="margin: 15px 0; border:0; border-top:1px solid var(--border-color);">
+
+            <!-- 2. لغة الطباعة -->
+            <label class="label-text" data-ar="لغة التقرير" data-en="Report Language" data-tr="Rapor Dili">لغة التقرير</label>
+            <select id="printLangSelect" class="input-field">
+                <option value="current" data-ar="لغة البرنامج الحالية" data-en="Current App Language" data-tr="Mevcut Uygulama Dili">لغة البرنامج الحالية</option>
+                <option value="all" data-ar="شامل (3 لغات)" data-en="Trilingual (All 3)" data-tr="Üç Dilli (Tümü)">شامل (3 لغات)</option>
+                <option value="ar">العربية (Arabic)</option>
+                <option value="en">English</option>
+                <option value="tr">Türkçe</option>
+            </select>
+
+            <!-- الأزرار -->
+            <div style="margin-top:20px; display:flex; gap:10px;">
+                <button class="modal-btn" onclick="executePrint()">
+                    <span data-ar="طباعة" data-en="Print" data-tr="Yazdır">طباعة</span> 🖨️
+                </button>
+                <button class="modal-btn" style="background:#666;" onclick="document.getElementById('printModal').style.display='none'">
+                    <span data-ar="إلغاء" data-en="Cancel" data-tr="İptal">إلغاء</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔔 نافذة الإشعار (Modal) -->
+    <div id="notificationModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-logo">
+                <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=378,fit=crop,trim=68.26666666666667;68.26666666666667;68.26666666666667;68.26666666666667/a5oqci6YCwpNHTpH/whatsapp-image-2025-12-19-at-11.11.04-am-fDCDqijtAhLk7CFm.png" alt="Logo">
+            </div>
+            
+            <h3 class="modal-title" id="notifTitle">تحديث جديد!</h3>
+            
+            <!-- التاريخ والوقت -->
+            <div id="notifDate" class="modal-date"></div>
+
+            <!-- صورة الإشعار -->
+            <img id="notifImage" src="" class="modal-image" alt="Update Image">
+
+            <p class="modal-body" id="notifBody">...</p>
+            
+            <button class="modal-btn" onclick="dismissNotification()" data-ar="لقد قرأت، لا تظهر مرة أخرى" data-en="I read it, don't show again" data-tr="Okudum, tekrar gösterme">لقد قرأت، لا تظهر مرة أخرى</button>
+        </div>
+    </div>
+
+    <!-- 📲 نافذة التثبيت للآيفون -->
+    <div id="iosInstallModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-logo">
+                <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=378,fit=crop,trim=68.26666666666667;68.26666666666667;68.26666666666667;68.26666666666667/a5oqci6YCwpNHTpH/whatsapp-image-2025-12-19-at-11.11.04-am-fDCDqijtAhLk7CFm.png" alt="Logo">
+            </div>
+            <h3 class="modal-title" data-ar="تثبيت التطبيق" data-en="Install App" data-tr="Uygulamayı Yükle">تثبيت التطبيق</h3>
+            <div class="ios-instructions">
+                <div class="ios-step">
+                    <span class="ios-icon">1️⃣</span>
+                    <span data-ar="اضغط على زر المشاركة بالأسفل" data-en="Tap the Share button below" data-tr="Aşağıdaki Paylaş düğmesine basın">اضغط على زر المشاركة بالأسفل</span>
+                    <span style="font-size:1.2rem">⎋</span>
+                </div>
+                <div class="ios-step">
+                    <span class="ios-icon">2️⃣</span>
+                    <span data-ar="اختر 'إضافة إلى الصفحة الرئيسية'" data-en="Select 'Add to Home Screen'" data-tr="'Ana Ekrana Ekle'yi seçin">اختر 'إضافة إلى الصفحة الرئيسية'</span>
+                    <span style="font-size:1.2rem">➕</span>
+                </div>
+            </div>
+            <button class="modal-btn" style="margin-top:15px; background:#333;" onclick="closeIosModal()" data-ar="حسناً، فهمت" data-en="Got it" data-tr="Anladım">حسناً، فهمت</button>
+        </div>
+    </div>
+
+    <!-- 🧭 الهيدر -->
+    <nav class="top-nav">
+        <div class="logo">
+            <span class="nav-icon" id="headerIcon">🏠</span>
+            <span id="headerTitle" data-ar="الرئيسية" data-tr="Ana Sayfa" data-en="Home">الرئيسية</span>
+        </div>
+        <div class="top-controls">
+            <button class="icon-btn" id="headerThemeBtn" onclick="toggleHeaderTheme()">☀️</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="tr">Türkçe</option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 🏠 الرئيسية -->
+        <div id="homePage" class="page active">
+            <div class="hero-card">
+                <div class="app-logo">
+                    <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,h=378,fit=crop,trim=68.26666666666667;68.26666666666667;68.26666666666667;68.26666666666667/a5oqci6YCwpNHTpH/whatsapp-image-2025-12-19-at-11.11.04-am-fDCDqijtAhLk7CFm.png" alt="Logo">
+                </div>
+                <h2 data-ar="التطبيق الشامل" data-tr="Kapsamlı Uygulama" data-en="Ultimate App">التطبيق الشامل</h2>
+                <p style="opacity: 0.8;" data-ar="بوابتك للخدمات المتكاملة" data-tr="Entegre hizmetler portalınız" data-en="Your portal for integrated services">بوابتك للخدمات المتكاملة</p>
+            </div>
+            <div class="grid-menu" id="menuGrid"></div>
+        </div>
+
+        <!-- 📄 صفحة القسم -->
+        <div id="sectionPage" class="page">
+            <button class="back-btn" onclick="goHome()"><span>➜</span><span data-ar="العودة" data-tr="Geri" data-en="Back">العودة</span></button>
+            <div class="empty-content">
+                <div style="font-size: 4rem; margin-bottom: 1rem;" id="secIcon">🚧</div>
+                <h2 id="secTitle" style="margin-bottom: 10px;">Title</h2>
+                <p data-ar="هذا القسم قيد التطوير" data-tr="Bu bölüm yapım aşamasındadır" data-en="This section is under development">هذا القسم قيد التطوير</p>
+            </div>
+        </div>
+
+        <!-- 📰 صفحة "ما الجديد" -->
+        <div id="whatsNewPage" class="page">
+            <button class="back-btn" onclick="openSection(12)"><span>➜</span><span data-ar="عودة للإعدادات" data-tr="Ayarlara Dön" data-en="Back to Settings">عودة للإعدادات</span></button>
+            <div class="settings-group">
+                <div class="settings-header">
+                    <span>📢</span> <span data-ar="آخر التحديثات" data-tr="Son Güncellemeler" data-en="Latest Updates">آخر التحديثات</span>
+                </div>
+                
+                <div id="whatsNewContent" class="news-card">
+                    <span id="newsDate" class="news-date"></span>
+                    <img id="newsImage" src="" class="news-image">
+                    <div id="newsText" style="line-height:1.8; color:var(--text-color);">
+                        <p data-ar="لا توجد تحديثات مسجلة حالياً." data-en="No updates recorded yet." data-tr="Henüz kayıtlı güncelleme yok.">لا توجد تحديثات مسجلة حالياً.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🪑 صفحة إدارة المواد والخامات -->
+        <div id="materialsPage" class="page">
+            <!-- شريط بحث مدمج ذكي مع تقنية Debounce -->
+            <div class="compact-search-wrapper">
+                <div class="search-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <input type="text" id="matSearch" class="compact-search-input" 
+                       oninput="debouncedSearch()"
+                       placeholder="بحث عن مادة..." 
+                       data-ph-ar="بحث عن مادة..." 
+                       data-ph-en="Search material..." 
+                       data-ph-tr="Malzeme ara...">
+            </div>
+
+            <!-- قائمة المواد (يتم تعبئتها تلقائياً) -->
+            <div id="materialsList" class="materials-grid"></div>
+        </div>
+
+        <!-- 🛠️ نافذة إضافة/تعديل مادة (Sticky Header + 3 Langs) -->
+        <div id="materialModal" class="modal-overlay" style="z-index: 4000;">
+            <div class="modal-content" style="width: 100%; max-width: 550px;">
+                
+                <!-- الرأس الثابت -->
+                <div class="modal-header">
+                    <span id="matModalTitle">Title</span>
+                    <span onclick="closeMatModal()" style="cursor:pointer; opacity:0.6;">✕</span>
+                </div>
+
+                <!-- المحتوى القابل للتمرير -->
+                <div class="modal-body">
+                    <input type="hidden" id="matId">
+                    
+                    <!-- رفع الصورة مع تحسين التخزين -->
+                    <div class="image-upload-box" onclick="document.getElementById('matImgInput').click()" style="margin-bottom:20px;">
+                        <img id="matPreview" src="" style="display:none; width:100%; height:100%; object-fit:contain;">
+                        <span id="matUploadPlaceholder" data-ar="📸 صورة المادة" data-en="📸 Material Image" data-tr="📸 Malzeme Resmi">📸 صورة المادة</span>
+                    </div>
+                    <input type="file" id="matImgInput" hidden accept="image/*" onchange="handleImageUpload(this)">
+
+                    <!-- اسم المادة (3 لغات) مع تعقيم النصوص -->
+                    <label class="label-text" data-ar="اسم المادة" data-en="Material Name" data-tr="Malzeme Adı">اسم المادة</label>
+                    <div class="lang-group">
+                        <div class="lang-row"><span class="lang-flag">AR</span><input type="text" id="matNameAr" class="lang-input" placeholder="الاسم بالعربية"></div>
+                        <div class="lang-row"><span class="lang-flag">EN</span><input type="text" id="matNameEn" class="lang-input" placeholder="Name in English"></div>
+                        <div class="lang-row"><span class="lang-flag">TR</span><input type="text" id="matNameTr" class="lang-input" placeholder="Türkçe İsim"></div>
+                    </div>
+
+                    <!-- التصنيف والوحدة -->
+                    <div style="display:flex; gap:10px; margin-bottom:15px;">
+                        <div style="flex:1;">
+                            <label class="label-text">
+                                <span data-ar="التصنيف" data-en="Category" data-tr="Kategori">التصنيف</span>
+                                <span onclick="manageCategories()" style="color:var(--primary-color); cursor:pointer; font-size:1.2rem;">⚙️</span>
+                            </label>
+                            <select id="matCategory" class="input-field"></select>
+                        </div>
+                        <div style="flex:1;">
+                            <label class="label-text">
+                                <span data-ar="الوحدة" data-en="Unit" data-tr="Birim">الوحدة</span>
+                                <span onclick="manageUnits()" style="color:var(--primary-color); cursor:pointer; font-size:1.2rem;">⚙️</span>
+                            </label>
+                            <select id="matUnit" class="input-field"></select>
+                        </div>
+                    </div>
+
+                    <!-- السعر مع تحويل العملة -->
+                    <label class="label-text" data-ar="السعر" data-en="Price" data-tr="Fiyat">السعر</label>
+                    <div style="display:flex; align-items:center; gap:10px; background:var(--bg-color); padding:10px; border-radius:10px;">
+                        <input type="number" id="matPrice" class="input-field" style="margin:0; flex:1;" placeholder="0.00" oninput="calculateSecondaryPrice()">
+                        <span id="primaryCurrLabelModal" style="font-weight:bold;">USD</span>
+                        <span style="font-size:1.5rem;">➔</span>
+                        <span id="secondaryPriceDisplay" style="font-weight:bold; color:var(--primary-color);">0</span>
+                        <span id="secondaryCurrLabelModal" style="font-size:0.9rem;">TRY</span>
+                    </div>
+                </div>
+
+                <!-- التذييل الثابت -->
+                <div class="modal-footer">
+                    <button id="btnDeleteMat" class="modal-btn" style="background:#ef4444; display:none;" onclick="deleteMaterial()">
+                        <span data-ar="حذف" data-en="Delete" data-tr="Sil">حذف</span>
+                    </button>
+                    <button class="modal-btn" style="background:#666;" onclick="closeMatModal()">
+                        <span data-ar="إلغاء" data-en="Cancel" data-tr="İptal">إلغاء</span>
+                    </button>
+                    <button class="modal-btn" onclick="saveMaterial()">
+                        <span data-ar="حفظ" data-en="Save" data-tr="Kaydet">حفظ</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ⚙️ نافذة إدارة (التصنيفات/الوحدات) - Sticky Header -->
+        <div id="configModal" class="modal-overlay" style="z-index: 4100;">
+            <div class="modal-content" style="width: 100%; max-width: 450px;">
+                <div class="modal-header">
+                    <span id="configTitle">Management</span>
+                    <span onclick="document.getElementById('configModal').style.display='none'" style="cursor:pointer; opacity:0.6;">✕</span>
+                </div>
+                
+                <div class="modal-body">
+                    <!-- قائمة العناصر -->
+                    <ul id="configList" style="list-style:none; padding:0; margin-bottom:20px;"></ul>
+
+                    <!-- إضافة جديد -->
+                    <label class="label-text" data-ar="إضافة جديد (3 لغات)" data-en="Add New (3 Langs)" data-tr="Yeni Ekle (3 Dil)">إضافة جديد</label>
+                    <div class="lang-group">
+                        <div class="lang-row"><span class="lang-flag">AR</span><input type="text" id="confAr" class="lang-input" placeholder="عربي"></div>
+                        <div class="lang-row"><span class="lang-flag">EN</span><input type="text" id="confEn" class="lang-input" placeholder="English"></div>
+                        <div class="lang-row"><span class="lang-flag">TR</span><input type="text" id="confTr" class="lang-input" placeholder="Türkçe"></div>
+                    </div>
+                    <button onclick="addConfigItem()" class="modal-btn" style="width:100%;">
+                        <span data-ar="إضافة" data-en="Add" data-tr="Ekle">إضافة</span> +
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ⚙️ الإعدادات -->
+        <div id="settingsPage" class="page">
+            <button class="back-btn" onclick="goHome()"><span>➜</span><span data-ar="العودة" data-tr="Geri" data-en="Back">العودة</span></button>
+
+            <!-- زر تثبيت التطبيق -->
+            <div class="settings-group" id="installGroup">
+                <div class="settings-header">
+                    <span>📲</span> <span data-ar="التطبيق" data-tr="Uygulama" data-en="Application">التطبيق</span>
+                </div>
+                <button class="modal-btn" onclick="installApp()" style="margin-bottom:10px;">
+                    <span data-ar="تثبيت التطبيق على الهاتف" data-tr="Uygulamayı Yükle" data-en="Install App">تثبيت التطبيق على الهاتف</span>
+                </button>
+            </div>
+
+            <!-- زر ما الجديد -->
+            <div class="settings-group">
+                <div class="settings-header">
+                    <span>✨</span> <span data-ar="معلومات" data-tr="Bilgi" data-en="Info">معلومات</span>
+                </div>
+                <div class="settings-row" onclick="openWhatsNew()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                    <span class="label-text" style="margin:0" data-ar="ما الجديد في هذا الإصدار؟" data-tr="Bu sürümdeki yenilikler?" data-en="What's new in this version?">ما الجديد في هذا الإصدار؟</span>
+                    <span>➜</span>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-header"><span>🎨</span> <span data-ar="المظهر" data-tr="Görünüm" data-en="Appearance">المظهر</span></div>
+                <div class="settings-row">
+                    <span class="label-text" data-ar="النمط" data-tr="Mod" data-en="Mode">النمط</span>
+                    <div class="theme-grid">
+                        <button class="theme-btn" onclick="setAppTheme('light')" data-theme-val="light"><span>☀️</span><span data-ar="نهاري" data-tr="Gündüz" data-en="Light">نهاري</span></button>
+                        <button class="theme-btn" onclick="setAppTheme('dark')" data-theme-val="dark"><span>🌙</span><span data-ar="ليلي" data-tr="Gece" data-en="Dark">ليلي</span></button>
+                        <button class="theme-btn" onclick="setAppTheme('auto')" data-theme-val="auto"><span>⚙️</span><span data-ar="تلقائي" data-tr="Otomatik" data-en="Auto">تلقائي</span></button>
+                    </div>
+                </div>
+                <div class="settings-row">
+                    <span class="label-text" data-ar="حجم النص" data-tr="Yazı Boyutu" data-en="Font Size">حجم النص</span>
+                    <div class="size-controls">
+                        <button class="size-btn" onclick="setFontSize('xs')" data-size="xs">XS</button>
+                        <button class="size-btn" onclick="setFontSize('sm')" data-size="sm">S</button>
+                        <button class="size-btn" onclick="setFontSize('md')" data-size="md">M</button>
+                        <button class="size-btn" onclick="setFontSize('lg')" data-size="lg">L</button>
+                        <button class="size-btn" onclick="setFontSize('xl')" data-size="xl">XL</button>
+                    </div>
+                </div>
+                <div class="settings-row">
+                    <span class="label-text" data-ar="الخط" data-tr="Yazı Tipi" data-en="Font">الخط</span>
+                    <div class="font-grid" id="fontOptionsContainer"></div>
+                </div>
+            </div>
+
+            <!-- قسم إعدادات العملات -->
+            <div class="settings-group">
+                <div class="settings-header"><span>💱</span> <span data-ar="العملات والصرف" data-tr="Döviz Kurları" data-en="Currencies">العملات والصرف</span></div>
+                
+                <div class="settings-row">
+                    <span class="label-text">العملة الأساسية (Primary)</span>
+                    <select id="currPrimary" class="input-field" onchange="saveCurrencySettings()">
+                        <option value="USD">Dollar ($)</option>
+                        <option value="EUR">Euro (€)</option>
+                        <option value="TRY">Lira (₺)</option>
+                        <option value="SYP">Syrian Pound (SYP)</option>
+                    </select>
+                </div>
+
+                <div class="settings-row">
+                    <span class="label-text">العملة الثانوية (Secondary)</span>
+                    <select id="currSecondary" class="input-field" onchange="saveCurrencySettings()">
+                        <option value="TRY">Lira (₺)</option>
+                        <option value="USD">Dollar ($)</option>
+                        <option value="EUR">Euro (€)</option>
+                        <option value="SYP">Syrian Pound (SYP)</option>
+                    </select>
+                </div>
+
+                <div class="settings-row">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="label-text">سعر الصرف (Exchange Rate)</span>
+                        <label style="font-size:0.8rem;">
+                            <input type="checkbox" id="autoRateToggle" onchange="toggleAutoRate()"> تلقائي (من النت)
+                        </label>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:5px;">
+                        <span>1 <span id="rateFromLabel">USD</span> = </span>
+                        <input type="number" id="exchangeRateVal" class="input-field" style="width:100px;" onchange="saveCurrencySettings()">
+                        <span id="rateToLabel">TRY</span>
+                    </div>
+                    <button id="fetchRateBtn" onclick="fetchLiveRate()" style="margin-top:10px; font-size:0.8rem; padding:5px 10px; background:var(--primary-color); color:white; border:none; border-radius:8px;">تحديث السعر الآن 🔄</button>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-header"><span>💾</span> <span data-ar="البيانات" data-tr="Veri" data-en="Data">البيانات</span></div>
+                <button style="width: 100%; padding: 14px; background: #ef4444; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: bold;" onclick="resetApp()">
+                    <span data-ar="إعادة ضبط التطبيق" data-tr="Uygulamayı Sıfırla" data-en="Reset Application">إعادة ضبط التطبيق</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔘 قائمة الإجراءات المنبثقة (تظهر عند الضغط على الزر الجديد) -->
+    <div id="matActionMenu" class="action-menu">
+        <button onclick="openMaterialModal(); toggleMatMenu()" class="action-item">
+            <span>➕</span> <span data-ar="إضافة مادة" data-tr="Ekle" data-en="Add">إضافة مادة</span>
+        </button>
+        <button onclick="showPrintOptions(); toggleMatMenu()" class="action-item">
+            <span>🖨️</span> <span data-ar="طباعة" data-tr="Yazdır" data-en="Print">طباعة</span>
+        </button>
+    </div>
+
+    <!-- الشريط السفلي -->
+    <nav class="bottom-nav">
+        <!-- زر الرئيسية (ثابت) -->
+        <div class="nav-link active" onclick="goHome()">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg> 
+            <span data-ar="الرئيسية" data-tr="Ana Sayfa" data-en="Home">الرئيسية</span>
+        </div>
+
+        <!-- زر الإعدادات (يظهر افتراضياً) -->
+        <div id="navSettingsBtn" class="nav-link" onclick="openSection(12)">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg> 
+            <span data-ar="الإعدادات" data-tr="Ayarlar" data-en="Settings">الإعدادات</span>
+        </div>
+
+        <!-- زر المواد (يظهر فقط في قسم المواد) -->
+        <div id="navMaterialsBtn" class="nav-link" style="display:none;" onclick="toggleMatMenu()">
+            <div class="bottom-fab-btn">⚡</div>
+            <span data-ar="إجراءات" data-tr="İşlemler" data-en="Actions" style="font-weight:bold; color:var(--primary-color);">إجراءات</span>
+        </div>
+    </nav>
+
+    <script>
+        /* ============================================================ */
+        /* 🌟 البيانات الأساسية والمتغيرات العامة */
+        /* ============================================================ */
+        
+        // قاعدة بيانات الأقسام مع الألوان والأيقونات
+        const sectionsDB = [
+            { id: 1,  icon: '📖', color: 'bg-green',  ar: 'القرآن الكريم', tr: 'Kuran-ı Kerim', en: 'The Holy Quran' },
+            { id: 2,  icon: '🪑', color: 'bg-brown',   ar: 'المواد والخامات', tr: 'Malzemeler', en: 'Materials' },
+            { id: 3,  icon: '📿', color: 'bg-purple', ar: 'الأذكار',       tr: 'Zikirler',        en: 'Azkar' },
+            { id: 4,  icon: '📅', color: 'bg-orange', ar: 'التقويم الهجري',tr: 'Hicri Takvim',    en: 'Hijri Calendar' },
+            { id: 5,  icon: '🧭', color: 'bg-red',    ar: 'القبلة',        tr: 'Kıble',           en: 'Qibla' },
+            { id: 6,  icon: '📚', color: 'bg-teal',   ar: 'المكتبة',       tr: 'Kütüphane',       en: 'Library' },
+            { id: 7,  icon: '📻', color: 'bg-gray',   ar: 'الإذاعة',       tr: 'Radyo',           en: 'Radio' },
+            { id: 8,  icon: '💡', color: 'bg-green',  ar: 'خواطر',         tr: 'Düşünceler',      en: 'Reflections' },
+            { id: 9,  icon: '🕋', color: 'bg-brown',  ar: 'الحج والعمرة',  tr: 'Hac ve Umre',     en: 'Hajj & Umrah' },
+            { id: 10, icon: '🤲', color: 'bg-blue',   ar: 'أدعية',         tr: 'Dualar',          en: 'Supplications' },
+            { id: 11, icon: '📢', color: 'bg-purple', ar: 'الإعلانات',     tr: 'Duyurular',       en: 'Announcements' },
+            { id: 12, icon: '⚙️', color: 'bg-gray',   ar: 'الإعدادات',     tr: 'Ayarlar',         en: 'Settings' }
+        ];
+
+        // قاعدة بيانات الخطوط حسب اللغة
+        const fontsDB = {
+            ar: [{ name: 'Cairo', label: 'كايرو' }, { name: 'Amiri', label: 'أميري' }, { name: 'Tajawal', label: 'تجوّل' }, { name: 'Lateef', label: 'لطيف' }],
+            en: [{ name: 'Roboto', label: 'Roboto' }, { name: 'Open Sans', label: 'Open Sans' }, { name: 'Montserrat', label: 'Montserrat' }],
+            tr: [{ name: 'Roboto', label: 'Roboto' }, { name: 'Open Sans', label: 'Open Sans' }, { name: 'Montserrat', label: 'Montserrat' }]
+        };
+
+        // متغيرات عامة
+        let currentLang = 'ar'; // اللغة الحالية للتطبيق
+        let deferredPrompt; // متغير تثبيت التطبيق
+        let currentNotifId = 0; // معرف الإشعار الحالي
+
+        /* ============================================================ */
+        /* 🚀 بدء التشغيل والتهيئة الأولية */
+        /* ============================================================ */
+        
+        // تشغيل التطبيق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            detectInitialLanguage(); // كشف اللغة المفضلة
+            loadPreferences(); // تحميل إعدادات المستخدم المحفوظة
+            renderMenu(); // عرض قائمة الأقسام الرئيسية
+            setAppTheme(localStorage.getItem('appThemePref') || 'auto'); // تطبيق النمط المحفوظ
+            checkRemoteNotifications(); // فحص الإشعارات الجديدة
+            
+            // تسجيل مستمع تثبيت التطبيق
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+            });
+        });
+
+        /* ============================================================ */
+        /* 🔔 نظام الإشعارات المتقدم (Remote Notifications) */
+        /* ============================================================ */
+        
+        // فحص الإشعارات الجديدة من الخادم
+        async function checkRemoteNotifications() {
+            try {
+                // جلب ملف الإشعارات مع منع التخزين المؤقت
+                const response = await fetch(`notifications.json?t=${new Date().getTime()}`);
+                if (!response.ok) return;
+
+                const data = await response.json();
+                currentNotifId = data.id;
+
+                // حفظ بيانات الإشعار كاملة في التخزين المحلي
+                localStorage.setItem('latest_news_data', JSON.stringify(data));
+
+                // فحص ما إذا كان المستخدم قد رفض هذا الإشعار مسبقاً
+                const dismissedId = localStorage.getItem('dismissed_notif_id');
+
+                // عرض الإشعار إذا كان جديد ونشط
+                if (data.id > (dismissedId || 0) && data.active) {
+                    showModal(data);
+                }
+            } catch (error) { 
+                console.log('لا توجد إشعارات أو خطأ في الاتصال'); 
+            }
+        }
+
+        // عرض نافذة الإشعار المنبثقة
+        function showModal(data) {
+            const modal = document.getElementById('notificationModal');
+            const title = document.getElementById('notifTitle');
+            const body = document.getElementById('notifBody');
+            const dateEl = document.getElementById('notifDate');
+            const imgEl = document.getElementById('notifImage');
+
+            // عناوين متعددة اللغات للإشعار
+            const titles = { ar: "تحديث جديد!", en: "New Update!", tr: "Yeni Güncelleme!" };
+            title.textContent = titles[currentLang];
+            body.textContent = data.message[currentLang] || data.message['ar'];
+            
+            // عرض تاريخ الإشعار
+            if(dateEl) dateEl.textContent = data.date || '';
+            
+            // عرض صورة الإشعار إذا توفرت
+            if (imgEl) {
+                if (data.image && data.image.trim() !== "") {
+                    imgEl.src = data.image;
+                    imgEl.style.display = 'block';
+                } else {
+                    imgEl.style.display = 'none';
+                }
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        // رفض الإشعار وعدم إظهاره مرة أخرى
+        function dismissNotification() {
+            localStorage.setItem('dismissed_notif_id', currentNotifId);
+            document.getElementById('notificationModal').style.display = 'none';
+        }
+
+        /* ============================================================ */
+        /* 📰 صفحة "ما الجديد" */
+        /* ============================================================ */
+        
+        // فتح صفحة عرض آخر التحديثات
+        function openWhatsNew() {
+            // إخفاء جميع الصفحات وإظهار صفحة الأخبار
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('whatsNewPage').classList.add('active');
+            
+            const textDiv = document.getElementById('newsText');
+            const imgDiv = document.getElementById('newsImage');
+            const dateDiv = document.getElementById('newsDate');
+            
+            // جلب البيانات المحفوظة محلياً
+            const storedData = localStorage.getItem('latest_news_data');
+            
+            if (storedData) {
+                const data = JSON.parse(storedData);
+                // عرض النص حسب لغة التطبيق
+                if(textDiv) textDiv.textContent = data.message[currentLang] || data.message['ar'];
+                if(dateDiv) dateDiv.textContent = data.date || '';
+                
+                // عرض الصورة إن وجدت
+                if (imgDiv) {
+                    if (data.image && data.image.trim() !== "") {
+                        imgDiv.src = data.image;
+                        imgDiv.style.display = 'block';
+                    } else {
+                        imgDiv.style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        /* ============================================================ */
+        /* 📲 نظام تثبيت التطبيق (PWA Installation) */
+        /* ============================================================ */
+        
+        // تثبيت التطبيق على الجهاز
+        function installApp() {
+            const isIos = /iPhone|iPad|iPod/.test(navigator.userAgent);
+            
+            if (isIos) {
+                // عرض تعليمات التثبيت لأجهزة iOS
+                document.getElementById('iosInstallModal').style.display = 'flex';
+            } else if (deferredPrompt) {
+                // تثبيت تلقائي للأندرويد والمتصفحات الأخرى
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => { 
+                    deferredPrompt = null; 
+                });
+            } else {
+                // التطبيق مثبت مسبقاً أو غير مدعوم
+                alert(currentLang === 'ar' ? 'التطبيق مثبت بالفعل أو غير مدعوم' : 'App already installed or not supported');
+            }
+        }
+
+        // إغلاق نافذة تعليمات iOS
+        function closeIosModal() { 
+            document.getElementById('iosInstallModal').style.display = 'none'; 
+        }
+
+        /* ============================================================ */
+        /* 🎨 نظام المظهر والثيمات (Theme System) */
+        /* ============================================================ */
+        
+        // تطبيق نمط المظهر (فاتح/داكن/تلقائي)
+        function setAppTheme(pref) {
+            localStorage.setItem('appThemePref', pref);
+            
+            // تحديث أزرار النمط في الواجهة
+            document.querySelectorAll('.theme-btn').forEach(b => { 
+                b.classList.remove('active'); 
+                if(b.dataset.themeVal === pref) b.classList.add('active'); 
+            });
+            
+            if(pref === 'auto') {
+                // كشف تفضيل النظام تلقائياً
+                const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyTheme(isDark ? 'dark' : 'light');
+            } else { 
+                applyTheme(pref); 
+            }
+        }
+
+        // تطبيق النمط على العناصر
+        function applyTheme(t) { 
+            document.documentElement.setAttribute('data-theme', t); 
+            document.getElementById('headerThemeBtn').textContent = t === 'dark' ? '🌙' : '☀️'; 
+        }
+
+        // تبديل النمط من زر الهيدر
+        function toggleHeaderTheme() { 
+            const c = document.documentElement.getAttribute('data-theme') || 'light'; 
+            setAppTheme(c === 'dark' ? 'light' : 'dark'); 
+        }
+
+        /* ============================================================ */
+        /* 🌐 نظام اللغات المتعدد (Multi-language System) */
+        /* ============================================================ */
+        
+        // تغيير لغة التطبيق
+        function changeLanguage(lang) {
+            currentLang = lang; 
+            localStorage.setItem('appLang', lang); 
+            document.getElementById('langSelect').value = lang;
+            
+            // تحديث اتجاه النص وخاصية اللغة
+            document.documentElement.lang = lang; 
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            // تحديث جميع النصوص في الواجهة
+            document.querySelectorAll('[data-ar]').forEach(el => 
+                el.textContent = el.getAttribute(`data-${lang}`)
+            );
+            
+            // إعادة عرض القوائم والخطوط
+            renderMenu(); 
+            renderFontOptions();
+            
+            // تطبيق الخط المناسب للغة
+            const f = localStorage.getItem(`appFont_${lang}`); 
+            setFontFamily(f || (lang === 'ar' ? 'Cairo' : 'Roboto'));
+            
+            // تحديث نص البحث
+            const searchInput = document.getElementById('matSearch');
+            if(searchInput) {
+                const newPh = searchInput.getAttribute(`data-ph-${currentLang}`);
+                if(newPh) searchInput.placeholder = newPh;
+            }
+        }
+        
+        // كشف اللغة المفضلة عند البدء
+        function detectInitialLanguage() { 
+            const s = localStorage.getItem('appLang'); 
+            if(s) {
+                changeLanguage(s); 
+            } else { 
+                // كشف لغة المتصفح
+                const b = navigator.language; 
+                if(b.startsWith('ar')) changeLanguage('ar'); 
+                else if(b.startsWith('tr')) changeLanguage('tr'); 
+                else changeLanguage('en'); 
+            } 
+        }
+
+        /* ============================================================ */
+        /* 🏠 عرض القائمة الرئيسية والتنقل */
+        /* ============================================================ */
+        
+        // عرض شبكة الأقسام الرئيسية
+        function renderMenu() {
+            const g = document.getElementById('menuGrid'); 
+            g.innerHTML = '';
+            
+            sectionsDB.forEach(s => {
+                const d = document.createElement('div'); 
+                d.className = 'menu-item'; 
+                d.onclick = () => openSection(s.id);
+                
+                // تكوين محتوى البطاقة
+                d.innerHTML = `
+                    <div class="menu-icon ${s.color}">${s.icon}</div>
+                    <div class="item-title">${s[currentLang]}</div>
+                    <div class="item-desc">${currentLang==='ar'?'انقر للدخول':(currentLang==='tr'?'Girmek için tıkla':'Tap to enter')}</div>
+                `;
+                g.appendChild(d);
+            });
+        }
+
+        // فتح القائمة المنبثقة للمواد
+        function toggleMatMenu() {
+            const menu = document.getElementById('matActionMenu');
+            if (menu.classList.contains('active')) {
+                menu.classList.remove('active');
+                setTimeout(() => menu.style.display = 'none', 200);
+            } else {
+                menu.style.display = 'flex';
+                setTimeout(() => menu.classList.add('active'), 10);
+            }
+        }
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('matActionMenu');
+            const btn = document.getElementById('navMaterialsBtn');
+            if (!menu.contains(e.target) && !btn.contains(e.target) && menu.classList.contains('active')) {
+                toggleMatMenu();
+            }
+        });
+
+        // فتح قسم معين
+        function openSection(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            // إخفاء القائمة المنبثقة
+            document.getElementById('matActionMenu').classList.remove('active');
+            document.getElementById('matActionMenu').style.display = 'none';
+
+            const s = sectionsDB.find(x => x.id === id);
+            const t = document.getElementById('headerTitle'); 
+            const i = document.getElementById('headerIcon');
+            
+            // تحديث عنوان الهيدر
+            t.setAttribute('data-ar', s.ar); 
+            t.setAttribute('data-tr', s.tr); 
+            t.setAttribute('data-en', s.en);
+            t.textContent = s[currentLang]; 
+            i.textContent = s.icon;
+
+            // التبديل بين أزرار التنقل السفلي
+            const settingsBtn = document.getElementById('navSettingsBtn');
+            const materialsBtn = document.getElementById('navMaterialsBtn');
+
+            if (id === 2) { 
+                // قسم المواد والخامات
+                document.getElementById('materialsPage').classList.add('active');
+                if(typeof loadMaterials === 'function') loadMaterials();
+                
+                settingsBtn.style.display = 'none';
+                materialsBtn.style.display = 'flex';
+            } 
+            else {
+                // الأقسام الأخرى
+                settingsBtn.style.display = 'flex';
+                materialsBtn.style.display = 'none';
+
+                if(id === 12) {
+                    // صفحة الإعدادات
+                    document.getElementById('settingsPage').classList.add('active');
+                } else {
+                    // صفحة قسم عام
+                    document.getElementById('secTitle').textContent = s[currentLang];
+                    document.getElementById('secIcon').textContent = s.icon;
+                    document.getElementById('sectionPage').classList.add('active');
+                }
+            }
+            window.scrollTo(0,0);
+        }
+
+        // العودة للصفحة الرئيسية
+        function goHome() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
+            document.getElementById('homePage').classList.add('active');
+            
+            // إعادة تعيين نصوص الهيدر
+            const t = document.getElementById('headerTitle'); 
+            t.setAttribute('data-ar','الرئيسية'); 
+            t.setAttribute('data-tr','Ana Sayfa'); 
+            t.setAttribute('data-en','Home');
+            t.textContent = t.getAttribute(`data-${currentLang}`); 
+            document.getElementById('headerIcon').textContent = '🏠'; 
+            
+            // إعادة تعيين أزرار التنقل
+            document.getElementById('navSettingsBtn').style.display = 'flex';
+            document.getElementById('navMaterialsBtn').style.display = 'none';
+            document.getElementById('matActionMenu').classList.remove('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        /* ============================================================ */
+        /* ✏️ نظام الخطوط وأحجام النصوص */
+        /* ============================================================ */
+        
+        // عرض خيارات الخطوط حسب اللغة
+        function renderFontOptions() {
+            const c = document.getElementById('fontOptionsContainer'); 
+            c.innerHTML = '';
+            const fonts = fontsDB[currentLang] || fontsDB['en'];
+            const cur = localStorage.getItem(`appFont_${currentLang}`) || (currentLang === 'ar' ? 'Cairo' : 'Roboto');
+            
+            fonts.forEach(f => {
+                const b = document.createElement('button'); 
+                b.className = `font-btn ${cur === f.name ? 'active' : ''}`;
+                b.style.fontFamily = f.name; 
+                b.textContent = f.label; 
+                b.onclick = () => setFontFamily(f.name); 
+                c.appendChild(b);
+            });
+        }
+
+        // تطبيق خط معين
+        function setFontFamily(f) { 
+            document.documentElement.style.setProperty('--app-font', `'${f}', sans-serif`); 
+            localStorage.setItem(`appFont_${currentLang}`, f); 
+            renderFontOptions(); 
+        }
+
+        // تطبيق حجم النص
+        function setFontSize(s) { 
+            document.documentElement.setAttribute('data-font-size', s); 
+            localStorage.setItem('appFontSize', s); 
+            document.querySelectorAll('.size-btn').forEach(b => { 
+                b.classList.remove('active'); 
+                if(b.dataset.size === s) b.classList.add('active'); 
+            }); 
+        }
+
+        // تحميل الإعدادات المحفوظة
+        function loadPreferences() { 
+            setFontSize(localStorage.getItem('appFontSize') || 'md'); 
+        }
+
+        // إعادة ضبط التطبيق
+        function resetApp() { 
+            if(confirm('Reset App?')) { 
+                localStorage.clear(); 
+                location.reload(); 
+            } 
+        }
+
+        // تسجيل Service Worker للعمل دون اتصال
+        if ('serviceWorker' in navigator) { 
+            window.addEventListener('load', () => { 
+                navigator.serviceWorker.register('sw.js'); 
+            }); 
+        }
+
+        /* ============================================================ */
+        /* 🏭 نظام إدارة المواد والخامات (Materials Management) */
+        /* ============================================================ */
+
+        // متغيرات قاعدة البيانات
+        let db; // مرجع قاعدة البيانات
+        const DB_NAME = 'FurnitureDB'; // اسم قاعدة البيانات
+        const DB_VERSION = 1; // إصدار قاعدة البيانات
+
+        // تهيئة قاعدة البيانات المحلية
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                
+                // إنشاء الجداول عند الحاجة
+                request.onupgradeneeded = (e) => {
+                    db = e.target.result;
+                    if (!db.objectStoreNames.contains('materials')) {
+                        const store = db.createObjectStore('materials', { keyPath: 'id', autoIncrement: true });
+                        store.createIndex('category', 'category', { unique: false });
+                    }
+                };
+                
+                // نجح فتح قاعدة البيانات
+                request.onsuccess = (e) => { 
+                    db = e.target.result; 
+                    resolve(db); 
+                    loadMaterials(); // تحميل المواد فور الفتح
+                };
+                
+                // خطأ في فتح قاعدة البيانات
+                request.onerror = (e) => reject('خطأ في قاعدة البيانات');
+            });
+        }
+
+        // تشغيل تهيئة قاعدة البيانات عند بدء التطبيق
+        document.addEventListener('DOMContentLoaded', () => {
+            initDB();
+            loadCurrencySettings(); // تحميل إعدادات العملة
+            loadConfigData(); // تحميل قوائم التصنيفات والوحدات
+        });
+
+        /* ============================================================ */
+        /* 💱 نظام العملات وأسعار الصرف (Currency System) */
+        /* ============================================================ */
+        
+        // إعدادات العملة الافتراضية
+        let currencyConfig = {
+            primary: 'USD',    // العملة الأساسية
+            secondary: 'TRY',  // العملة الثانوية
+            rate: 34.5,        // سعر الصرف
+            auto: false        // التحديث التلقائي
+        };
+
+        // تحميل إعدادات العملة المحفوظة
+        function loadCurrencySettings() {
+            const saved = localStorage.getItem('currencyConfig');
+            if(saved) currencyConfig = JSON.parse(saved);
+            
+            // تحديث عناصر واجهة الإعدادات
+            const p = document.getElementById('currPrimary'); 
+            if(p) p.value = currencyConfig.primary;
+            
+            const s = document.getElementById('currSecondary'); 
+            if(s) s.value = currencyConfig.secondary;
+            
+            const r = document.getElementById('exchangeRateVal'); 
+            if(r) r.value = currencyConfig.rate;
+            
+            const a = document.getElementById('autoRateToggle'); 
+            if(a) a.checked = currencyConfig.auto;
+            
+            updateCurrencyLabels(); // تحديث التسميات
+            if(currencyConfig.auto) fetchLiveRate(); // جلب السعر التلقائي
+        }
+
+        // تحديث تسميات العملات في الواجهة
+        function updateCurrencyLabels() {
+            // تحديث تسميات العملة الأساسية
+            const ids = ['rateFromLabel', 'primaryCurrLabel', 'primaryCurrLabelModal'];
+            ids.forEach(id => { 
+                const el = document.getElementById(id); 
+                if(el) el.textContent = currencyConfig.primary; 
+            });
+
+            // تحديث تسميات العملة الثانوية
+            const ids2 = ['rateToLabel', 'secondaryCurrLabel', 'secondaryCurrLabelModal'];
+            ids2.forEach(id => { 
+                const el = document.getElementById(id); 
+                if(el) el.textContent = currencyConfig.secondary; 
+            });
+            
+            // تعطيل/تفعيل حقل السعر حسب الوضع التلقائي
+            const inputRate = document.getElementById('exchangeRateVal');
+            if(inputRate) inputRate.disabled = currencyConfig.auto;
+            
+            // إظهار/إخفاء زر التحديث
+            const fetchBtn = document.getElementById('fetchRateBtn');
+            if(fetchBtn) fetchBtn.style.display = currencyConfig.auto ? 'inline-block' : 'none';
+        }
+
+        // حفظ إعدادات العملة
+        function saveCurrencySettings() {
+            currencyConfig.primary = document.getElementById('currPrimary').value;
+            currencyConfig.secondary = document.getElementById('currSecondary').value;
+            currencyConfig.rate = parseFloat(document.getElementById('exchangeRateVal').value) || 1;
+            currencyConfig.auto = document.getElementById('autoRateToggle').checked;
+            
+            localStorage.setItem('currencyConfig', JSON.stringify(currencyConfig));
+            updateCurrencyLabels();
+            if(currencyConfig.auto) fetchLiveRate(); // تحديث تلقائي
+            loadMaterials(); // إعادة تحميل المواد لتحديث الأسعار
+        }
+
+        // تبديل الوضع التلقائي
+        function toggleAutoRate() { 
+            saveCurrencySettings(); 
+        }
+
+        // جلب سعر الصرف الحي من الإنترنت
+        async function fetchLiveRate() {
+            if(!currencyConfig.auto) return;
+            try {
+                const res = await fetch(`https://api.exchangerate-api.com/v4/latest/${currencyConfig.primary}`);
+                const data = await res.json();
+                const rate = data.rates[currencyConfig.secondary];
+                if(rate) {
+                    currencyConfig.rate = rate;
+                    document.getElementById('exchangeRateVal').value = rate;
+                    localStorage.setItem('currencyConfig', JSON.stringify(currencyConfig));
+                    loadMaterials(); // تحديث عرض المواد
+                }
+            } catch(e) { 
+                console.log('خطأ في جلب أسعار العملة', e); 
+            }
+        }
+
+        // حساب السعر بالعملة الثانوية
+        function calculateSecondaryPrice() {
+            const pPrice = parseFloat(document.getElementById('matPrice').value) || 0;
+            const sPrice = (pPrice * currencyConfig.rate).toFixed(2);
+            document.getElementById('secondaryPriceDisplay').textContent = sPrice;
+        }
+
+        /* ============================================================ */
+        /* ⚙️ إدارة التصنيفات والوحدات (Categories & Units) */
+        /* ============================================================ */
+        
+        // البيانات الافتراضية للتصنيفات (3 لغات)
+        const defaultCats = [
+            { ar: 'خشب', en: 'Wood', tr: 'Ahşap' },
+            { ar: 'معدن', en: 'Metal', tr: 'Metal' },
+            { ar: 'اكسسوار', en: 'Accessory', tr: 'Aksesuar' }
+        ];
+
+        // البيانات الافتراضية للوحدات (3 لغات)
+        const defaultUnits = [
+            { ar: 'متر', en: 'Meter', tr: 'Metre' },
+            { ar: 'قطعة', en: 'Piece', tr: 'Adet' },
+            { ar: 'كغ', en: 'Kg', tr: 'Kg' }
+        ];
+
+        // تحميل التصنيفات والوحدات من التخزين المحلي
+        let categories = JSON.parse(localStorage.getItem('matCategoriesObj')) || defaultCats;
+        let units = JSON.parse(localStorage.getItem('matUnitsObj')) || defaultUnits;
+
+        let currentConfigType = ''; // نوع الإعداد الحالي: 'cat' أو 'unit'
+
+        // تحميل بيانات القوائم المنسدلة
+        function loadConfigData() {
+            // دالة مساعدة لملء القائمة المنسدلة
+            const fillSelect = (id, arr) => {
+                const sel = document.getElementById(id); 
+                if(!sel) return;
+                sel.innerHTML = '';
+                arr.forEach((item, index) => {
+                    const opt = document.createElement('option');
+                    opt.value = index; // الفهرس كمعرف
+                    opt.textContent = item[currentLang] || item.ar; // النص حسب اللغة
+                    sel.appendChild(opt);
+                });
+            };
+            fillSelect('matCategory', categories);
+            fillSelect('matUnit', units);
+        }
+
+        // فتح إدارة التصنيفات
+        function manageCategories() { 
+            openConfigModal('cat'); 
+        }
+
+        // فتح إدارة الوحدات
+        function manageUnits() { 
+            openConfigModal('unit'); 
+        }
+
+        // فتح نافذة إدارة الإعدادات
+        function openConfigModal(type) {
+            currentConfigType = type;
+            const modal = document.getElementById('configModal');
+            modal.style.display = 'flex';
+            
+            // تحديث نصوص الواجهة
+            updateModalUITexts('configModal');
+
+            // تحديث العنوان
+            const titleEl = document.getElementById('configTitle');
+            const titles = {
+                cat: { ar: 'إدارة التصنيفات', en: 'Manage Categories', tr: 'Kategori Yönetimi' },
+                unit: { ar: 'إدارة الوحدات', en: 'Manage Units', tr: 'Birim Yönetimi' }
+            };
+            titleEl.textContent = titles[type][currentLang];
+
+            renderConfigList(); // عرض القائمة الحالية
+        }
+
+        // عرض قائمة العناصر الحالية
+        function renderConfigList() {
+            const list = document.getElementById('configList'); 
+            list.innerHTML = '';
+            const arr = currentConfigType === 'cat' ? categories : units;
+            
+            arr.forEach((item, index) => {
+                const li = document.createElement('li'); 
+                li.className = 'config-item';
+                // عرض العنصر بجميع اللغات
+                li.innerHTML = `
+                    <div style="display:flex; flex-direction:column;">
+                        <span style="font-weight:bold;">${item[currentLang] || item.ar}</span>
+                        <span style="font-size:0.75rem; color:#888;">${item.ar} | ${item.en} | ${item.tr}</span>
+                    </div>
+                    <span class="del-btn-small" onclick="deleteConfigItem(${index})">🗑️</span>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        // إضافة عنصر جديد
+        function addConfigItem() {
+            const ar = document.getElementById('confAr').value.trim();
+            const en = document.getElementById('confEn').value.trim();
+            const tr = document.getElementById('confTr').value.trim();
+
+            // التحقق من ملء جميع الحقول
+            if(!ar || !en || !tr) { 
+                alert(currentLang==='ar'?'يرجى ملء جميع الحقول للغات الثلاث': 'Please fill all 3 languages'); 
+                return; 
+            }
+
+            const newItem = { ar, en, tr };
+
+            // إضافة للمصفوفة المناسبة وحفظها
+            if(currentConfigType === 'cat') { 
+                categories.push(newItem); 
+                localStorage.setItem('matCategoriesObj', JSON.stringify(categories)); 
+            } else { 
+                units.push(newItem); 
+                localStorage.setItem('matUnitsObj', JSON.stringify(units)); 
+            }
+
+            // تفريغ الحقول
+            document.getElementById('confAr').value = '';
+            document.getElementById('confEn').value = '';
+            document.getElementById('confTr').value = '';
+            
+            renderConfigList(); 
+            loadConfigData(); // تحديث القوائم المنسدلة
+        }
+
+        // حذف عنصر
+        function deleteConfigItem(index) {
+            if(!confirm('هل تريد الحذف؟')) return;
+            
+            if(currentConfigType === 'cat') { 
+                categories.splice(index, 1); 
+                localStorage.setItem('matCategoriesObj', JSON.stringify(categories)); 
+            } else { 
+                units.splice(index, 1); 
+                localStorage.setItem('matUnitsObj', JSON.stringify(units)); 
+            }
+            renderConfigList(); 
+            loadConfigData();
+        }
+
+        /* ============================================================ */
+        /* 📸 ضغط وتحسين الصور (Image Optimization) */
+        /* ============================================================ */
+        
+        // معالجة رفع الصور مع الضغط والتحسين
+        function handleImageUpload(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // تحديد الأبعاد الجديدة (أقصى عرض 800 بكسل)
+                        const maxWidth = 800;
+                        const scaleSize = maxWidth / img.width;
+                        canvas.width = maxWidth;
+                        canvas.height = img.height * scaleSize;
+                        
+                        // رسم الصورة بالأبعاد الجديدة
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // ضغط الصورة تدريجياً للوصول لحجم مناسب
+                        let quality = 0.7;
+                        let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                        
+                        // تقليل الجودة حتى الوصول لحجم أقل من 60KB
+                        while(dataUrl.length > 60000 && quality > 0.1) {
+                            quality -= 0.1;
+                            dataUrl = canvas.toDataURL('image/jpeg', quality);
+                        }
+                        
+                        // عرض الصورة المضغوطة
+                        document.getElementById('matPreview').src = dataUrl;
+                        document.getElementById('matPreview').style.display = 'block';
+                        document.getElementById('matUploadPlaceholder').style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        /* ============================================================ */
+        /* 📝 عمليات المواد (CRUD Operations) */
+        /* ============================================================ */
+
+        // دالة مساعدة لتحديث نصوص النوافذ المنبثقة
+        function updateModalUITexts(modalId) {
+            const modal = document.getElementById(modalId);
+            if(!modal) return;
+            
+            // البحث عن العناصر التي تحتوي على نصوص متعددة اللغات
+            modal.querySelectorAll('[data-ar]').forEach(el => {
+                const txt = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-ar');
+                // تحديث النص مع الحفاظ على العناصر الفرعية
+                if(el.children.length > 0) {
+                    el.textContent = txt; 
+                } else {
+                    el.textContent = txt;
+                }
+            });
+        }
+
+        // فتح نافذة إضافة/تعديل مادة
+        function openMaterialModal(id = null) {
+            const modal = document.getElementById('materialModal');
+            modal.style.display = 'flex';
+            
+            // تحديث نصوص الواجهة
+            updateModalUITexts('materialModal');
+            
+            // تحديث العنوان
+            const titleEl = document.getElementById('matModalTitle');
+            const titleText = id ? 
+                (currentLang=='ar'?'تعديل مادة':'Edit Material') : 
+                (currentLang=='ar'?'مادة جديدة':'New Material');
+            if(currentLang=='tr') titleEl.textContent = id ? 'Malzeme Düzenle' : 'Yeni Malzeme';
+            else titleEl.textContent = titleText;
+
+            // تحديث تسميات العملة
+            document.getElementById('matId').value = id || '';
+            document.getElementById('primaryCurrLabelModal').textContent = currencyConfig.primary;
+            document.getElementById('secondaryCurrLabelModal').textContent = currencyConfig.secondary;
+
+            if(id) {
+                // وضع التعديل - جلب بيانات المادة
+                const transaction = db.transaction(['materials'], 'readonly');
+                const store = transaction.objectStore('materials');
+                const request = store.get(Number(id));
+                
+                request.onsuccess = (e) => {
+                    const mat = e.target.result;
+                    
+                    // ملء حقول الأسماء
+                    document.getElementById('matNameAr').value = mat.name.ar || mat.name;
+                    document.getElementById('matNameEn').value = mat.name.en || '';
+                    document.getElementById('matNameTr').value = mat.name.tr || '';
+                    
+                    // تحديد التصنيف والوحدة
+                    const catIdx = categories.findIndex(c => c.ar === (mat.category.ar || mat.category));
+                    if(catIdx > -1) document.getElementById('matCategory').value = catIdx;
+                    
+                    const unitIdx = units.findIndex(u => u.ar === (mat.unit.ar || mat.unit));
+                    if(unitIdx > -1) document.getElementById('matUnit').value = unitIdx;
+
+                    // ملء السعر والصورة
+                    document.getElementById('matPrice').value = mat.price;
+                    document.getElementById('btnDeleteMat').style.display = 'block';
+                    
+                    if(mat.image) {
+                        document.getElementById('matPreview').src = mat.image;
+                        document.getElementById('matPreview').style.display = 'block';
+                        document.getElementById('matUploadPlaceholder').style.display = 'none';
+                    }
+                    calculateSecondaryPrice();
+                };
+            } else {
+                // وضع الإضافة - تفريغ الحقول
+                document.getElementById('matNameAr').value = '';
+                document.getElementById('matNameEn').value = '';
+                document.getElementById('matNameTr').value = '';
+                document.getElementById('matPrice').value = '';
+                document.getElementById('matPreview').src = '';
+                document.getElementById('matPreview').style.display = 'none';
+                document.getElementById('matUploadPlaceholder').style.display = 'block';
+                document.getElementById('btnDeleteMat').style.display = 'none';
+                document.getElementById('secondaryPriceDisplay').textContent = '0';
+            }
+        }
+
+        // إغلاق نافذة المادة
+        function closeMatModal() { 
+            document.getElementById('materialModal').style.display = 'none'; 
+        }
+
+        // حفظ المادة (إضافة أو تعديل)
+        function saveMaterial() {
+            // جمع البيانات من الحقول مع تعقيم النصوص
+            const nameAr = sanitizeText(document.getElementById('matNameAr').value);
+            const nameEn = sanitizeText(document.getElementById('matNameEn').value);
+            const nameTr = sanitizeText(document.getElementById('matNameTr').value);
+            
+            // جلب التصنيف والوحدة
+            const catIndex = document.getElementById('matCategory').value;
+            const unitIndex = document.getElementById('matUnit').value;
+            
+            const categoryObj = categories[catIndex];
+            const unitObj = units[unitIndex];
+
+            const price = parseFloat(document.getElementById('matPrice').value);
+            const image = document.getElementById('matPreview').src;
+            const id = document.getElementById('matId').value;
+
+            // التحقق من صحة البيانات
+            if(!nameAr || !nameEn || !nameTr) { 
+                alert('يرجى ملء الاسم بجميع اللغات'); 
+                return; 
+            }
+
+            // تكوين كائن المادة
+            const item = { 
+                name: { ar: nameAr, en: nameEn, tr: nameTr }, 
+                category: categoryObj, // حفظ الكائن كاملاً
+                unit: unitObj,         // حفظ الكائن كاملاً
+                price, 
+                image: image.includes('data:image') ? image : '' 
+            };
+
+            // حفظ في قاعدة البيانات
+            const transaction = db.transaction(['materials'], 'readwrite');
+            const store = transaction.objectStore('materials');
+
+            if(id) {
+                // تعديل مادة موجودة
+                item.id = Number(id);
+                store.put(item);
+            } else {
+                // إضافة مادة جديدة
+                store.add(item);
+            }
+
+            transaction.oncomplete = () => { 
+                closeMatModal(); 
+                loadMaterials(); 
+            };
+        }
+
+        // حذف مادة
+        function deleteMaterial() {
+            const id = Number(document.getElementById('matId').value);
+            if(confirm('هل أنت متأكد من الحذف؟')) {
+                const transaction = db.transaction(['materials'], 'readwrite');
+                transaction.objectStore('materials').delete(id);
+                transaction.oncomplete = () => { 
+                    closeMatModal(); 
+                    loadMaterials(); 
+                };
+            }
+        }
+
+        // دالة تعقيم النصوص لمنع تنفيذ أكواد ضارة
+        function sanitizeText(text) {
+            if (!text) return '';
+            // إزالة العلامات الضارة وتحويل الرموز الخاصة
+            return text.replace(/[<>\"'&]/g, function(match) {
+                const escapeMap = {
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;',
+                    '&': '&amp;'
+                };
+                return escapeMap[match];
+            }).trim();
+        }
+
+        /* ============================================================ */
+        /* 📊 عرض وبحث المواد (Display & Search) */
+        /* ============================================================ */
+        
+        let allMaterials = []; // مصفوفة جميع المواد
+        let searchTimeout; // متغير للتحكم في تأخير البحث
+
+        // تحميل جميع المواد من قاعدة البيانات
+        function loadMaterials() {
+            if(!db) return;
+            const transaction = db.transaction(['materials'], 'readonly');
+            const store = transaction.objectStore('materials');
+            const request = store.getAll();
+
+            request.onsuccess = (e) => {
+                allMaterials = e.target.result;
+                renderMaterials(allMaterials);
+            };
+        }
+
+        // عرض قائمة المواد مجمعة حسب التصنيف
+        function renderMaterials(list) {
+            const container = document.getElementById('materialsList');
+            container.innerHTML = '';
+
+            // تجميع المواد حسب التصنيف
+            const grouped = {};
+            list.forEach(m => {
+                // استخراج اسم التصنيف حسب لغة التطبيق
+                let catName = 'غير مصنف';
+                if(m.category && typeof m.category === 'object') {
+                    catName = m.category[currentLang] || m.category.ar;
+                } else {
+                    catName = m.category; // دعم البيانات القديمة
+                }
+                
+                if(!grouped[catName]) grouped[catName] = [];
+                grouped[catName].push(m);
+            });
+
+            // عرض كل تصنيف ومواده
+            for (const [cat, items] of Object.entries(grouped)) {
+                // عنوان التصنيف
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `<span>${cat}</span> <span style="font-size:0.8rem; opacity:0.7;">${items.length}</span>`;
+                container.appendChild(header);
+
+                // عرض مواد التصنيف
+                items.forEach(m => {
+                    const sPrice = (m.price * currencyConfig.rate).toFixed(2);
+                    
+                    // استخراج النصوص حسب اللغة الحالية
+                    let dName = m.name;
+                    if(typeof m.name === 'object') dName = m.name[currentLang] || m.name.ar;
+                    
+                    let dUnit = m.unit;
+                    if(typeof m.unit === 'object') dUnit = m.unit[currentLang] || m.unit.ar;
+
+                    // إنشاء بطاقة المادة
+                    const card = document.createElement('div');
+                    card.className = 'material-card';
+                    card.onclick = () => openMaterialModal(m.id);
+                    card.innerHTML = `
+                        <img src="${m.image || 'https://via.placeholder.com/60?text=Img'}" class="mat-thumb">
+                        <div class="mat-info">
+                            <div class="mat-name">${dName}</div>
+                            <div class="mat-unit">${dUnit}</div>
+                        </div>
+                        <div style="text-align:left;">
+                            <div class="mat-price">${m.price} <small>${currencyConfig.primary}</small></div>
+                            <div style="font-size:0.75rem; color:#888;">${sPrice} <small>${currencyConfig.secondary}</small></div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            
+            // رسالة عدم وجود مواد
+            if(list.length === 0) {
+                container.innerHTML = '<div class="empty-content">لا يوجد مواد / No Materials</div>';
+            }
+        }
+
+        // البحث مع تقنية Debounce لتحسين الأداء
+        function debouncedSearch() {
+            // إلغاء البحث السابق إذا كان قيد التنفيذ
+            clearTimeout(searchTimeout);
+            
+            // تأخير البحث لمدة 300 ميلي ثانية
+            searchTimeout = setTimeout(() => {
+                filterMaterials();
+            }, 300);
+        }
+
+        // تصفية المواد حسب نص البحث
+        function filterMaterials() {
+            const q = document.getElementById('matSearch').value.toLowerCase();
+            
+            // البحث في جميع حقول المادة بجميع اللغات
+            const filtered = allMaterials.filter(m => {
+                // البحث في الاسم
+                let nameMatch = false;
+                if(typeof m.name === 'object') {
+                    nameMatch = (m.name.ar && m.name.ar.toLowerCase().includes(q)) || 
+                                (m.name.en && m.name.en.toLowerCase().includes(q)) || 
+                                (m.name.tr && m.name.tr.toLowerCase().includes(q));
+                } else {
+                    nameMatch = m.name.toLowerCase().includes(q);
+                }
+
+                // البحث في التصنيف
+                let catMatch = false;
+                if(typeof m.category === 'object') {
+                    catMatch = (m.category.ar && m.category.ar.toLowerCase().includes(q)) ||
+                               (m.category.en && m.category.en.toLowerCase().includes(q)) ||
+                               (m.category.tr && m.category.tr.toLowerCase().includes(q));
+                } else {
+                    catMatch = m.category.toLowerCase().includes(q);
+                }
+                
+                return nameMatch || catMatch;
+            });
+            
+            renderMaterials(filtered);
+        }
+
+        /* ============================================================ */
+        /* 🖨️ نظام الطباعة الذكي (Smart Printing System) */
+        /* ============================================================ */
+
+        let selectedPrintType = 'all'; // نوع التقرير المختار
+
+        // فتح نافذة خيارات الطباعة
+        function showPrintOptions() {
+            const modal = document.getElementById('printModal');
+            const searchVal = document.getElementById('matSearch').value.trim();
+            
+            // تفعيل/تعطيل خيار طباعة نتائج البحث
+            const searchBtn = document.getElementById('optSearch');
+            if(!searchVal) {
+                searchBtn.classList.add('disabled');
+                if(selectedPrintType === 'search') {
+                    selectPrintType(document.querySelector('.print-card'), 'all');
+                }
+            } else {
+                searchBtn.classList.remove('disabled');
+            }
+
+            // تعبئة قائمة التصنيفات
+            const catSel = document.getElementById('printCatSelect');
+            catSel.innerHTML = `<option value="all_cats">${currentLang=='ar'?'كل التصنيفات':'All Categories'}</option>`;
+            categories.forEach((c, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = c[currentLang] || c.ar;
+                catSel.appendChild(opt);
+            });
+
+            // تحديث نصوص النافذة
+            modal.querySelectorAll('[data-ar]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-ar');
+            });
+
+            modal.style.display = 'flex';
+        }
+
+        // اختيار نوع التقرير
+        function selectPrintType(el, type) {
+            document.querySelectorAll('.print-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            selectedPrintType = type;
+
+            // إظهار قائمة التصنيفات عند الحاجة
+            document.getElementById('printCatSelectWrapper').style.display = (type === 'cat') ? 'block' : 'none';
+        }
+
+        // تنفيذ عملية الطباعة
+        function executePrint() {
+            document.getElementById('printModal').style.display = 'none';
+
+            // جمع إعدادات الطباعة
+            const printLang = document.getElementById('printLangSelect').value;
+            const includeImg = document.getElementById('printIncImg').checked;
+            const catFilterVal = document.getElementById('printCatSelect').value;
+
+            // تحديد المواد المراد طباعتها
+            let listToPrint = allMaterials;
+
+            if (selectedPrintType === 'search') {
+                // طباعة نتائج البحث
+                const q = document.getElementById('matSearch').value.toLowerCase();
+                listToPrint = allMaterials.filter(m => {
+                    const n = m.name; 
+                    const c = m.category;
+                    const txt = JSON.stringify(n) + JSON.stringify(c);
+                    return txt.toLowerCase().includes(q);
+                });
+            } 
+            else if (selectedPrintType === 'cat') {
+                // طباعة تصنيف محدد
+                if(catFilterVal !== 'all_cats') {
+                    const selectedCatObj = categories[catFilterVal];
+                    listToPrint = allMaterials.filter(m => {
+                        const mCatAr = m.category.ar || m.category; 
+                        return mCatAr === selectedCatObj.ar;
+                    });
+                }
+            }
+
+            // تحديد لغة التقرير
+            const targetLang = (printLang === 'current') ? currentLang : printLang; 
+
+            generatePrintHTML(listToPrint, targetLang, includeImg);
+        }
+
+              // توليد HTML للطباعة
+        function generatePrintHTML(data, langMode, withImg) {
+            // دالة استخراج النص حسب اللغة
+            const getText = (obj) => {
+                if (typeof obj !== 'object') return obj; // للبيانات القديمة
+                
+                if (langMode === 'all') {
+                    // عرض مكدس للغات الثلاث
+                    return `
+                        <div class="txt-ar">${obj.ar}</div>
+                        <div class="txt-en">${obj.en}</div>
+                        <div class="txt-tr">${obj.tr}</div>
+                    `;
+                } else {
+                    // عرض لغة واحدة محددة
+                    return obj[langMode] || obj.ar;
+                }
+            };
+
+            // العناوين حسب اللغة المختارة
+            const headers = {
+                ar: { title:'تقرير المواد', name:'المادة', cat:'التصنيف', unit:'الوحدة', price:'السعر' },
+                en: { title:'Materials Report', name:'Material', cat:'Category', unit:'Unit', price:'Price' },
+                tr: { title:'Malzeme Raporu', name:'Malzeme', cat:'Kategori', unit:'Birim', price:'Fiyat' },
+                all: { 
+                    title: 'تقرير المواد / Materials Report', 
+                    name: '<span class="th-ar">المادة</span><br><span class="th-en">Material</span>',
+                    cat: '<span class="th-ar">التصنيف</span><br><span class="th-en">Category</span>',
+                    unit: '<span class="th-ar">الوحدة</span><br><span class="th-en">Unit</span>',
+                    price: '<span class="th-ar">السعر</span><br><span class="th-en">Price</span>'
+                }
+            };
+            
+            const H = headers[langMode] || headers.ar;
+            const isMulti = langMode === 'all';
+
+            // بناء HTML التقرير
+            let html = `
+            <html>
+            <head>
+                <title>طباعة التقرير</title>
+                <style>
+                    body { 
+                        font-family: 'Segoe UI', Tahoma, sans-serif; 
+                        padding: 20px; 
+                        direction: ${langMode==='ar'?'rtl':'ltr'}; 
+                        color: #333;
+                    }
+                    table { 
+                        width: 100%; 
+                        border-collapse: collapse; 
+                        margin-top: 20px; 
+                        font-size: 14px; 
+                    }
+                    th, td { 
+                        border: 1px solid #ccc; 
+                        padding: 8px; 
+                        text-align: center; 
+                        vertical-align: middle; 
+                    }
+                    th { 
+                        background: #f4f4f4; 
+                        color: #333; 
+                        font-weight: bold;
+                    }
+                    .header { 
+                        text-align: center; 
+                        margin-bottom: 20px; 
+                        border-bottom: 2px solid #333; 
+                        padding-bottom: 10px; 
+                    }
+                    
+                    /* تنسيقات الوضع الشامل */
+                    .txt-ar { 
+                        font-weight: bold; 
+                        font-size: 1.1em; 
+                        color: #000; 
+                    }
+                    .txt-en { 
+                        font-size: 0.9em; 
+                        color: #555; 
+                    }
+                    .txt-tr { 
+                        font-size: 0.85em; 
+                        color: #777; 
+                        font-style: italic; 
+                    }
+                    .th-ar { 
+                        font-weight: bold; 
+                    } 
+                    .th-en { 
+                        font-size: 0.8em; 
+                        font-weight: normal; 
+                    }
+                    
+                    img { 
+                        width: 50px; 
+                        height: 50px; 
+                        object-fit: cover; 
+                        border-radius: 4px; 
+                    }
+                    
+                    @media print {
+                        body { margin: 0; }
+                        .header { page-break-after: avoid; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <h2>${H.title}</h2>
+                    <p>عدد المواد: ${data.length} | التاريخ: ${new Date().toLocaleDateString()}</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            ${withImg ? '<th width="10%">صورة</th>' : ''}
+                            <th>${H.name}</th>
+                            <th>${H.cat}</th>
+                            <th>${H.unit}</th>
+                            <th>${H.price}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            // إضافة صفوف البيانات
+            data.forEach((m, i) => {
+                const sPrice = (m.price * currencyConfig.rate).toFixed(2);
+                const imgTag = m.image ? `<img src="${m.image}" alt="صورة المادة">` : '-';
+
+                html += `<tr>
+                    <td>${i+1}</td>
+                    ${withImg ? `<td>${imgTag}</td>` : ''}
+                    <td style="text-align:${isMulti?'center':'start'}">${getText(m.name)}</td>
+                    <td>${getText(m.category)}</td>
+                    <td>${getText(m.unit)}</td>
+                    <td>
+                        <b>${m.price}</b> <small>${currencyConfig.primary}</small><br>
+                        <span style="color:#666; font-size:0.9em;">${sPrice} ${currencyConfig.secondary}</span>
+                    </td>
+                </tr>`;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+                <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #666;">
+                    تم إنشاء هذا التقرير بواسطة التطبيق الشامل
+                </div>
+            </body>
+            </html>`;
+
+            // فتح نافذة جديدة للطباعة
+            const win = window.open('', '', 'width=900,height=700');
+            win.document.write(html);
+            win.document.close();
+            
+            // طباعة تلقائية بعد تحميل الصور
+            if(withImg) {
+                win.onload = () => { 
+                    win.focus(); 
+                    win.print(); 
+                };
+            } else {
+                setTimeout(() => {
+                    win.focus();
+                    win.print();
+                }, 500);
+            }
+        }
+
+        /* ============================================================ */
+        /* 🔧 دوال مساعدة إضافية (Helper Functions) */
+        /* ============================================================ */
+
+        // تحسين تخزين الصور كـ Blob في IndexedDB
+        function convertImageToBlob(dataUrl) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                img.onload = () => {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    
+                    canvas.toBlob((blob) => {
+                        resolve(blob);
+                    }, 'image/jpeg', 0.8);
+                };
+                
+                img.src = dataUrl;
+            });
+        }
+
+        // تحويل Blob إلى URL للعرض
+        function createImageURL(blob) {
+            if (blob) {
+                return URL.createObjectURL(blob);
+            }
+            return null;
+        }
+
+        // تنظيف URLs المؤقتة لتوفير الذاكرة
+        function cleanupImageURL(url) {
+            if (url && url.startsWith('blob:')) {
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // دالة التحقق من صحة البيانات
+        function validateMaterialData(data) {
+            // التحقق من وجود الاسم بجميع اللغات
+            if (!data.name || !data.name.ar || !data.name.en || !data.name.tr) {
+                return { valid: false, message: 'يرجى ملء اسم المادة بجميع اللغات' };
+            }
+
+            // التحقق من صحة السعر
+            if (!data.price || data.price <= 0) {
+                return { valid: false, message: 'يرجى إدخال سعر صحيح' };
+            }
+
+            // التحقق من وجود التصنيف والوحدة
+            if (!data.category || !data.unit) {
+                return { valid: false, message: 'يرجى اختيار التصنيف والوحدة' };
+            }
+
+            return { valid: true };
+        }
+
+        // دالة تصدير البيانات (للنسخ الاحتياطي)
+        function exportMaterialsData() {
+            if (!allMaterials.length) {
+                alert('لا توجد مواد للتصدير');
+                return;
+            }
+
+            const dataStr = JSON.stringify({
+                materials: allMaterials,
+                categories: categories,
+                units: units,
+                currencyConfig: currencyConfig,
+                exportDate: new Date().toISOString()
+            }, null, 2);
+
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `materials_backup_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            URL.revokeObjectURL(url);
+        }
+
+        // دالة استيراد البيانات
+        function importMaterialsData(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (data.materials && Array.isArray(data.materials)) {
+                        // تأكيد الاستيراد
+                        if (confirm('هل تريد استيراد البيانات؟ سيتم استبدال البيانات الحالية.')) {
+                            // استيراد المواد
+                            const transaction = db.transaction(['materials'], 'readwrite');
+                            const store = transaction.objectStore('materials');
+                            
+                            // مسح البيانات الحالية
+                            store.clear();
+                            
+                            // إضافة البيانات الجديدة
+                            data.materials.forEach(material => {
+                                delete material.id; // إزالة المعرف للسماح بإنشاء معرف جديد
+                                store.add(material);
+                            });
+                            
+                            transaction.oncomplete = () => {
+                                // تحديث التصنيفات والوحدات
+                                if (data.categories) {
+                                    categories = data.categories;
+                                    localStorage.setItem('matCategoriesObj', JSON.stringify(categories));
+                                }
+                                
+                                if (data.units) {
+                                    units = data.units;
+                                    localStorage.setItem('matUnitsObj', JSON.stringify(units));
+                                }
+                                
+                                // تحديث إعدادات العملة
+                                if (data.currencyConfig) {
+                                    currencyConfig = data.currencyConfig;
+                                    localStorage.setItem('currencyConfig', JSON.stringify(currencyConfig));
+                                    loadCurrencySettings();
+                                }
+                                
+                                // إعادة تحميل البيانات
+                                loadConfigData();
+                                loadMaterials();
+                                
+                                alert('تم استيراد البيانات بنجاح!');
+                            };
+                        }
+                    } else {
+                        alert('ملف غير صحيح');
+                    }
+                } catch (error) {
+                    alert('خطأ في قراءة الملف: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // دالة البحث المتقدم
+        function advancedSearch(query, filters = {}) {
+            return allMaterials.filter(material => {
+                let matches = true;
+                
+                // البحث النصي
+                if (query) {
+                    const searchText = query.toLowerCase();
+                    const nameMatch = Object.values(material.name).some(name => 
+                        name.toLowerCase().includes(searchText)
+                    );
+                    const categoryMatch = Object.values(material.category).some(cat => 
+                        cat.toLowerCase().includes(searchText)
+                    );
+                    matches = matches && (nameMatch || categoryMatch);
+                }
+                
+                // تصفية حسب التصنيف
+                if (filters.category) {
+                    matches = matches && (material.category.ar === filters.category);
+                }
+                
+                // تصفية حسب نطاق السعر
+                if (filters.minPrice !== undefined) {
+                    matches = matches && (material.price >= filters.minPrice);
+                }
+                if (filters.maxPrice !== undefined) {
+                    matches = matches && (material.price <= filters.maxPrice);
+                }
+                
+                return matches;
+            });
+        }
+
+        // دالة إحصائيات المواد
+        function getMaterialsStats() {
+            const stats = {
+                totalMaterials: allMaterials.length,
+                categoriesCount: {},
+                averagePrice: 0,
+                totalValue: 0,
+                priceRange: { min: Infinity, max: -Infinity }
+            };
+            
+            if (allMaterials.length === 0) return stats;
+            
+            let totalPrice = 0;
+            
+            allMaterials.forEach(material => {
+                // إحصائيات التصنيفات
+                const catName = material.category.ar || material.category;
+                stats.categoriesCount[catName] = (stats.categoriesCount[catName] || 0) + 1;
+                
+                // إحصائيات الأسعار
+                totalPrice += material.price;
+                stats.totalValue += material.price;
+                
+                if (material.price < stats.priceRange.min) {
+                    stats.priceRange.min = material.price;
+                }
+                if (material.price > stats.priceRange.max) {
+                    stats.priceRange.max = material.price;
+                }
+            });
+            
+            stats.averagePrice = totalPrice / allMaterials.length;
+            
+            return stats;
+        }
+
+        // دالة عرض الإحصائيات
+        function showMaterialsStats() {
+            const stats = getMaterialsStats();
+            
+            let message = `📊 إحصائيات المواد:\n\n`;
+            message += `• إجمالي المواد: ${stats.totalMaterials}\n`;
+            message += `• متوسط السعر: ${stats.averagePrice.toFixed(2)} ${currencyConfig.primary}\n`;
+            message += `• إجمالي القيمة: ${stats.totalValue.toFixed(2)} ${currencyConfig.primary}\n`;
+            
+            if (stats.totalMaterials > 0) {
+                message += `• نطاق الأسعار: ${stats.priceRange.min} - ${stats.priceRange.max} ${currencyConfig.primary}\n\n`;
+                message += `📂 التوزيع حسب التصنيف:\n`;
+                
+                Object.entries(stats.categoriesCount).forEach(([category, count]) => {
+                    message += `• ${category}: ${count} مادة\n`;
+                });
+            }
+            
+            alert(message);
+        }
+
+        // تحسين أداء البحث باستخدام Web Workers (اختياري)
+        function createSearchWorker() {
+            const workerCode = `
+                self.onmessage = function(e) {
+                    const { materials, query, filters } = e.data;
+                    
+                    const results = materials.filter(material => {
+                        let matches = true;
+                        
+                        if (query) {
+                            const searchText = query.toLowerCase();
+                            const nameMatch = Object.values(material.name).some(name => 
+                                name.toLowerCase().includes(searchText)
+                            );
+                            const categoryMatch = Object.values(material.category).some(cat => 
+                                cat.toLowerCase().includes(searchText)
+                            );
+                            matches = matches && (nameMatch || categoryMatch);
+                        }
+                        
+                        return matches;
+                    });
+                    
+                    self.postMessage(results);
+                };
+            `;
+            
+            const blob = new Blob([workerCode], { type: 'application/javascript' });
+            return new Worker(URL.createObjectURL(blob));
+        }
+
+        /* ============================================================ */
+        /* 🎯 تحسينات الأداء والذاكرة */
+        /* ============================================================ */
+
+        // تنظيف الذاكرة عند إغلاق التطبيق
+        window.addEventListener('beforeunload', () => {
+            // تنظيف URLs المؤقتة للصور
+            allMaterials.forEach(material => {
+                if (material.imageURL) {
+                    cleanupImageURL(material.imageURL);
+                }
+            });
+            
+            // إغلاق قاعدة البيانات
+            if (db) {
+                db.close();
+            }
+        });
+
+        // مراقبة استخدام الذاكرة
+        function checkMemoryUsage() {
+            if ('memory' in performance) {
+                const memInfo = performance.memory;
+                const usedMB = Math.round(memInfo.usedJSHeapSize / 1048576);
+                const totalMB = Math.round(memInfo.totalJSHeapSize / 1048576);
+                
+                console.log(`استخدام الذاكرة: ${usedMB}MB / ${totalMB}MB`);
+                
+                // تحذير عند استخدام ذاكرة مرتفع
+                if (usedMB > 100) {
+                    console.warn('استخدام ذاكرة مرتفع - يُنصح بتحسين الصور');
+                }
+            }
+        }
+
+        // تشغيل فحص الذاكرة كل 30 ثانية في وضع التطوير
+        if (window.location.hostname === 'localhost') {
+            setInterval(checkMemoryUsage, 30000);
+        }
+
+        /* ============================================================ */
+        /* 🔄 تحديثات تلقائية وتزامن البيانات */
+        /* ============================================================ */
+
+        // فحص التحديثات التلقائية
+        function checkForUpdates() {
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ command: 'checkForUpdates' });
+            }
+        }
+
+        // استقبال رسائل من Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data.type === 'UPDATE_AVAILABLE') {
+                    if (confirm('يتوفر تحديث جديد. هل تريد إعادة تحميل التطبيق؟')) {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        // تزامن البيانات مع الخادم (إذا توفر)
+        async function syncDataWithServer() {
+            try {
+                // هذه دالة اختيارية للتزامن مع خادم خارجي
+                const response = await fetch('/api/materials/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        materials: allMaterials,
+                        lastSync: localStorage.getItem('lastSyncTime')
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('lastSyncTime', new Date().toISOString());
+                    console.log('تم تزامن البيانات بنجاح');
+                }
+            } catch (error) {
+                console.log('التزامن غير متوفر حالياً');
+            }
+        }
+
+        /* ============================================================ */
+        /* 🎨 تحسينات واجهة المستخدم */
+        /* ============================================================ */
+
+        // إضافة تأثيرات بصرية للتفاعل
+        function addVisualFeedback() {
+            // تأثير الضغط على البطاقات
+            document.addEventListener('touchstart', (e) => {
+                if (e.target.closest('.material-card, .menu-item')) {
+                    e.target.closest('.material-card, .menu-item').style.transform = 'scale(0.98)';
+                }
+            });
+            
+            document.addEventListener('touchend', (e) => {
+                if (e.target.closest('.material-card, .menu-item')) {
+                    setTimeout(() => {
+                        e.target.closest('.material-card, .menu-item').style.transform = '';
+                    }, 100);
+                }
+            });
+        }
+
+        // تحسين التمرير السلس
+        function smoothScrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // إضافة زر العودة للأعلى
+        function addScrollToTopButton() {
+            const button = document.createElement('button');
+            button.innerHTML = '⬆️';
+            button.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                font-size: 20px;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.3s;
+                z-index: 1000;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            `;
+            
+            button.onclick = smoothScrollToTop;
+            document.body.appendChild(button);
+            
+            // إظهار/إخفاء الزر حسب موضع التمرير
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    button.style.opacity = '1';
+                } else {
+                    button.style.opacity = '0';
+                }
+            });
+        }
+
+        // تهيئة تحسينات الواجهة
+        document.addEventListener('DOMContentLoaded', () => {
+            addVisualFeedback();
+            addScrollToTopButton();
+        });
+
+        /* ============================================================ */
+        /* 🔚 نهاية الكود - تهيئة نهائية */
+        /* ============================================================ */
+
+        // رسالة ترحيب في وحدة التحكم
+        console.log(`
+        🌟 التطبيق الشامل - Ultimate App
+        📱 إصدار: 2.0
+        🚀 تم التحميل بنجاح!
+        
+        المميزات المتوفرة:
+        ✅ إدارة المواد والخامات
+        ✅ دعم 3 لغات (عربي، إنجليزي، تركي)
+        ✅ نظام العملات المتقدم
+        ✅ طباعة ذكية
+        ✅ تخزين محلي محسّن
+        ✅ واجهة مستخدم متجاوبة
+        
+        للمطورين: جميع البيانات محفوظة في IndexedDB
+        `);
+
+        // تحديد إصدار التطبيق
+        window.APP_VERSION = '2.0.0';
+        window.APP_BUILD = new Date().toISOString();
+
+    </script>
+</body>
+</html>
+
