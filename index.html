@@ -227,7 +227,7 @@
         @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* 🪑 تنسيقات قسم المواد */
+        /* 🪵 تنسيقات قسم المواد */
         .materials-grid { display: flex; flex-direction: column; gap: 15px; padding-bottom: 80px; }
         .category-header { 
             background: var(--bg-color); border-bottom: 2px solid var(--primary-color); 
@@ -446,6 +446,219 @@
         .compact-search-wrapper:focus-within .compact-search-input::placeholder {
             color: #ccc;
         }
+
+
+
+
+
+
+
+
+/* تنسيقات خاصة بالموديلات */
+.dimension-row, .cbm-row {
+    transition: all 0.3s ease;
+}
+
+.dimension-row:hover, .cbm-row:hover {
+    background: rgba(13, 124, 102, 0.1) !important;
+}
+
+.selected-material-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.selected-material-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.selected-material-info {
+    flex: 1;
+}
+
+.selected-material-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-input {
+    width: 60px;
+    padding: 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.material-selector-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.material-selector-item:hover {
+    background: rgba(13, 124, 102, 0.1);
+    border-color: var(--primary-color);
+}
+
+.material-selector-item.selected {
+    background: rgba(13, 124, 102, 0.15);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(13, 124, 102, 0.2);
+}
+
+/* تحسين عرض الأبعاد والـ CBM */
+.dimension-input, .cbm-input {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* تنسيق بطاقات الموديلات */
+.model-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.model-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.model-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.model-card-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.model-card-info {
+    flex: 1;
+}
+
+.model-card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.model-card-type {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    background: rgba(0,0,0,0.05);
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.model-card-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.model-detail-item {
+    text-align: center;
+    padding: 8px;
+    background: var(--bg-color);
+    border-radius: 6px;
+}
+
+.model-detail-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+.model-detail-value {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* تنسيق زر الإجراءات للموديلات */
+.model-actions-btn {
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(13, 124, 102, 0.4);
+    transition: transform 0.2s;
+    z-index: 1000;
+    display: none;
+}
+
+.model-actions-btn:active {
+    transform: scale(0.9);
+}
+
+/* قائمة إجراءات الموديلات */
+.model-action-menu {
+    position: fixed;
+    bottom: 170px;
+    left: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 10px;
+    width: 200px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2000;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.model-action-menu.active {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -609,7 +822,7 @@
             </div>
         </div>
 
-        <!-- 🪑 صفحة إدارة المواد والخامات -->
+        <!-- 🪵 صفحة إدارة المواد والخامات -->
         <div id="materialsPage" class="page">
             <!-- شريط بحث مدمج ذكي مع تقنية Debounce -->
             <div class="compact-search-wrapper">
@@ -726,6 +939,332 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+<!-- 🛋️ صفحة إدارة الموديلات -->
+<div id="modelsPage" class="page">
+    <!-- شريط بحث مدمج ذكي -->
+    <div class="compact-search-wrapper">
+        <div class="search-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+        <input type="text" id="modelSearch" class="compact-search-input" 
+               oninput="debouncedModelSearch()"
+               placeholder="بحث عن موديل..." 
+               data-ph-ar="بحث عن موديل..." 
+               data-ph-en="Search model..." 
+               data-ph-tr="Model ara...">
+    </div>
+
+    <!-- قائمة الموديلات -->
+    <div id="modelsList" class="materials-grid"></div>
+</div>
+
+<!-- 🛠️ نافذة إضافة/تعديل موديل -->
+<div id="modelModal" class="modal-overlay" style="z-index: 4000;">
+    <div class="modal-content" style="width: 100%; max-width: 650px;">
+        
+        <!-- الرأس الثابت -->
+        <div class="modal-header">
+            <span id="modelModalTitle">Title</span>
+            <span onclick="closeModelModal()" style="cursor:pointer; opacity:0.6;">✕</span>
+        </div>
+
+        <!-- المحتوى القابل للتمرير -->
+        <div class="modal-body">
+            <input type="hidden" id="modelId">
+            
+            <!-- رفع الصورة -->
+            <div class="image-upload-box" onclick="document.getElementById('modelImgInput').click()" style="margin-bottom:20px;">
+                <img id="modelPreview" src="" style="display:none; width:100%; height:100%; object-fit:contain;">
+                <span id="modelUploadPlaceholder" data-ar="📸 صورة الموديل" data-en="📸 Model Image" data-tr="📸 Model Resmi">📸 صورة الموديل</span>
+            </div>
+            <input type="file" id="modelImgInput" hidden accept="image/*" onchange="handleModelImageUpload(this)">
+
+            <!-- اسم القطعة (3 لغات) -->
+            <label class="label-text" data-ar="اسم القطعة" data-en="Piece Name" data-tr="Parça Adı">اسم القطعة</label>
+            <div class="lang-group">
+                <div class="lang-row"><span class="lang-flag">AR</span><input type="text" id="modelNameAr" class="lang-input" placeholder="الاسم بالعربية"></div>
+                <div class="lang-row"><span class="lang-flag">EN</span><input type="text" id="modelNameEn" class="lang-input" placeholder="Name in English"></div>
+                <div class="lang-row"><span class="lang-flag">TR</span><input type="text" id="modelNameTr" class="lang-input" placeholder="Türkçe İsim"></div>
+            </div>
+
+            <!-- نوع القطعة -->
+            <div style="margin-bottom:15px;">
+                <label class="label-text">
+                    <span data-ar="نوع القطعة" data-en="Piece Type" data-tr="Parça Türü">نوع القطعة</span>
+                    <span onclick="manageModelTypes()" style="color:var(--primary-color); cursor:pointer; font-size:1.2rem;">⚙️</span>
+                </label>
+                <select id="modelType" class="input-field"></select>
+            </div>
+
+            <!-- أبعاد القطعة -->
+            <label class="label-text" data-ar="أبعاد القطعة" data-en="Piece Dimensions" data-tr="Parça Boyutları">أبعاد القطعة</label>
+            <div id="dimensionsContainer" style="margin-bottom:15px;">
+                <div class="dimension-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:var(--bg-color); padding:10px; border-radius:8px;">
+                    <input type="number" placeholder="الطول" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+                    <span>×</span>
+                    <input type="number" placeholder="العرض" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+                    <span>×</span>
+                    <input type="number" placeholder="الارتفاع" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+                    <button type="button" onclick="removeDimensionRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
+                </div>
+            </div>
+            <button type="button" onclick="addDimensionRow()" class="modal-btn" style="width:100%; margin-bottom:15px; background:#28a745;">
+                <span data-ar="إضافة بُعد جديد" data-en="Add New Dimension" data-tr="Yeni Boyut Ekle">إضافة بُعد جديد</span> ➕
+            </button>
+
+            <!-- الوصف -->
+            <label class="label-text" data-ar="الوصف" data-en="Description" data-tr="Açıklama">الوصف</label>
+            <div class="lang-group">
+                <div class="lang-row"><span class="lang-flag">AR</span><textarea id="modelDescAr" class="lang-input" rows="2" placeholder="الوصف بالعربية"></textarea></div>
+                <div class="lang-row"><span class="lang-flag">EN</span><textarea id="modelDescEn" class="lang-input" rows="2" placeholder="Description in English"></textarea></div>
+                <div class="lang-row"><span class="lang-flag">TR</span><textarea id="modelDescTr" class="lang-input" rows="2" placeholder="Türkçe Açıklama"></textarea></div>
+            </div>
+
+            <!-- حاسبة CBM -->
+            <label class="label-text" data-ar="حاسبة الحجم (CBM)" data-en="Volume Calculator (CBM)" data-tr="Hacim Hesaplayıcı (CBM)">حاسبة الحجم (CBM)</label>
+            <div id="cbmContainer" style="margin-bottom:15px;">
+                <div class="cbm-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:rgba(13, 124, 102, 0.05); padding:10px; border-radius:8px; border:1px solid var(--primary-color);">
+                    <input type="number" placeholder="الطول" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+                    <span>×</span>
+                    <input type="number" placeholder="العرض" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+                    <span>×</span>
+                    <input type="number" placeholder="الارتفاع" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+                    <button type="button" onclick="removeCBMRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
+                </div>
+            </div>
+            <button type="button" onclick="addCBMRow()" class="modal-btn" style="width:100%; margin-bottom:10px; background:#17a2b8;">
+                <span data-ar="إضافة حقل CBM جديد" data-en="Add New CBM Field" data-tr="Yeni CBM Alanı Ekle">إضافة حقل CBM جديد</span> ➕
+            </button>
+            
+            <!-- عرض الحجم الكلي -->
+            <div style="background:var(--primary-color); color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:15px;">
+                <strong data-ar="الحجم الكلي: " data-en="Total Volume: " data-tr="Toplam Hacim: ">الحجم الكلي: </strong>
+                <span id="totalCBM">0.00</span> <span>CBM</span>
+            </div>
+
+            <!-- معلومات إضافية -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
+                <div>
+                    <label class="label-text" data-ar="اللون" data-en="Color" data-tr="Renk">اللون</label>
+                    <input type="text" id="modelColor" class="input-field" placeholder="أبيض / White / Beyaz">
+                </div>
+                <div>
+                    <label class="label-text" data-ar="الوزن (كجم)" data-en="Weight (Kg)" data-tr="Ağırlık (Kg)">الوزن (كجم)</label>
+                    <input type="number" id="modelWeight" class="input-field" step="0.01">
+                </div>
+            </div>
+
+            <div>
+                <label class="label-text" data-ar="عدد الباكيت" data-en="Number of Packets" data-tr="Paket Sayısı">عدد الباكيت</label>
+                <input type="number" id="modelPackets" class="input-field" min="1" value="1">
+            </div>
+
+            <!-- التكاليف -->
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:15px;">
+                <div>
+                    <label class="label-text" data-ar="تكلفة العمالة" data-en="Labor Cost" data-tr="İşçilik Maliyeti">تكلفة العمالة</label>
+                    <input type="number" id="modelLaborCost" class="input-field" step="0.01" oninput="calculateModelTotalCost()">
+                </div>
+                <div>
+                    <label class="label-text" data-ar="التكاليف الأخرى" data-en="Other Costs" data-tr="Diğer Maliyetler">التكاليف الأخرى</label>
+                    <input type="number" id="modelOtherCosts" class="input-field" step="0.01" oninput="calculateModelTotalCost()">
+                </div>
+                <div>
+                    <label class="label-text" data-ar="سعر البيع" data-en="Selling Price" data-tr="Satış Fiyatı">سعر البيع</label>
+                    <input type="number" id="modelSellingPrice" class="input-field" step="0.01">
+                </div>
+            </div>
+
+            <!-- الملاحظات -->
+            <label class="label-text" data-ar="ملاحظات" data-en="Notes" data-tr="Notlar">ملاحظات</label>
+            <textarea id="modelNotes" class="input-field" rows="3" placeholder="ملاحظات إضافية..."></textarea>
+
+            <!-- اختيار المواد -->
+            <div style="margin-bottom:15px;">
+                <label class="label-text" data-ar="المواد المستخدمة" data-en="Used Materials" data-tr="Kullanılan Malzemeler">المواد المستخدمة</label>
+                <button type="button" onclick="openMaterialSelector()" class="modal-btn" style="width:100%; background:#6f42c1;">
+                    <span data-ar="اختيار المواد" data-en="Select Materials" data-tr="Malzeme Seç">اختيار المواد</span> 🧱
+                </button>
+                
+                <!-- عرض المواد المختارة -->
+                <div id="selectedMaterialsList" style="margin-top:10px;"></div>
+            </div>
+
+            <!-- عرض التكلفة الإجمالية -->
+            <div style="background:linear-gradient(135deg, #28a745, #20c997); color:white; padding:15px; border-radius:12px; text-align:center;">
+                <h4 style="margin:0 0 10px 0;" data-ar="التكلفة الإجمالية" data-en="Total Cost" data-tr="Toplam Maliyet">التكلفة الإجمالية</h4>
+                <div style="font-size:1.2rem; font-weight:bold;">
+                    <span id="modelTotalCostPrimary">0</span> <span id="modelCostCurrPrimary">USD</span>
+                    <br>
+                    <span style="font-size:0.9rem; opacity:0.9;">
+                        <span id="modelTotalCostSecondary">0</span> <span id="modelCostCurrSecondary">TRY</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- التذييل الثابت -->
+        <div class="modal-footer">
+            <button id="btnDeleteModel" class="modal-btn" style="background:#ef4444; display:none;" onclick="deleteModel()">
+                <span data-ar="حذف" data-en="Delete" data-tr="Sil">حذف</span>
+            </button>
+            <button class="modal-btn" style="background:#666;" onclick="closeModelModal()">
+                <span data-ar="إلغاء" data-en="Cancel" data-tr="İptal">إلغاء</span>
+            </button>
+            <button class="modal-btn" onclick="saveModel()">
+                <span data-ar="حفظ" data-en="Save" data-tr="Kaydet">حفظ</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 🧱 نافذة اختيار المواد -->
+<div id="materialSelectorModal" class="modal-overlay" style="z-index: 4100;">
+    <div class="modal-content" style="width: 100%; max-width: 600px;">
+        <div class="modal-header">
+            <span data-ar="اختيار المواد" data-en="Select Materials" data-tr="Malzeme Seçimi">اختيار المواد</span>
+            <span onclick="closeMaterialSelector()" style="cursor:pointer; opacity:0.6;">✕</span>
+        </div>
+        
+        <div class="modal-body">
+            <!-- بحث المواد -->
+            <div class="compact-search-wrapper" style="margin:0 0 15px 0;">
+                <div class="search-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <input type="text" id="materialSelectorSearch" class="compact-search-input" 
+                       oninput="filterMaterialsInSelector()"
+                       placeholder="بحث عن مادة..." 
+                       data-ph-ar="بحث عن مادة..." 
+                       data-ph-en="Search material..." 
+                       data-ph-tr="Malzeme ara...">
+            </div>
+
+            <!-- قائمة المواد -->
+            <div id="materialSelectorList" style="max-height:400px; overflow-y:auto;"></div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="modal-btn" onclick="closeMaterialSelector()">
+                <span data-ar="إغلاق" data-en="Close" data-tr="Kapat">إغلاق</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ⚙️ نافذة إدارة أنواع الموديلات -->
+<div id="modelTypesModal" class="modal-overlay" style="z-index: 4100;">
+    <div class="modal-content" style="width: 100%; max-width: 450px;">
+        <div class="modal-header">
+            <span data-ar="إدارة أنواع الموديلات" data-en="Manage Model Types" data-tr="Model Türlerini Yönet">إدارة أنواع الموديلات</span>
+            <span onclick="document.getElementById('modelTypesModal').style.display='none'" style="cursor:pointer; opacity:0.6;">✕</span>
+        </div>
+        
+        <div class="modal-body">
+            <!-- قائمة الأنواع -->
+            <ul id="modelTypesList" style="list-style:none; padding:0; margin-bottom:20px;"></ul>
+
+            <!-- إضافة جديد -->
+            <label class="label-text" data-ar="إضافة نوع جديد (3 لغات)" data-en="Add New Type (3 Langs)" data-tr="Yeni Tür Ekle (3 Dil)">إضافة نوع جديد</label>
+            <div class="lang-group">
+                <div class="lang-row"><span class="lang-flag">AR</span><input type="text" id="modelTypeAr" class="lang-input" placeholder="عربي"></div>
+                <div class="lang-row"><span class="lang-flag">EN</span><input type="text" id="modelTypeEn" class="lang-input" placeholder="English"></div>
+                <div class="lang-row"><span class="lang-flag">TR</span><input type="text" id="modelTypeTr" class="lang-input" placeholder="Türkçe"></div>
+            </div>
+            <button onclick="addModelType()" class="modal-btn" style="width:100%;">
+                <span data-ar="إضافة" data-en="Add" data-tr="Ekle">إضافة</span> +
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 🖨️ نافذة خيارات طباعة الموديلات -->
+<div id="modelPrintModal" class="modal-overlay" style="z-index: 5000;">
+    <div class="modal-content" style="max-width: 550px;">
+        <h3 style="margin-bottom:15px;">
+            <span data-ar="خيارات طباعة الموديلات" data-en="Model Print Options" data-tr="Model Yazdırma Seçenekleri">خيارات طباعة الموديلات</span>
+        </h3>
+
+        <!-- نوع التقرير -->
+        <label class="label-text" data-ar="نوع التقرير" data-en="Report Type" data-tr="Rapor Türü">نوع التقرير</label>
+        <div class="print-options-grid">
+            <div class="print-card active" onclick="selectModelPrintType(this, 'all')">
+                <span>📑</span>
+                <span data-ar="جميع الموديلات" data-en="All Models" data-tr="Tüm Modeller">جميع الموديلات</span>
+            </div>
+            <div class="print-card" onclick="selectModelPrintType(this, 'search')" id="modelOptSearch">
+                <span>🔍</span>
+                <span data-ar="نتائج البحث" data-en="Search Results" data-tr="Arama Sonuçları">نتائج البحث</span>
+            </div>
+            <div class="print-card" onclick="selectModelPrintType(this, 'type')">
+                <span>📂</span>
+                <span data-ar="حسب النوع" data-en="By Type" data-tr="Türe Göre">حسب النوع</span>
+            </div>
+        </div>
+
+        <!-- خيارات النوع -->
+        <div id="modelPrintTypeSelectWrapper" style="display:none; margin-top:10px;">
+            <select id="modelPrintTypeSelect" class="input-field"></select>
+        </div>
+
+        <!-- خيارات المحتوى -->
+        <div style="margin-top:15px;">
+            <label class="label-text" data-ar="محتوى التقرير" data-en="Report Content" data-tr="Rapor İçeriği">محتوى التقرير</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <label style="display:flex; align-items:center; gap:5px;">
+                    <input type="checkbox" id="printModelImages" checked>
+                    <span data-ar="تضمين الصور" data-en="Include Images" data-tr="Resimleri Dahil Et">تضمين الصور</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:5px;">
+                    <input type="checkbox" id="printModelMaterials" checked>
+                    <span data-ar="تضمين المواد" data-en="Include Materials" data-tr="Malzemeleri Dahil Et">تضمين المواد</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:5px;">
+                    <input type="checkbox" id="printModelPrices" checked>
+                    <span data-ar="تضمين الأسعار" data-en="Include Prices" data-tr="Fiyatları Dahil Et">تضمين الأسعار</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:5px;">
+                    <input type="checkbox" id="printModelDimensions" checked>
+                    <span data-ar="تضمين الأبعاد" data-en="Include Dimensions" data-tr="Boyutları Dahil Et">تضمين الأبعاد</span>
+                </label>
+            </div>
+        </div>
+
+        <hr style="margin: 15px 0; border:0; border-top:1px solid var(--border-color);">
+
+        <!-- لغة الطباعة -->
+        <label class="label-text" data-ar="لغة التقرير" data-en="Report Language" data-tr="Rapor Dili">لغة التقرير</label>
+        <select id="modelPrintLangSelect" class="input-field">
+            <option value="current" data-ar="لغة البرنامج الحالية" data-en="Current App Language" data-tr="Mevcut Uygulama Dili">لغة البرنامج الحالية</option>
+            <option value="all" data-ar="شامل (3 لغات)" data-en="Trilingual (All 3)" data-tr="Üç Dilli (Tümü)">شامل (3 لغات)</option>
+            <option value="ar">العربية (Arabic)</option>
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+        </select>
+
+        <!-- الأزرار -->
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button class="modal-btn" onclick="executeModelPrint()">
+                <span data-ar="طباعة" data-en="Print" data-tr="Yazdır">طباعة</span> 🖨️
+            </button>
+            <button class="modal-btn" style="background:#666;" onclick="document.getElementById('modelPrintModal').style.display='none'">
+                <span data-ar="إلغاء" data-en="Cancel" data-tr="İptal">إلغاء</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 
         <!-- ⚙️ الإعدادات -->
         <div id="settingsPage" class="page">
@@ -851,12 +1390,12 @@
             <span data-ar="الإعدادات" data-tr="Ayarlar" data-en="Settings">الإعدادات</span>
         </div>
 
-        <!-- زر المواد (يظهر فقط في قسم المواد) -->
-        <div id="navMaterialsBtn" class="nav-link" style="display:none;" onclick="toggleMatMenu()">
-            <div class="bottom-fab-btn">⚡</div>
-            <span data-ar="إجراءات" data-tr="İşlemler" data-en="Actions" style="font-weight:bold; color:var(--primary-color);">إجراءات</span>
-        </div>
-    </nav>
+       <!-- زر المواد والموديلات (يظهر في الأقسام المناسبة) -->
+<div id="navMaterialsBtn" class="nav-link" style="display:none;" onclick="toggleMatMenu()">
+    <div class="bottom-fab-btn">⚡</div>
+    <span data-ar="إجراءات" data-tr="İşlemler" data-en="Actions" style="font-weight:bold; color:var(--primary-color);">إجراءات</span>
+</div>
+
 
     <script>
         /* ============================================================ */
@@ -866,8 +1405,8 @@
         // قاعدة بيانات الأقسام مع الألوان والأيقونات
         const sectionsDB = [
             { id: 1,  icon: '📖', color: 'bg-green',  ar: 'القرآن الكريم', tr: 'Kuran-ı Kerim', en: 'The Holy Quran' },
-            { id: 2,  icon: '🪑', color: 'bg-brown',   ar: 'المواد والخامات', tr: 'Malzemeler', en: 'Materials' },
-            { id: 3,  icon: '📿', color: 'bg-purple', ar: 'الأذكار',       tr: 'Zikirler',        en: 'Azkar' },
+            { id: 2,  icon: '🪵', color: 'bg-brown',   ar: 'المواد والخامات', tr: 'Malzemeler', en: 'Materials' },
+                     { id: 3,  icon: '🛋️', color: 'bg-purple', ar: 'الموديلات',    tr: 'Modeller',        en: 'Models' },
             { id: 4,  icon: '📅', color: 'bg-orange', ar: 'التقويم الهجري',tr: 'Hicri Takvim',    en: 'Hijri Calendar' },
             { id: 5,  icon: '🧭', color: 'bg-red',    ar: 'القبلة',        tr: 'Kıble',           en: 'Qibla' },
             { id: 6,  icon: '📚', color: 'bg-teal',   ar: 'المكتبة',       tr: 'Kütüphane',       en: 'Library' },
@@ -2541,6 +3080,1623 @@
                 console.log('التزامن غير متوفر حالياً');
             }
         }
+
+
+
+
+
+/* ============================================================ */
+/* 🛋️ نظام إدارة الموديلات (Models Management System) */
+/* ============================================================ */
+
+// متغيرات الموديلات
+let allModels = [];
+let selectedModelMaterials = [];
+let modelSearchTimeout;
+let selectedModelPrintType = 'all';
+
+// أنواع الموديلات الافتراضية
+const defaultModelTypes = [
+    { ar: 'مطبخ', en: 'Kitchen', tr: 'Mutfak' },
+    { ar: 'غرفة نوم', en: 'Bedroom', tr: 'Yatak Odası' },
+    { ar: 'صالون', en: 'Living Room', tr: 'Oturma Odası' }
+];
+
+let modelTypes = JSON.parse(localStorage.getItem('modelTypesObj')) || defaultModelTypes;
+
+// تهيئة قاعدة البيانات للموديلات
+function initModelsDB() {
+    if (!db) return;
+    
+    const transaction = db.transaction(['materials'], 'readwrite');
+    const store = transaction.objectStore('materials');
+    
+    // إنشاء جدول الموديلات إذا لم يكن موجوداً
+    if (!db.objectStoreNames.contains('models')) {
+        const version = db.version + 1;
+        db.close();
+        
+        const request = indexedDB.open(DB_NAME, version);
+        request.onupgradeneeded = (e) => {
+            const newDb = e.target.result;
+            if (!newDb.objectStoreNames.contains('models')) {
+                const modelStore = newDb.createObjectStore('models', { keyPath: 'id', autoIncrement: true });
+                modelStore.createIndex('type', 'type', { unique: false });
+                modelStore.createIndex('name', 'name', { unique: false });
+            }
+        };
+        
+        request.onsuccess = (e) => {
+            db = e.target.result;
+            loadModels();
+        };
+    }
+}
+
+// تحديث openSection للتعامل مع الموديلات
+function openSection(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    
+    // إخفاء القوائم المنبثقة
+    document.getElementById('matActionMenu').classList.remove('active');
+    document.getElementById('matActionMenu').style.display = 'none';
+
+    const s = sectionsDB.find(x => x.id === id);
+    const t = document.getElementById('headerTitle'); 
+    const i = document.getElementById('headerIcon');
+    
+    // تحديث عنوان الهيدر
+    t.setAttribute('data-ar', s.ar); 
+    t.setAttribute('data-tr', s.tr); 
+    t.setAttribute('data-en', s.en);
+    t.textContent = s[currentLang]; 
+    i.textContent = s.icon;
+
+    // التبديل بين أزرار التنقل السفلي
+    const settingsBtn = document.getElementById('navSettingsBtn');
+    const materialsBtn = document.getElementById('navMaterialsBtn');
+
+    if (id === 2) { 
+        // قسم المواد والخامات
+        document.getElementById('materialsPage').classList.add('active');
+        if(typeof loadMaterials === 'function') loadMaterials();
+        
+        settingsBtn.style.display = 'none';
+        materialsBtn.style.display = 'flex';
+    } 
+    else if (id === 3) {
+        // قسم الموديلات
+        document.getElementById('modelsPage').classList.add('active');
+        initModelsDB();
+        loadModels();
+        loadModelTypesData();
+        
+        settingsBtn.style.display = 'none';
+        materialsBtn.style.display = 'flex';
+        
+        // تغيير نص زر الإجراءات
+        const actionBtn = document.querySelector('#navMaterialsBtn span:last-child');
+        if (actionBtn) {
+            actionBtn.setAttribute('data-ar', 'موديلات');
+            actionBtn.setAttribute('data-en', 'Models');
+            actionBtn.setAttribute('data-tr', 'Modeller');
+            actionBtn.textContent = actionBtn.getAttribute(`data-${currentLang}`);
+        }
+    }
+    else {
+        // الأقسام الأخرى
+        settingsBtn.style.display = 'flex';
+        materialsBtn.style.display = 'none';
+
+        if(id === 12) {
+            // صفحة الإعدادات
+            document.getElementById('settingsPage').classList.add('active');
+        } else {
+            // صفحة قسم عام
+            document.getElementById('secTitle').textContent = s[currentLang];
+            document.getElementById('secIcon').textContent = s.icon;
+            document.getElementById('sectionPage').classList.add('active');
+        }
+    }
+    window.scrollTo(0,0);
+}
+
+// تحديث قائمة الإجراءات للموديلات
+function toggleMatMenu() {
+    const currentPage = document.querySelector('.page.active').id;
+    
+    if (currentPage === 'modelsPage') {
+        toggleModelMenu();
+    } else {
+        // الكود الأصلي للمواد
+        const menu = document.getElementById('matActionMenu');
+        if (menu.classList.contains('active')) {
+            menu.classList.remove('active');
+            setTimeout(() => menu.style.display = 'none', 200);
+        } else {
+            menu.style.display = 'flex';
+            setTimeout(() => menu.classList.add('active'), 10);
+        }
+    }
+}
+
+function toggleModelMenu() {
+    // إنشاء قائمة إجراءات الموديلات ديناميكياً
+    let modelMenu = document.getElementById('modelActionMenu');
+    if (!modelMenu) {
+        modelMenu = document.createElement('div');
+        modelMenu.id = 'modelActionMenu';
+        modelMenu.className = 'action-menu';
+        modelMenu.style.bottom = '90px';
+        modelMenu.innerHTML = `
+            <button onclick="openModelModal(); toggleModelMenu()" class="action-item">
+                <span>➕</span> <span data-ar="إضافة موديل" data-tr="Model Ekle" data-en="Add Model">إضافة موديل</span>
+            </button>
+            <button onclick="showModelPrintOptions(); toggleModelMenu()" class="action-item">
+                <span>🖨️</span> <span data-ar="طباعة" data-tr="Yazdır" data-en="Print">طباعة</span>
+            </button>
+        `;
+        document.body.appendChild(modelMenu);
+    }
+    
+    if (modelMenu.classList.contains('active')) {
+        modelMenu.classList.remove('active');
+        setTimeout(() => modelMenu.style.display = 'none', 200);
+    } else {
+        modelMenu.style.display = 'flex';
+        setTimeout(() => modelMenu.classList.add('active'), 10);
+    }
+}
+
+// تحميل أنواع الموديلات
+function loadModelTypesData() {
+    const sel = document.getElementById('modelType');
+    if (!sel) return;
+    
+    sel.innerHTML = '';
+    modelTypes.forEach((type, index) => {
+        const opt = document.createElement('option');
+        opt.value = index;
+        opt.textContent = type[currentLang] || type.ar;
+        sel.appendChild(opt);
+    });
+}
+
+// إدارة أنواع الموديلات
+function manageModelTypes() {
+    const modal = document.getElementById('modelTypesModal');
+    modal.style.display = 'flex';
+    updateModalUITexts('modelTypesModal');
+    renderModelTypesList();
+}
+
+function renderModelTypesList() {
+    const list = document.getElementById('modelTypesList');
+    list.innerHTML = '';
+    
+    modelTypes.forEach((type, index) => {
+        const li = document.createElement('li');
+        li.className = 'config-item';
+        li.innerHTML = `
+            <div style="display:flex; flex-direction:column;">
+                <span style="font-weight:bold;">${type[currentLang] || type.ar}</span>
+                <span style="font-size:0.75rem; color:#888;">${type.ar} | ${type.en} | ${type.tr}</span>
+            </div>
+            <span class="del-btn-small" onclick="deleteModelType(${index})">🗑️</span>
+        `;
+        list.appendChild(li);
+    });
+}
+
+function addModelType() {
+    const ar = document.getElementById('modelTypeAr').value.trim();
+    const en = document.getElementById('modelTypeEn').value.trim();
+    const tr = document.getElementById('modelTypeTr').value.trim();
+
+    if (!ar || !en || !tr) {
+        alert(currentLang === 'ar' ? 'يرجى ملء جميع الحقول للغات الثلاث' : 'Please fill all 3 languages');
+        return;
+    }
+
+    const newType = { ar, en, tr };
+    modelTypes.push(newType);
+    localStorage.setItem('modelTypesObj', JSON.stringify(modelTypes));
+
+    document.getElementById('modelTypeAr').value = '';
+    document.getElementById('modelTypeEn').value = '';
+    document.getElementById('modelTypeTr').value = '';
+    
+    renderModelTypesList();
+    loadModelTypesData();
+}
+
+function deleteModelType(index) {
+    if (!confirm('هل تريد الحذف؟')) return;
+    
+    modelTypes.splice(index, 1);
+    localStorage.setItem('modelTypesObj', JSON.stringify(modelTypes));
+    renderModelTypesList();
+    loadModelTypesData();
+}
+
+// إدارة الأبعاد
+function addDimensionRow() {
+    const container = document.getElementById('dimensionsContainer');
+    const newRow = document.createElement('div');
+    newRow.className = 'dimension-row';
+    newRow.style.cssText = 'display:flex; align-items:center; gap:5px; margin-bottom:10px; background:var(--bg-color); padding:10px; border-radius:8px;';
+    newRow.innerHTML = `
+        <input type="number" placeholder="الطول" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <span>×</span>
+        <input type="number" placeholder="العرض" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <span>×</span>
+        <input type="number" placeholder="الارتفاع" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <button type="button" onclick="removeDimensionRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
+    `;
+    container.appendChild(newRow);
+}
+
+function removeDimensionRow(btn) {
+    btn.parentElement.remove();
+}
+
+// إدارة حقول CBM
+function addCBMRow() {
+    const container = document.getElementById('cbmContainer');
+    const newRow = document.createElement('div');
+    newRow.className = 'cbm-row';
+    newRow.style.cssText = 'display:flex; align-items:center; gap:5px; margin-bottom:10px; background:rgba(13, 124, 102, 0.05); padding:10px; border-radius:8px; border:1px solid var(--primary-color);';
+    newRow.innerHTML = `
+        <input type="number" placeholder="الطول" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <span>×</span>
+        <input type="number" placeholder="العرض" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <span>×</span>
+        <input type="number" placeholder="الارتفاع" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <button type="button" onclick="removeCBMRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
+    `;
+    container.appendChild(newRow);
+}
+
+function removeCBMRow(btn) {
+    btn.parentElement.remove();
+    calculateCBM();
+}
+
+// حساب CBM
+function calculateCBM() {
+    const cbmInputs = document.querySelectorAll('.cbm-row');
+    let totalCBM = 0;
+    
+    cbmInputs.forEach(row => {
+        const inputs = row.querySelectorAll('.cbm-input');
+        const length = parseFloat(inputs[0].value) || 0;
+        const width = parseFloat(inputs[1].value) || 0;
+        const height = parseFloat(inputs[2].value) || 0;
+        
+        if (length > 0 && width > 0 && height > 0) {
+            totalCBM += (length * width * height) / 1000000;
+        }
+    });
+    
+    document.getElementById('totalCBM').textContent = totalCBM.toFixed(4);
+}
+
+// معالجة رفع صور الموديلات
+function handleModelImageUpload(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const img = new Image();
+            img.src = e.target.result;
+            
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // ضغط للوصول لـ 40KB
+                const maxWidth = 600;
+                const scaleSize = maxWidth / img.width;
+                canvas.width = maxWidth;
+                canvas.height = img.height * scaleSize;
+                
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                let quality = 0.6;
+                let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                
+                // ضغط تدريجي للوصول لـ 40KB
+                while(dataUrl.length > 40000 && quality > 0.1) {
+                    quality -= 0.1;
+                    dataUrl = canvas.toDataURL('image/jpeg', quality);
+                }
+                
+                document.getElementById('modelPreview').src = dataUrl;
+                document.getElementById('modelPreview').style.display = 'block';
+                document.getElementById('modelUploadPlaceholder').style.display = 'none';
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+// اختيار المواد
+function openMaterialSelector() {
+    const modal = document.getElementById('materialSelectorModal');
+    modal.style.display = 'flex';
+    updateModalUITexts('materialSelectorModal');
+    loadMaterialsInSelector();
+}
+
+function closeMaterialSelector() {
+    document.getElementById('materialSelectorModal').style.display = 'none';
+}
+
+function loadMaterialsInSelector() {
+    const container = document.getElementById('materialSelectorList');
+    container.innerHTML = '';
+    
+    // تجميع المواد حسب التصنيف
+    const grouped = {};
+    allMaterials.forEach(m => {
+        let catName = 'غير مصنف';
+        if (m.category && typeof m.category === 'object') {
+            catName = m.category[currentLang] || m.category.ar;
+        } else {
+            catName = m.category;
+        }
+        
+        if (!grouped[catName]) grouped[catName] = [];
+        grouped[catName].push(m);
+    });
+
+    for (const [cat, items] of Object.entries(grouped)) {
+        // عنوان التصنيف
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.innerHTML = `<span>${cat}</span> <span style="font-size:0.8rem; opacity:0.7;">${items.length}</span>`;
+        container.appendChild(header);
+
+        // عرض المواد
+        items.forEach(m => {
+            const isSelected = selectedModelMaterials.some(sm => sm.id === m.id);
+            
+            let dName = m.name;
+            if (typeof m.name === 'object') dName = m.name[currentLang] || m.name.ar;
+            
+            let dUnit = m.unit;
+            if (typeof m.unit === 'object') dUnit = m.unit[currentLang] || m.unit.ar;
+
+            const sPrice = (m.price * currencyConfig.rate).toFixed(2);
+
+            const item = document.createElement('div');
+            item.className = `material-selector-item ${isSelected ? 'selected' : ''}`;
+            item.onclick = () => toggleMaterialSelection(m, item);
+            item.innerHTML = `
+                <img src="${m.image || 'https://via.placeholder.com/40?text=Img'}" style="width:40px; height:40px; object-fit:cover; border-radius:6px;">
+                <div style="flex:1;">
+                    <div style="font-weight:bold; font-size:0.9rem;">${dName}</div>
+                    <div style="font-size:0.75rem; color:var(--text-secondary);">${dUnit}</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-weight:bold; color:var(--primary-color);">${m.price} <small>${currencyConfig.primary}</small></div>
+                    <div style="font-size:0.7rem; color:#888;">${sPrice} <small>${currencyConfig.secondary}</small></div>
+                </div>
+            `;
+            container.appendChild(item);
+        });
+    }
+}
+
+function toggleMaterialSelection(material, element) {
+    const existingIndex = selectedModelMaterials.findIndex(sm => sm.id === material.id);
+    
+    if (existingIndex > -1) {
+        // إلغاء التحديد
+        selectedModelMaterials.splice(existingIndex, 1);
+        element.classList.remove('selected');
+    } else {
+        // إضافة للتحديد
+        selectedModelMaterials.push({
+            ...material,
+            quantity: 1,
+            totalCost: material.price
+        });
+        element.classList.add('selected');
+    }
+    
+    updateSelectedMaterialsDisplay();
+}
+
+function updateSelectedMaterialsDisplay() {
+    const container = document.getElementById('selectedMaterialsList');
+    container.innerHTML = '';
+    
+    selectedModelMaterials.forEach((material, index) => {
+        let dName = material.name;
+        if (typeof material.name === 'object') dName = material.name[currentLang] || material.name.ar;
+        
+        let dUnit = material.unit;
+        if (typeof material.unit === 'object') dUnit = material.unit[currentLang] || material.unit.ar;
+
+        const item = document.createElement('div');
+        item.className = 'selected-material-item';
+        item.innerHTML = `
+            <img src="${material.image || 'https://via.placeholder.com/40?text=Img'}" alt="Material">
+            <div class="selected-material-info">
+                <div style="font-weight:bold; font-size:0.9rem;">${dName}</div>
+                <div style="font-size:0.75rem; color:var(--text-secondary);">${dUnit} - ${material.price} ${currencyConfig.primary}</div>
+            </div>
+            <div class="selected-material-controls">
+                <input type="number" class="quantity-input" value="${material.quantity}" min="0.01" step="0.01" 
+                       onchange="updateMaterialQuantity(${index}, this.value)">
+                <span style="font-size:0.8rem; color:var(--primary-color); font-weight:bold; margin-left:5px;">
+                    ${material.totalCost.toFixed(2)} ${currencyConfig.primary}
+                </span>
+                <button onclick="removeMaterialFromSelection(${index})" style="background:#ef4444; color:white; border:none; padding:2px 6px; border-radius:4px; margin-left:5px;">✕</button>
+            </div>
+        `;
+        container.appendChild(item);
+    });
+    
+    calculateModelTotalCost();
+}
+
+function updateMaterialQuantity(index, quantity) {
+    const qty = parseFloat(quantity) || 0;
+    selectedModelMaterials[index].quantity = qty;
+    selectedModelMaterials[index].totalCost = selectedModelMaterials[index].price * qty;
+    updateSelectedMaterialsDisplay();
+}
+
+function removeMaterialFromSelection(index) {
+    selectedModelMaterials.splice(index, 1);
+    updateSelectedMaterialsDisplay();
+    loadMaterialsInSelector(); // تحديث العرض
+}
+
+function filterMaterialsInSelector() {
+    const query = document.getElementById('materialSelectorSearch').value.toLowerCase();
+    const items = document.querySelectorAll('.material-selector-item');
+    
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(query) ? 'flex' : 'none';
+    });
+}
+
+// حساب التكلفة الإجمالية
+function calculateModelTotalCost() {
+    const laborCost = parseFloat(document.getElementById('modelLaborCost').value) || 0;
+    const otherCosts = parseFloat(document.getElementById('modelOtherCosts').value) || 0;
+    
+    // حساب تكلفة المواد
+    const materialsCost = selectedModelMaterials.reduce((sum, material) => {
+        return sum + material.totalCost;
+    }, 0);
+    
+    const totalCostPrimary = materialsCost + laborCost + otherCosts;
+    const totalCostSecondary = totalCostPrimary * currencyConfig.rate;
+    
+    document.getElementById('modelTotalCostPrimary').textContent = totalCostPrimary.toFixed(2);
+    document.getElementById('modelTotalCostSecondary').textContent = totalCostSecondary.toFixed(2);
+    document.getElementById('modelCostCurrPrimary').textContent = currencyConfig.primary;
+    document.getElementById('modelCostCurrSecondary').textContent = currencyConfig.secondary;
+}
+
+// فتح نافذة الموديل
+function openModelModal(id = null) {
+    const modal = document.getElementById('modelModal');
+    modal.style.display = 'flex';
+    
+    updateModalUITexts('modelModal');
+    loadModelTypesData();
+    
+    const titleEl = document.getElementById('modelModalTitle');
+    const titleText = id ? 
+        (currentLang === 'ar' ? 'تعديل موديل' : 'Edit Model') : 
+        (currentLang === 'ar' ? 'موديل جديد' : 'New Model');
+    if (currentLang === 'tr') titleEl.textContent = id ? 'Model Düzenle' : 'Yeni Model';
+    else titleEl.textContent = titleText;
+
+    document.getElementById('modelId').value = id || '';
+    selectedModelMaterials = [];
+
+    if (id) {
+        // وضع التعديل
+        loadModelForEdit(id);
+        document.getElementById('btnDeleteModel').style.display = 'block';
+    } else {
+        // وضع الإضافة
+        clearModelForm();
+        document.getElementById('btnDeleteModel').style.display = 'none';
+    }
+    
+    calculateModelTotalCost();
+}
+
+function loadModelForEdit(id) {
+    const transaction = db.transaction(['models'], 'readonly');
+    const store = transaction.objectStore('models');
+    const request = store.get(Number(id));
+    
+    request.onsuccess = (e) => {
+        const model = e.target.result;
+        
+        // ملء البيانات الأساسية
+        document.getElementById('modelNameAr').value = model.name.ar || '';
+        document.getElementById('modelNameEn').value = model.name.en || '';
+        document.getElementById('modelNameTr').value = model.name.tr || '';
+        
+        // نوع الموديل
+        const typeIdx = modelTypes.findIndex(t => t.ar === (model.type.ar || model.type));
+        if (typeIdx > -1) document.getElementById('modelType').value = typeIdx;
+        
+        // الوصف
+        if (model.description) {
+            document.getElementById('modelDescAr').value = model.description.ar || '';
+            document.getElementById('modelDescEn').value = model.description.en || '';
+            document.getElementById('modelDescTr').value = model.description.tr || '';
+        }
+        
+        // الأبعاد
+        if (model.dimensions && model.dimensions.length > 0) {
+            const container = document.getElementById('dimensionsContainer');
+            container.innerHTML = '';
+            model.dimensions.forEach(dim => {
+                addDimensionRow();
+                const lastRow = container.lastElementChild;
+                const inputs = lastRow.querySelectorAll('.dimension-input');
+                inputs[0].value = dim.length || '';
+                inputs[1].value = dim.width || '';
+                inputs[2].value = dim.height || '';
+            });
+        }
+        
+        // CBM
+        if (model.cbmCalculations && model.cbmCalculations.length > 0) {
+            const container = document.getElementById('cbmContainer');
+            container.innerHTML = '';
+            model.cbmCalculations.forEach(cbm => {
+                addCBMRow();
+                const lastRow = container.lastElementChild;
+                const inputs = lastRow.querySelectorAll('.cbm-input');
+                inputs[0].value = cbm.length || '';
+                inputs[1].value = cbm.width || '';
+                inputs[2].value = cbm.height || '';
+            });
+            calculateCBM();
+        }
+        
+        // معلومات إضافية
+        document.getElementById('modelColor').value = model.color || '';
+        document.getElementById('modelWeight').value = model.weight || '';
+        document.getElementById('modelPackets').value = model.packets || 1;
+        document.getElementById('modelLaborCost').value = model.laborCost || '';
+        document.getElementById('modelOtherCosts').value = model.otherCosts || '';
+        document.getElementById('modelSellingPrice').value = model.sellingPrice || '';
+        document.getElementById('modelNotes').value = model.notes || '';
+        
+        // الصورة
+        if (model.image) {
+            document.getElementById('modelPreview').src = model.image;
+            document.getElementById('modelPreview').style.display = 'block';
+            document.getElementById('modelUploadPlaceholder').style.display = 'none';
+        }
+        
+        // المواد
+        selectedModelMaterials = model.materials || [];
+        updateSelectedMaterialsDisplay();
+    };
+}
+
+function clearModelForm() {
+    // تفريغ جميع الحقول
+    document.getElementById('modelNameAr').value = '';
+    document.getElementById('modelNameEn').value = '';
+    document.getElementById('modelNameTr').value = '';
+    document.getElementById('modelDescAr').value = '';
+    document.getElementById('modelDescEn').value = '';
+    document.getElementById('modelDescTr').value = '';
+    document.getElementById('modelColor').value = '';
+    document.getElementById('modelWeight').value = '';
+    document.getElementById('modelPackets').value = '1';
+    document.getElementById('modelLaborCost').value = '';
+    document.getElementById('modelOtherCosts').value = '';
+    document.getElementById('modelSellingPrice').value = '';
+    document.getElementById('modelNotes').value = '';
+    
+    // تفريغ الصورة
+    document.getElementById('modelPreview').src = '';
+    document.getElementById('modelPreview').style.display = 'none';
+    document.getElementById('modelUploadPlaceholder').style.display = 'block';
+    
+    // إعادة تعيين الأبعاد والـ CBM
+document.getElementById('dimensionsContainer').innerHTML = `
+    <div class="dimension-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:var(--bg-color); padding:10px; border-radius:8px;">
+        <input type="number" placeholder="الطول" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <span>×</span>
+        <input type="number" placeholder="العرض" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <span>×</span>
+        <input type="number" placeholder="الارتفاع" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <button type="button" onclick="removeDimensionRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
+    </div>
+`;
+
+document.getElementById('cbmContainer').innerHTML = `
+    <div class="cbm-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:rgba(13, 124, 102, 0.05); padding:10px; border-radius:8px; border:1px solid var(--primary-color);">
+        <input type="number" placeholder="الطول" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <span>×</span>
+        <input type="number" placeholder="العرض" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <span>×</span>
+        <input type="number" placeholder="الارتفاع" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <button type="button" onclick="removeCBMRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
+    </div>
+`;
+
+calculateCBM();
+updateSelectedMaterialsDisplay();
+}
+
+function closeModelModal() {
+    document.getElementById('modelModal').style.display = 'none';
+}
+
+// حفظ الموديل
+function saveModel() {
+    // جمع البيانات الأساسية
+    const nameAr = sanitizeText(document.getElementById('modelNameAr').value);
+    const nameEn = sanitizeText(document.getElementById('modelNameEn').value);
+    const nameTr = sanitizeText(document.getElementById('modelNameTr').value);
+    
+    const descAr = sanitizeText(document.getElementById('modelDescAr').value);
+    const descEn = sanitizeText(document.getElementById('modelDescEn').value);
+    const descTr = sanitizeText(document.getElementById('modelDescTr').value);
+    
+    const typeIndex = document.getElementById('modelType').value;
+    const typeObj = modelTypes[typeIndex];
+    
+    const color = sanitizeText(document.getElementById('modelColor').value);
+    const weight = parseFloat(document.getElementById('modelWeight').value) || 0;
+    const packets = parseInt(document.getElementById('modelPackets').value) || 1;
+    const laborCost = parseFloat(document.getElementById('modelLaborCost').value) || 0;
+    const otherCosts = parseFloat(document.getElementById('modelOtherCosts').value) || 0;
+    const sellingPrice = parseFloat(document.getElementById('modelSellingPrice').value) || 0;
+    const notes = sanitizeText(document.getElementById('modelNotes').value);
+    const image = document.getElementById('modelPreview').src;
+    const id = document.getElementById('modelId').value;
+
+    // التحقق من صحة البيانات
+    if (!nameAr || !nameEn || !nameTr) {
+        alert('يرجى ملء اسم الموديل بجميع اللغات');
+        return;
+    }
+
+    // جمع الأبعاد
+    const dimensions = [];
+    document.querySelectorAll('.dimension-row').forEach(row => {
+        const inputs = row.querySelectorAll('.dimension-input');
+        const length = parseFloat(inputs[0].value) || 0;
+        const width = parseFloat(inputs[1].value) || 0;
+        const height = parseFloat(inputs[2].value) || 0;
+        
+        if (length > 0 || width > 0 || height > 0) {
+            dimensions.push({ length, width, height });
+        }
+    });
+
+    // جمع حسابات CBM
+    const cbmCalculations = [];
+    document.querySelectorAll('.cbm-row').forEach(row => {
+        const inputs = row.querySelectorAll('.cbm-input');
+        const length = parseFloat(inputs[0].value) || 0;
+        const width = parseFloat(inputs[1].value) || 0;
+        const height = parseFloat(inputs[2].value) || 0;
+        
+        if (length > 0 && width > 0 && height > 0) {
+            const cbm = (length * width * height) / 1000000;
+            cbmCalculations.push({ length, width, height, cbm });
+        }
+    });
+
+    // حساب إجمالي CBM
+    const totalCBM = cbmCalculations.reduce((sum, calc) => sum + calc.cbm, 0);
+
+    // حساب التكلفة الإجمالية
+    const materialsCost = selectedModelMaterials.reduce((sum, material) => sum + material.totalCost, 0);
+    const totalCost = materialsCost + laborCost + otherCosts;
+
+    // تكوين كائن الموديل
+    const modelData = {
+        name: { ar: nameAr, en: nameEn, tr: nameTr },
+        type: typeObj,
+        description: { ar: descAr, en: descEn, tr: descTr },
+        dimensions,
+        cbmCalculations,
+        totalCBM,
+        color,
+        weight,
+        packets,
+        laborCost,
+        otherCosts,
+        sellingPrice,
+        notes,
+        materials: selectedModelMaterials,
+        materialsCost,
+        totalCost,
+        image: image.includes('data:image') ? image : '',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    };
+
+    // حفظ في قاعدة البيانات
+    const transaction = db.transaction(['models'], 'readwrite');
+    const store = transaction.objectStore('models');
+
+    if (id) {
+        // تعديل موديل موجود
+        modelData.id = Number(id);
+        modelData.createdAt = undefined; // الحفاظ على تاريخ الإنشاء الأصلي
+        store.put(modelData);
+    } else {
+        // إضافة موديل جديد
+        store.add(modelData);
+    }
+
+    transaction.oncomplete = () => {
+        closeModelModal();
+        loadModels();
+        selectedModelMaterials = []; // تفريغ المواد المختارة
+    };
+
+    transaction.onerror = (e) => {
+        console.error('خطأ في حفظ الموديل:', e);
+        alert('حدث خطأ في حفظ الموديل');
+    };
+}
+
+// حذف موديل
+function deleteModel() {
+    const id = Number(document.getElementById('modelId').value);
+    if (confirm('هل أنت متأكد من حذف هذا الموديل؟')) {
+        const transaction = db.transaction(['models'], 'readwrite');
+        transaction.objectStore('models').delete(id);
+        transaction.oncomplete = () => {
+            closeModelModal();
+            loadModels();
+        };
+    }
+}
+
+// تحميل جميع الموديلات
+function loadModels() {
+    if (!db) {
+        setTimeout(loadModels, 500); // إعادة المحاولة بعد نصف ثانية
+        return;
+    }
+
+    const transaction = db.transaction(['models'], 'readonly');
+    const store = transaction.objectStore('models');
+    const request = store.getAll();
+
+    request.onsuccess = (e) => {
+        allModels = e.target.result || [];
+        renderModels(allModels);
+    };
+
+    request.onerror = (e) => {
+        console.error('خطأ في تحميل الموديلات:', e);
+        allModels = [];
+        renderModels([]);
+    };
+}
+
+// عرض الموديلات
+function renderModels(modelsList) {
+    const container = document.getElementById('modelsList');
+    container.innerHTML = '';
+
+    if (modelsList.length === 0) {
+        container.innerHTML = `
+            <div class="empty-content">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🛋️</div>
+                <h3 data-ar="لا يوجد موديلات" data-en="No Models" data-tr="Model Yok">لا يوجد موديلات</h3>
+                <p data-ar="ابدأ بإضافة موديل جديد" data-en="Start by adding a new model" data-tr="Yeni bir model ekleyerek başlayın">ابدأ بإضافة موديل جديد</p>
+            </div>
+        `;
+        return;
+    }
+
+    // تجميع الموديلات حسب النوع
+    const grouped = {};
+    modelsList.forEach(model => {
+        let typeName = 'غير مصنف';
+        if (model.type && typeof model.type === 'object') {
+            typeName = model.type[currentLang] || model.type.ar;
+        } else {
+            typeName = model.type || 'غير مصنف';
+        }
+        
+        if (!grouped[typeName]) grouped[typeName] = [];
+        grouped[typeName].push(model);
+    });
+
+    // عرض كل نوع وموديلاته
+    for (const [type, models] of Object.entries(grouped)) {
+        // عنوان النوع
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.innerHTML = `<span>${type}</span> <span style="font-size:0.8rem; opacity:0.7;">${models.length}</span>`;
+        container.appendChild(header);
+
+        // عرض الموديلات
+        models.forEach(model => {
+            const card = createModelCard(model);
+            container.appendChild(card);
+        });
+    }
+}
+
+// إنشاء بطاقة موديل
+function createModelCard(model) {
+    // استخراج النصوص حسب اللغة
+    let modelName = model.name;
+    if (typeof model.name === 'object') {
+        modelName = model.name[currentLang] || model.name.ar;
+    }
+
+    let typeName = model.type;
+    if (typeof model.type === 'object') {
+        typeName = model.type[currentLang] || model.type.ar;
+    }
+
+    // حساب الأسعار بالعملة الثانوية
+    const totalCostSecondary = (model.totalCost * currencyConfig.rate).toFixed(2);
+    const sellingPriceSecondary = (model.sellingPrice * currencyConfig.rate).toFixed(2);
+
+    const card = document.createElement('div');
+    card.className = 'model-card';
+    card.onclick = () => openModelModal(model.id);
+    
+    card.innerHTML = `
+        <div class="model-card-header">
+            <img src="${model.image || 'https://via.placeholder.com/80?text=Model'}" class="model-card-image" alt="Model Image">
+            <div class="model-card-info">
+                <div class="model-card-title">${modelName}</div>
+                <div class="model-card-type">${typeName}</div>
+                <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:5px;">
+                    ${model.color ? `🎨 ${model.color}` : ''} 
+                    ${model.weight ? `⚖️ ${model.weight}kg` : ''}
+                    ${model.packets ? `📦 ${model.packets}` : ''}
+                </div>
+            </div>
+        </div>
+        
+        <div class="model-card-details">
+            <div class="model-detail-item">
+                <div class="model-detail-label" data-ar="الحجم الكلي" data-en="Total Volume" data-tr="Toplam Hacim">الحجم الكلي</div>
+                <div class="model-detail-value">${model.totalCBM ? model.totalCBM.toFixed(4) : '0.0000'} CBM</div>
+            </div>
+            
+            <div class="model-detail-item">
+                <div class="model-detail-label" data-ar="عدد المواد" data-en="Materials Count" data-tr="Malzeme Sayısı">عدد المواد</div>
+                <div class="model-detail-value">${model.materials ? model.materials.length : 0}</div>
+            </div>
+            
+            <div class="model-detail-item">
+                <div class="model-detail-label" data-ar="التكلفة الإجمالية" data-en="Total Cost" data-tr="Toplam Maliyet">التكلفة الإجمالية</div>
+                <div class="model-detail-value">
+                    ${model.totalCost ? model.totalCost.toFixed(2) : '0.00'} ${currencyConfig.primary}
+                    <br><small style="opacity:0.7;">${totalCostSecondary} ${currencyConfig.secondary}</small>
+                </div>
+            </div>
+            
+            ${model.sellingPrice ? `
+            <div class="model-detail-item">
+                <div class="model-detail-label" data-ar="سعر البيع" data-en="Selling Price" data-tr="Satış Fiyatı">سعر البيع</div>
+                <div class="model-detail-value">
+                    ${model.sellingPrice.toFixed(2)} ${currencyConfig.primary}
+                    <br><small style="opacity:0.7;">${sellingPriceSecondary} ${currencyConfig.secondary}</small>
+                </div>
+            </div>
+            ` : ''}
+        </div>
+    `;
+
+    return card;
+}
+
+// البحث في الموديلات
+function debouncedModelSearch() {
+    clearTimeout(modelSearchTimeout);
+    modelSearchTimeout = setTimeout(() => {
+        filterModels();
+    }, 300);
+}
+
+function filterModels() {
+    const query = document.getElementById('modelSearch').value.toLowerCase();
+    
+    const filtered = allModels.filter(model => {
+        // البحث في الاسم
+        let nameMatch = false;
+        if (typeof model.name === 'object') {
+            nameMatch = (model.name.ar && model.name.ar.toLowerCase().includes(query)) || 
+                        (model.name.en && model.name.en.toLowerCase().includes(query)) || 
+                        (model.name.tr && model.name.tr.toLowerCase().includes(query));
+        } else {
+            nameMatch = model.name.toLowerCase().includes(query);
+        }
+
+        // البحث في النوع
+        let typeMatch = false;
+        if (typeof model.type === 'object') {
+            typeMatch = (model.type.ar && model.type.ar.toLowerCase().includes(query)) ||
+                        (model.type.en && model.type.en.toLowerCase().includes(query)) ||
+                        (model.type.tr && model.type.tr.toLowerCase().includes(query));
+        } else {
+            typeMatch = model.type && model.type.toLowerCase().includes(query);
+        }
+
+        // البحث في الوصف
+        let descMatch = false;
+        if (model.description && typeof model.description === 'object') {
+            descMatch = (model.description.ar && model.description.ar.toLowerCase().includes(query)) ||
+                        (model.description.en && model.description.en.toLowerCase().includes(query)) ||
+                        (model.description.tr && model.description.tr.toLowerCase().includes(query));
+        }
+
+        // البحث في اللون والملاحظات
+        const colorMatch = model.color && model.color.toLowerCase().includes(query);
+        const notesMatch = model.notes && model.notes.toLowerCase().includes(query);
+        
+        return nameMatch || typeMatch || descMatch || colorMatch || notesMatch;
+    });
+    
+    renderModels(filtered);
+}
+
+/* ============================================================ */
+/* 🖨️ نظام طباعة الموديلات */
+/* ============================================================ */
+
+function showModelPrintOptions() {
+    const modal = document.getElementById('modelPrintModal');
+    const searchVal = document.getElementById('modelSearch').value.trim();
+    
+    // تفعيل/تعطيل خيار طباعة نتائج البحث
+    const searchBtn = document.getElementById('modelOptSearch');
+    if (!searchVal) {
+        searchBtn.classList.add('disabled');
+        if (selectedModelPrintType === 'search') {
+            selectModelPrintType(document.querySelector('.print-card'), 'all');
+        }
+    } else {
+        searchBtn.classList.remove('disabled');
+    }
+
+    // تعبئة قائمة الأنواع
+    const typeSel = document.getElementById('modelPrintTypeSelect');
+    typeSel.innerHTML = `<option value="all_types">${currentLang === 'ar' ? 'جميع الأنواع' : 'All Types'}</option>`;
+    modelTypes.forEach((type, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = type[currentLang] || type.ar;
+        typeSel.appendChild(opt);
+    });
+
+    // تحديث نصوص النافذة
+    modal.querySelectorAll('[data-ar]').forEach(el => {
+        el.textContent = el.getAttribute(`data-${currentLang}`) || el.getAttribute('data-ar');
+    });
+
+    modal.style.display = 'flex';
+}
+
+function selectModelPrintType(el, type) {
+    document.querySelectorAll('#modelPrintModal .print-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedModelPrintType = type;
+
+    // إظهار قائمة الأنواع عند الحاجة
+    document.getElementById('modelPrintTypeSelectWrapper').style.display = (type === 'type') ? 'block' : 'none';
+}
+
+function executeModelPrint() {
+    document.getElementById('modelPrintModal').style.display = 'none';
+
+    // جمع إعدادات الطباعة
+    const printLang = document.getElementById('modelPrintLangSelect').value;
+    const includeImages = document.getElementById('printModelImages').checked;
+    const includeMaterials = document.getElementById('printModelMaterials').checked;
+    const includePrices = document.getElementById('printModelPrices').checked;
+    const includeDimensions = document.getElementById('printModelDimensions').checked;
+    const typeFilterVal = document.getElementById('modelPrintTypeSelect').value;
+
+    // تحديد الموديلات المراد طباعتها
+    let modelsToPrint = allModels;
+
+    if (selectedModelPrintType === 'search') {
+        // طباعة نتائج البحث
+        const query = document.getElementById('modelSearch').value.toLowerCase();
+        modelsToPrint = allModels.filter(model => {
+            const searchText = JSON.stringify(model).toLowerCase();
+            return searchText.includes(query);
+        });
+    } 
+    else if (selectedModelPrintType === 'type') {
+        // طباعة نوع محدد
+        if (typeFilterVal !== 'all_types') {
+            const selectedTypeObj = modelTypes[typeFilterVal];
+            modelsToPrint = allModels.filter(model => {
+                const modelTypeAr = model.type.ar || model.type;
+                return modelTypeAr === selectedTypeObj.ar;
+            });
+        }
+    }
+
+    // تحديد لغة التقرير
+    const targetLang = (printLang === 'current') ? currentLang : printLang;
+
+    generateModelPrintHTML(modelsToPrint, targetLang, {
+        includeImages,
+        includeMaterials,
+        includePrices,
+        includeDimensions
+    });
+}
+
+function generateModelPrintHTML(data, langMode, options) {
+    // دالة استخراج النص حسب اللغة
+    const getText = (obj) => {
+        if (typeof obj !== 'object') return obj;
+        
+        if (langMode === 'all') {
+            return `
+                <div class="txt-ar">${obj.ar}</div>
+                <div class="txt-en">${obj.en}</div>
+                <div class="txt-tr">${obj.tr}</div>
+            `;
+        } else {
+            return obj[langMode] || obj.ar;
+        }
+    };
+
+    // العناوين حسب اللغة
+    const headers = {
+        ar: { 
+            title: 'تقرير الموديلات', 
+            name: 'اسم الموديل', 
+            type: 'النوع', 
+            dimensions: 'الأبعاد',
+            cbm: 'الحجم (CBM)',
+            materials: 'المواد المستخدمة',
+            cost: 'التكلفة',
+            selling: 'سعر البيع',
+            details: 'التفاصيل'
+        },
+        en: { 
+            title: 'Models Report', 
+            name: 'Model Name', 
+            type: 'Type', 
+            dimensions: 'Dimensions',
+            cbm: 'Volume (CBM)',
+            materials: 'Used Materials',
+            cost: 'Cost',
+            selling: 'Selling Price',
+            details: 'Details'
+        },
+        tr: { 
+            title: 'Modeller Raporu', 
+            name: 'Model Adı', 
+            type: 'Tür', 
+            dimensions: 'Boyutlar',
+            cbm: 'Hacim (CBM)',
+            materials: 'Kullanılan Malzemeler',
+            cost: 'Maliyet',
+            selling: 'Satış Fiyatı',
+            details: 'Detaylar'
+        },
+        all: { 
+            title: 'تقرير الموديلات / Models Report', 
+            name: '<span class="th-ar">اسم الموديل</span><br><span class="th-en">Model Name</span>',
+            type: '<span class="th-ar">النوع</span><br><span class="th-en">Type</span>',
+            dimensions: '<span class="th-ar">الأبعاد</span><br><span class="th-en">Dimensions</span>',
+            cbm: '<span class="th-ar">الحجم</span><br><span class="th-en">Volume</span>',
+            materials: '<span class="th-ar">المواد</span><br><span class="th-en">Materials</span>',
+            cost: '<span class="th-ar">التكلفة</span><br><span class="th-en">Cost</span>',
+            selling: '<span class="th-ar">سعر البيع</span><br><span class="th-en">Selling Price</span>',
+            details: '<span class="th-ar">التفاصيل</span><br><span class="th-en">Details</span>'
+        }
+    };
+    
+    const H = headers[langMode] || headers.ar;
+    const isMulti = langMode === 'all';
+
+    // بناء HTML التقرير
+    let html = `
+    <html>
+    <head>
+        <title>طباعة تقرير الموديلات</title>
+        <style>
+            body { 
+                font-family: 'Segoe UI', Tahoma, sans-serif; 
+                padding: 20px; 
+                direction: ${langMode === 'ar' ? 'rtl' : 'ltr'}; 
+                color: #333;
+                line-height: 1.6;
+            }
+            .header { 
+                text-align: center; 
+                margin-bottom: 30px; 
+                border-bottom: 3px solid #0d7c66; 
+                padding-bottom: 15px; 
+            }
+            .header h1 {
+                color: #0d7c66;
+                margin: 0 0 10px 0;
+            }
+            .model-card {
+                background: #f8f9fa;
+                border: 2px solid #dee2e6;
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 30px;
+                page-break-inside: avoid;
+            }
+            .model-header {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #0d7c66;
+            }
+            .model-image {
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 8px;
+                border: 2px solid #dee2e6;
+            }
+            .model-info h2 {
+                color: #0d7c66;
+                margin: 0 0 10px 0;
+                font-size: 1.5rem;
+            }
+            .model-type {
+                background: #0d7c66;
+                color: white;
+                padding: 5px 15px;
+                border-radius: 20px;
+                display: inline-block;
+                font-size: 0.9rem;
+            }
+            .details-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+                margin: 20px 0;
+            }
+            .detail-item {
+                background: white;
+                padding: 15px;
+                border-radius: 8px;
+                border: 1px solid #dee2e6;
+            }
+            .detail-label {
+                font-weight: bold;
+                color: #0d7c66;
+                margin-bottom: 5px;
+            }
+            .materials-section {
+                background: #e8f5e8;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 15px 0;
+            }
+            .materials-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 10px;
+                margin-top: 10px;
+            }
+            .material-item {
+                background: white;
+                padding: 10px;
+                border-radius: 6px;
+                border: 1px solid #ccc;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .material-image {
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 4px;
+            }
+            .cost-summary {
+                background: linear-gradient(135deg, #28a745, #20c997);
+                color: white;
+                padding: 20px;
+                border-radius: 12px;
+                text-align: center;
+                margin-top: 20px;
+            }
+            .txt-ar { 
+                font-weight: bold; 
+                font-size: 1.1em; 
+                color: #000; 
+            }
+            .txt-en { 
+                font-size: 0.9em; 
+                color: #555; 
+            }
+            .txt-tr { 
+                font-size: 0.85em; 
+                color: #777; 
+                font-style: italic; 
+            }
+            @media print {
+                body { margin: 0; }
+                .model-card { page-break-inside: avoid; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>${H.title}</h1>
+            <p>عدد الموديلات: ${data.length} | التاريخ: ${new Date().toLocaleDateString()}</p>
+        </div>
+    `;
+
+    // إضافة بطاقات الموديلات
+    data.forEach((model, index) => {
+        const modelName = getText(model.name);
+        const modelType = getText(model.type);
+        const modelDesc = model.description ? getText(model.description) : '';
+        
+        const totalCostSecondary = (model.totalCost * currencyConfig.rate).toFixed(2);
+        const sellingPriceSecondary = model.sellingPrice ? (model.sellingPrice * currencyConfig.rate).toFixed(2) : null;
+
+        html += `
+        <div class="model-card">
+            <div class="model-header">
+                ${options.includeImages ? `<img src="${model.image || 'https://via.placeholder.com/120?text=Model'}" class="model-image" alt="Model Image">` : ''}
+                <div class="model-info">
+                    <h2>${modelName}</h2>
+                    <div class="model-type">${modelType}</div>
+                    ${modelDesc ? `<p style="margin-top:10px; font-style:italic;">${modelDesc}</p>` : ''}
+                </div>
+            </div>
+
+            <div class="details-grid">
+                ${options.includeDimensions && model.totalCBM ? `
+                <div class="detail-item">
+                    <div class="detail-label">${H.cbm}</div>
+                    <div>${model.totalCBM.toFixed(4)} CBM</div>
+                </div>
+                ` : ''}
+                
+                ${model.color ? `
+                <div class="detail-item">
+                    <div class="detail-label">اللون / Color</div>
+                    <div>${model.color}</div>
+                </div>
+                ` : ''}
+                
+                ${model.weight ? `
+                <div class="detail-item">
+                    <div class="detail-label">الوزن / Weight</div>
+                    <div>${model.weight} kg</div>
+                </div>
+                ` : ''}
+                
+                ${model.packets ? `
+                <div class="detail-item">
+                    <div class="detail-label">عدد الباكيت / Packets</div>
+                    <div>${model.packets}</div>
+                </div>
+                ` : ''}
+            </div>
+
+            ${options.includeDimensions && model.dimensions && model.dimensions.length > 0 ? `
+            <div class="detail-item" style="margin:15px 0;">
+                <div class="detail-label">${H.dimensions}</div>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:5px;">
+                    ${model.dimensions.map(dim => `
+                        <span style="background:#f0f0f0; padding:5px 10px; border-radius:15px; font-size:0.9rem;">
+                            ${dim.length} × ${dim.width} × ${dim.height}
+                        </span>
+                    `).join('')}
+                </div>
+            </div>
+            ` : ''}
+
+            ${options.includeMaterials && model.materials && model.materials.length > 0 ? `
+            <div class="materials-section">
+                <div class="detail-label">${H.materials} (${model.materials.length})</div>
+                <div class="materials-list">
+                    ${model.materials.map(material => {
+                        let matName = material.name;
+                        if (typeof material.name === 'object') {
+                            matName = getText(material.name);
+                        }
+                        
+                        let matUnit = material.unit;
+                        if (typeof material.unit === 'object') {
+                            matUnit = getText(material.unit);
+                        }
+
+                        return `
+                        <div class="material-item">
+                            ${options.includeImages ? `<img src="${material.image || 'https://via.placeholder.com/40?text=M'}" class="material-image" alt="Material">` : ''}
+                            <div style="flex:1;">
+                                <div style="font-weight:bold; font-size:0.9rem;">${matName}</div>
+                                <div style="font-size:0.8rem; color:#666;">
+                                    ${material.quantity} ${matUnit}
+                                    ${options.includePrices ? ` - ${material.totalCost.toFixed(2)} ${currencyConfig.primary}` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+            ` : ''}
+
+            ${options.includePrices ? `
+            <div class="cost-summary">
+                <h3 style="margin:0 0 15px 0;">${H.cost}</h3>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:15px; text-align:center;">
+                    ${model.materialsCost ? `
+                    <div>
+                        <div style="font-size:0.9rem; opacity:0.9;">تكلفة المواد</div>
+                        <div style="font-size:1.1rem; font-weight:bold;">
+                            ${model.materialsCost.toFixed(2)} ${currencyConfig.primary}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${model.laborCost ? `
+                    <div>
+                        <div style="font-size:0.9rem; opacity:0.9;">تكلفة العمالة</div>
+                        <div style="font-size:1.1rem; font-weight:bold;">
+                            ${model.laborCost.toFixed(2)} ${currencyConfig.primary}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${model.otherCosts ? `
+                    <div>
+                        <div style="font-size:0.9rem; opacity:0.9;">تكاليف أخرى</div>
+                        <div style="font-size:1.1rem; font-weight:bold;">
+                            ${model.otherCosts.toFixed(2)} ${currencyConfig.primary}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <div style="border-left:2px solid rgba(255,255,255,0.3); padding-left:15px;">
+                        <div style="font-size:0.9rem; opacity:0.9;">التكلفة الإجمالية</div>
+                        <div style="font-size:1.3rem; font-weight:bold;">
+                            ${model.totalCost ? model.totalCost.toFixed(2) : '0.00'} ${currencyConfig.primary}
+                        </div>
+                        <div style="font-size:0.9rem; opacity:0.8;">
+                            ${totalCostSecondary} ${currencyConfig.secondary}
+                        </div>
+                    </div>
+                    
+                    ${model.sellingPrice ? `
+                    <div style="border-left:2px solid rgba(255,255,255,0.3); padding-left:15px;">
+                        <div style="font-size:0.9rem; opacity:0.9;">سعر البيع</div>
+                        <div style="font-size:1.3rem; font-weight:bold;">
+                            ${model.sellingPrice.toFixed(2)} ${currencyConfig.primary}
+                        </div>
+                        <div style="font-size:0.9rem; opacity:0.8;">
+                            ${sellingPriceSecondary} ${currencyConfig.secondary}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            </div>
+            ` : ''}
+
+            ${model.notes ? `
+            <div style="margin-top:15px; padding:15px; background:#fff3cd; border-radius:8px; border-left:4px solid #ffc107;">
+                <div style="font-weight:bold; color:#856404; margin-bottom:5px;">ملاحظات:</div>
+                <div style="color:#856404;">${model.notes}</div>
+            </div>
+            ` : ''}
+        </div>
+        `;
+    });
+
+    html += `
+        <div style="margin-top: 40px; text-align: center; font-size: 12px; color: #666; border-top:2px solid #dee2e6; padding-top:20px;">
+            تم إنشاء هذا التقرير بواسطة التطبيق الشامل - قسم الموديلات
+        </div>
+    </body>
+    </html>`;
+
+    // فتح نافذة جديدة للطباعة
+    const win = window.open('', '', 'width=1000,height=800');
+    win.document.write(html);
+    win.document.close();
+    
+    // طباعة تلقائية
+    setTimeout(() => {
+        win.focus();
+        win.print();
+    }, 1000);
+}
+
+/* ============================================================ */
+/* 🔄 تحديث دالة التهيئة الأساسية */
+/* ============================================================ */
+
+// تحديث دالة initDB لتشمل جدول الموديلات
+const originalInitDB = initDB;
+initDB = function() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION + 1);
+        
+        request.onupgradeneeded = (e) => {
+            db = e.target.result;
+            
+            // إنشاء جدول المواد إذا لم يكن موجوداً
+            if (!db.objectStoreNames.contains('materials')) {
+                const store = db.createObjectStore('materials', { keyPath: 'id', autoIncrement: true });
+                store.createIndex('category', 'category', { unique: false });
+            }
+            
+            // إنشاء جدول الموديلات إذا لم يكن موجوداً
+            if (!db.objectStoreNames.contains('models')) {
+                const modelStore = db.createObjectStore('models', { keyPath: 'id', autoIncrement: true });
+                modelStore.createIndex('type', 'type', { unique: false });
+                modelStore.createIndex('name', 'name', { unique: false });
+            }
+        };
+        
+        request.onsuccess = (e) => { 
+            db = e.target.result; 
+            resolve(db); 
+            loadMaterials();
+            loadModels();
+        };
+        
+        request.onerror = (e) => reject('خطأ في قاعدة البيانات');
+    });
+};
+
+/* ============================================================ */
+/* 🎯 تحسينات إضافية للموديلات */
+/* ============================================================ */
+
+// دالة إحصائيات الموديلات
+function getModelsStats() {
+    const stats = {
+        totalModels: allModels.length,
+        typesCount: {},
+        averageCost: 0,
+        totalValue: 0,
+        totalCBM: 0,
+        costRange: { min: Infinity, max: -Infinity }
+    };
+    
+    if (allModels.length === 0) return stats;
+    
+    let totalCost = 0;
+    
+    allModels.forEach(model => {
+        // إحصائيات الأنواع
+        const typeName = model.type.ar || model.type;
+        stats.typesCount[typeName] = (stats.typesCount[typeName] || 0) + 1;
+        
+        // إحصائيات التكلفة
+        if (model.totalCost) {
+            totalCost += model.totalCost;
+            stats.totalValue += model.totalCost;
+            
+            if (model.totalCost < stats.costRange.min) {
+                stats.costRange.min = model.totalCost;
+            }
+            if (model.totalCost > stats.costRange.max) {
+                stats.costRange.max = model.totalCost;
+            }
+        }
+        
+        // إحصائيات الحجم
+        if (model.totalCBM) {
+            stats.totalCBM += model.totalCBM;
+        }
+    });
+    
+    stats.averageCost = totalCost / allModels.length;
+    
+    return stats;
+}
+
+// دالة تصدير الموديلات
+function exportModelsData() {
+    if (!allModels.length) {
+        alert('لا توجد موديلات للتصدير');
+        return;
+    }
+
+    const dataStr = JSON.stringify({
+        models: allModels,
+        modelTypes: modelTypes,
+        exportDate: new Date().toISOString()
+    }, null, 2);
+
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `models_backup_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    URL.revokeObjectURL(url);
+}
+
+// تحديث دالة changeLanguage لتشمل الموديلات
+const originalChangeLanguage = changeLanguage;
+changeLanguage = function(lang) {
+    originalChangeLanguage(lang);
+    
+    // تحديث نصوص البحث للموديلات
+    const modelSearchInput = document.getElementById('modelSearch');
+    if (modelSearchInput) {
+        const newPh = modelSearchInput.getAttribute(`data-ph-${currentLang}`);
+        if (newPh) modelSearchInput.placeholder = newPh;
+    }
+    
+    // إعادة تحميل بيانات الموديلات لتحديث العرض
+    if (allModels.length > 0) {
+        renderModels(allModels);
+    }
+    
+    // تحديث قوائم أنواع الموديلات
+    loadModelTypesData();
+};
+
+// إضافة مستمع للأحداث عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    // تهيئة قاعدة البيانات مع دعم الموديلات
+    initDB().then(() => {
+        console.log('تم تهيئة قاعدة البيانات مع دعم الموديلات');
+    }).catch(error => {
+        console.error('خطأ في تهيئة قاعدة البيانات:', error);
+    });
+});
+
+// رسالة تأكيد في وحدة التحكم
+console.log(`
+🛋️ تم إضافة نظام الموديلات بنجاح!
+
+المميزات الجديدة:
+✅ إدارة الموديلات مع دعم 3 لغات
+✅ حساب الأبعاد والحجم (CBM) التلقائي
+✅ اختيار المواد المتعددة مع حساب التكلفة
+✅ نظام طباعة متقدم للموديلات
+✅ إدارة أنواع الموديلات
+✅ تخزين الصور مع الضغط الذكي
+✅ حساب التكاليف بعملتين
+
+للوصول: اختر قسم "الموديلات" من القائمة الرئيسية
+`);
+
+
+
+
+
+
+
 
         /* ============================================================ */
         /* 🎨 تحسينات واجهة المستخدم */
