@@ -1454,29 +1454,50 @@
         /* ============================================================ */
         
         // فحص الإشعارات الجديدة من الخادم
-        async function checkRemoteNotifications() {
-            try {
-                // جلب ملف الإشعارات مع منع التخزين المؤقت
-                const response = await fetch(`notifications.json?t=${new Date().getTime()}`);
-                if (!response.ok) return;
+      // فحص الإشعارات الجديدة والتحديثات
+async function checkRemoteNotifications() {
+    try {
+        // إضافة طابع زمني لمنع الكاش من المتصفح نفسه
+        const response = await fetch(`notifications.json?t=${new Date().getTime()}`, {
+            cache: "no-store", // إجبار المتصفح على عدم التخزين
+            headers: { 'Cache-Control': 'no-cache' }
+        });
+        
+        if (!response.ok) return;
 
-                const data = await response.json();
-                currentNotifId = data.id;
+        const data = await response.json();
+        
+        // مقارنة رقم التحديث الحالي بالمحفوظ
+        const lastId = Number(localStorage.getItem('dismissed_notif_id') || 0);
+        
+        // إذا كان رقم الإشعار في الملف أكبر من المحفوظ
+        if (data.id > currentNotifId) {
+            currentNotifId = data.id;
+            localStorage.setItem('latest_news_data', JSON.stringify(data));
 
-                // حفظ بيانات الإشعار كاملة في التخزين المحلي
-                localStorage.setItem('latest_news_data', JSON.stringify(data));
+            // إذا كان الإشعار نشطاً ولم يقرأه المستخدم بعد
+            if (data.id > lastId && data.active) {
+                showModal(data);
+            }
 
-                // فحص ما إذا كان المستخدم قد رفض هذا الإشعار مسبقاً
-                const dismissedId = localStorage.getItem('dismissed_notif_id');
-
-                // عرض الإشعار إذا كان جديد ونشط
-                if (data.id > (dismissedId || 0) && data.active) {
-                    showModal(data);
+            // 🔥 كود سحري: إذا اكتشفنا تحديثاً جديداً في ملف notifications، نقوم بتحديث الكاش والصفحة
+            // نتحقق مما إذا كان هذا التحديث يتطلب إعادة تحميل الصفحة (يمكنك إضافة حقل reload: true في ملف json)
+            if (data.id > lastId) {
+                // تحديث الـ Service Worker يدوياً
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                        for (let registration of registrations) {
+                            registration.update();
+                        }
+                    });
                 }
-            } catch (error) { 
-                console.log('لا توجد إشعارات أو خطأ في الاتصال'); 
             }
         }
+    } catch (error) { 
+        console.log('لا توجد إشعارات أو خطأ في الاتصال'); 
+    }
+}
+
 
         // عرض نافذة الإشعار المنبثقة
         function showModal(data) {
@@ -4794,5 +4815,6 @@ console.log(`
     </script>
 </body>
 </html>
+
 
 
