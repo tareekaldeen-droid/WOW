@@ -1012,45 +1012,52 @@
                 <select id="modelType" class="input-field"></select>
             </div>
 
-            <!-- أبعاد القطعة -->
-            <label class="label-text" data-ar="أبعاد القطعة" data-en="Piece Dimensions" data-tr="Parça Boyutları">أبعاد القطعة</label>
-            <div id="dimensionsContainer" style="margin-bottom:15px;">
-                <div class="dimension-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:var(--bg-color); padding:10px; border-radius:8px;">
-                    <input type="number" placeholder="الطول" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
-                    <span>×</span>
-                    <input type="number" placeholder="العرض" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
-                    <span>×</span>
-                    <input type="number" placeholder="الارتفاع" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
-                    <button type="button" onclick="removeDimensionRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
-                </div>
-            </div>
-            <button type="button" onclick="addDimensionRow()" class="modal-btn" style="width:100%; margin-bottom:15px; background:#28a745;">
-                <span data-ar="إضافة بُعد جديد" data-en="Add New Dimension" data-tr="Yeni Boyut Ekle">إضافة بُعد جديد</span> ➕
-            </button>
+         <!-- أبعاد القطعة -->
+<label class="label-text" data-ar="أبعاد القطعة" data-en="Piece Dimensions" data-tr="Parça Boyutları">أبعاد القطعة</label>
+<div id="dimensionsContainer" style="margin-bottom:15px;">
+    <div class="dimension-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:var(--bg-color); padding:10px; border-radius:8px;">
+        <input type="number" class="input-field dimension-input dimension-length" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="الطول" data-ph-en="Length" data-ph-tr="Uzunluk" placeholder="الطول">
+        <span>×</span>
+        <input type="number" class="input-field dimension-input dimension-width" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="العرض" data-ph-en="Width" data-ph-tr="Genişlik" placeholder="العرض">
+        <span>×</span>
+        <input type="number" class="input-field dimension-input dimension-height" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="الارتفاع" data-ph-en="Height" data-ph-tr="Yükseklik" placeholder="الارتفاع">
+        <button type="button" onclick="removeDimensionRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
+    </div>
+</div>
+<button type="button" onclick="addDimensionRow()" class="modal-btn" style="width:100%; margin-bottom:15px; background:#28a745;">
+    <span data-ar="إضافة بُعد جديد" data-en="Add New Dimension" data-tr="Yeni Boyut Ekle">إضافة بُعد جديد</span> ➕
+</button>
 
-            <!-- الوصف -->
-            <label class="label-text" data-ar="الوصف" data-en="Description" data-tr="Açıklama">الوصف</label>
-            <div class="lang-group">
-                <div class="lang-row"><span class="lang-flag">AR</span><textarea id="modelDescAr" class="lang-input" rows="2" placeholder="الوصف بالعربية"></textarea></div>
-                <div class="lang-row"><span class="lang-flag">EN</span><textarea id="modelDescEn" class="lang-input" rows="2" placeholder="Description in English"></textarea></div>
-                <div class="lang-row"><span class="lang-flag">TR</span><textarea id="modelDescTr" class="lang-input" rows="2" placeholder="Türkçe Açıklama"></textarea></div>
-            </div>
+<!-- الوصف -->
+<label class="label-text" data-ar="الوصف" data-en="Description" data-tr="Açıklama">الوصف</label>
+<div class="lang-group">
+    <div class="lang-row"><span class="lang-flag">AR</span><textarea id="modelDescAr" class="lang-input" rows="2" placeholder="الوصف بالعربية"></textarea></div>
+    <div class="lang-row"><span class="lang-flag">EN</span><textarea id="modelDescEn" class="lang-input" rows="2" placeholder="Description in English"></textarea></div>
+    <div class="lang-row"><span class="lang-flag">TR</span><textarea id="modelDescTr" class="lang-input" rows="2" placeholder="Türkçe Açıklama"></textarea></div>
+</div>
 
-            <!-- حاسبة CBM -->
-            <label class="label-text" data-ar="حاسبة الحجم (CBM)" data-en="Volume Calculator (CBM)" data-tr="Hacim Hesaplayıcı (CBM)">حاسبة الحجم (CBM)</label>
-            <div id="cbmContainer" style="margin-bottom:15px;">
-                <div class="cbm-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:rgba(13, 124, 102, 0.05); padding:10px; border-radius:8px; border:1px solid var(--primary-color);">
-                    <input type="number" placeholder="الطول" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
-                    <span>×</span>
-                    <input type="number" placeholder="العرض" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
-                    <span>×</span>
-                    <input type="number" placeholder="الارتفاع" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
-                    <button type="button" onclick="removeCBMRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
-                </div>
-            </div>
-            <button type="button" onclick="addCBMRow()" class="modal-btn" style="width:100%; margin-bottom:10px; background:#17a2b8;">
-                <span data-ar="إضافة حقل CBM جديد" data-en="Add New CBM Field" data-tr="Yeni CBM Alanı Ekle">إضافة حقل CBM جديد</span> ➕
-            </button>
+<!-- حاسبة CBM -->
+<label class="label-text" data-ar="حاسبة الحجم (CBM)" data-en="Volume Calculator (CBM)" data-tr="Hacim Hesaplayıcı (CBM)">حاسبة الحجم (CBM)</label>
+<div id="cbmContainer" style="margin-bottom:15px;">
+    <div class="cbm-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:rgba(13, 124, 102, 0.05); padding:10px; border-radius:8px; border:1px solid var(--primary-color);">
+        <input type="number" class="input-field cbm-input cbm-length" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()" 
+               data-ph-ar="الطول" data-ph-en="Length" data-ph-tr="Uzunluk" placeholder="الطول">
+        <span>×</span>
+        <input type="number" class="input-field cbm-input cbm-width" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()" 
+               data-ph-ar="العرض" data-ph-en="Width" data-ph-tr="Genişlik" placeholder="العرض">
+        <span>×</span>
+        <input type="number" class="input-field cbm-input cbm-height" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()" 
+               data-ph-ar="الارتفاع" data-ph-en="Height" data-ph-tr="Yükseklik" placeholder="الارتفاع">
+        <button type="button" onclick="removeCBMRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
+    </div>
+</div>
+<button type="button" onclick="addCBMRow()" class="modal-btn" style="width:100%; margin-bottom:10px; background:#17a2b8;">
+    <span data-ar="إضافة حقل CBM جديد" data-en="Add New CBM Field" data-tr="Yeni CBM Alanı Ekle">إضافة حقل CBM جديد</span> ➕
+</button>
+
             
             <!-- عرض الحجم الكلي -->
             <div style="background:var(--primary-color); color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:15px;">
@@ -3478,12 +3485,21 @@ function addDimensionRow() {
     const newRow = document.createElement('div');
     newRow.className = 'dimension-row';
     newRow.style.cssText = 'display:flex; align-items:center; gap:5px; margin-bottom:10px; background:var(--bg-color); padding:10px; border-radius:8px;';
+    
+    // الحصول على النصوص حسب اللغة الحالية
+    const lengthPlaceholder = currentLang === 'ar' ? 'الطول' : (currentLang === 'en' ? 'Length' : 'Uzunluk');
+    const widthPlaceholder = currentLang === 'ar' ? 'العرض' : (currentLang === 'en' ? 'Width' : 'Genişlik');
+    const heightPlaceholder = currentLang === 'ar' ? 'الارتفاع' : (currentLang === 'en' ? 'Height' : 'Yükseklik');
+    
     newRow.innerHTML = `
-        <input type="number" placeholder="الطول" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <input type="number" class="input-field dimension-input dimension-length" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="الطول" data-ph-en="Length" data-ph-tr="Uzunluk" placeholder="${lengthPlaceholder}">
         <span>×</span>
-        <input type="number" placeholder="العرض" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <input type="number" class="input-field dimension-input dimension-width" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="العرض" data-ph-en="Width" data-ph-tr="Genişlik" placeholder="${widthPlaceholder}">
         <span>×</span>
-        <input type="number" placeholder="الارتفاع" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <input type="number" class="input-field dimension-input dimension-height" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="الارتفاع" data-ph-en="Height" data-ph-tr="Yükseklik" placeholder="${heightPlaceholder}">
         <button type="button" onclick="removeDimensionRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
     `;
     container.appendChild(newRow);
@@ -3573,6 +3589,44 @@ function handleModelImageUpload(input) {
         reader.readAsDataURL(file);
     }
 }
+
+
+// تحديث نصوص حقول الأبعاد والـ CBM
+function updateDimensionPlaceholders() {
+    // تحديث حقول الأبعاد
+    document.querySelectorAll('.dimension-length').forEach(input => {
+        const placeholder = input.getAttribute(`data-ph-${currentLang}`);
+        if (placeholder) input.placeholder = placeholder;
+    });
+    
+    document.querySelectorAll('.dimension-width').forEach(input => {
+        const placeholder = input.getAttribute(`data-ph-${currentLang}`);
+        if (placeholder) input.placeholder = placeholder;
+    });
+    
+    document.querySelectorAll('.dimension-height').forEach(input => {
+        const placeholder = input.getAttribute(`data-ph-${currentLang}`);
+        if (placeholder) input.placeholder = placeholder;
+    });
+    
+    // تحديث حقول CBM
+    document.querySelectorAll('.cbm-length').forEach(input => {
+        const placeholder = input.getAttribute(`data-ph-${currentLang}`);
+        if (placeholder) input.placeholder = placeholder;
+    });
+    
+    document.querySelectorAll('.cbm-width').forEach(input => {
+        const placeholder = input.getAttribute(`data-ph-${currentLang}`);
+        if (placeholder) input.placeholder = placeholder;
+    });
+    
+    document.querySelectorAll('.cbm-height').forEach(input => {
+        const placeholder = input.getAttribute(`data-ph-${currentLang}`);
+        if (placeholder) input.placeholder = placeholder;
+    });
+}
+
+
 
 // اختيار المواد
 function openMaterialSelector() {
@@ -3865,28 +3919,39 @@ function clearModelForm() {
     document.getElementById('modelPreview').style.display = 'none';
     document.getElementById('modelUploadPlaceholder').style.display = 'block';
     
-    // إعادة تعيين الأبعاد والـ CBM
+ // إعادة تعيين الأبعاد والـ CBM
+const lengthPlaceholder = currentLang === 'ar' ? 'الطول' : (currentLang === 'en' ? 'Length' : 'Uzunluk');
+const widthPlaceholder = currentLang === 'ar' ? 'العرض' : (currentLang === 'en' ? 'Width' : 'Genişlik');
+const heightPlaceholder = currentLang === 'ar' ? 'الارتفاع' : (currentLang === 'en' ? 'Height' : 'Yükseklik');
+
 document.getElementById('dimensionsContainer').innerHTML = `
     <div class="dimension-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:var(--bg-color); padding:10px; border-radius:8px;">
-        <input type="number" placeholder="الطول" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <input type="number" class="input-field dimension-input dimension-length" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="الطول" data-ph-en="Length" data-ph-tr="Uzunluk" placeholder="${lengthPlaceholder}">
         <span>×</span>
-        <input type="number" placeholder="العرض" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <input type="number" class="input-field dimension-input dimension-width" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="العرض" data-ph-en="Width" data-ph-tr="Genişlik" placeholder="${widthPlaceholder}">
         <span>×</span>
-        <input type="number" placeholder="الارتفاع" class="input-field dimension-input" style="flex:1; margin:0;" step="0.01">
+        <input type="number" class="input-field dimension-input dimension-height" style="flex:1; margin:0;" step="0.01" 
+               data-ph-ar="الارتفاع" data-ph-en="Height" data-ph-tr="Yükseklik" placeholder="${heightPlaceholder}">
         <button type="button" onclick="removeDimensionRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
     </div>
 `;
 
 document.getElementById('cbmContainer').innerHTML = `
     <div class="cbm-row" style="display:flex; align-items:center; gap:5px; margin-bottom:10px; background:rgba(13, 124, 102, 0.05); padding:10px; border-radius:8px; border:1px solid var(--primary-color);">
-        <input type="number" placeholder="الطول" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <input type="number" class="input-field cbm-input cbm-length" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()" 
+               data-ph-ar="الطول" data-ph-en="Length" data-ph-tr="Uzunluk" placeholder="${lengthPlaceholder}">
         <span>×</span>
-        <input type="number" placeholder="العرض" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <input type="number" class="input-field cbm-input cbm-width" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()" 
+               data-ph-ar="العرض" data-ph-en="Width" data-ph-tr="Genişlik" placeholder="${widthPlaceholder}">
         <span>×</span>
-        <input type="number" placeholder="الارتفاع" class="input-field cbm-input" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()">
+        <input type="number" class="input-field cbm-input cbm-height" style="flex:1; margin:0;" step="0.01" oninput="calculateCBM()" 
+               data-ph-ar="الارتفاع" data-ph-en="Height" data-ph-tr="Yükseklik" placeholder="${heightPlaceholder}">
         <button type="button" onclick="removeCBMRow(this)" class="del-btn-small" style="background:#ef4444; color:white; border:none; padding:5px; border-radius:4px;">🗑️</button>
     </div>
 `;
+
 
 calculateCBM();
 updateSelectedMaterialsDisplay();
