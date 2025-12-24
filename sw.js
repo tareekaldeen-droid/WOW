@@ -1,4 +1,4 @@
-const CACHE_NAME = 'app-v8-network-first'; // ⚠️ قم بتغيير هذا الرقم (v8, v9..) في كل مرة ترفع تحديث
+const CACHE_NAME = 'app-v9-network-first'; // ⚠️ قم بتغيير هذا الرقم (v8, v9..) في كل مرة ترفع تحديث
 const ASSETS = [
     './',
     './index.html',
@@ -66,3 +66,4 @@ self.addEventListener('fetch', event => {
         })
     );
 });
+
