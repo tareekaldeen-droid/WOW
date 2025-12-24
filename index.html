@@ -15,6 +15,12 @@
     <title>التطبيق الشامل | Ultimate App</title>
     <link rel="manifest" href="manifest.json">
     
+
+<!-- مكتبة JsBarcode -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+
+
     <!-- تحميل الخطوط (تم إضافة جميع الأوزان لضمان العمل) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -663,7 +669,172 @@
 
 
 
+/* تنسيقات الباركود - إضافة فقط */
+.barcode-section {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px dashed var(--primary-color);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: center;
+}
 
+.barcode-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.barcode-display {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.barcode-card {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    backdrop-filter: blur(3px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.barcode-card canvas {
+    width: 60px !important;
+    height: auto !important;
+}
+
+.barcode-info {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 5px;
+    background: rgba(0,0,0,0.05);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* تحسينات للموبايل */
+@media (max-width: 768px) {
+    .barcode-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .barcode-card {
+        top: 5px;
+        right: 5px;
+    }
+    
+    .barcode-card canvas {
+        width: 50px !important;
+    }
+}
+
+/* باركود كبير وواضح في الطرف الأيسر - حجم محسن */
+.model-barcode-container {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    max-width: 140px; /* زيادة العرض */
+}
+
+.model-barcode-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(13, 124, 102, 0.25);
+    border-color: #0a6b57;
+}
+
+.model-barcode-container canvas {
+    width: 120px !important; /* زيادة العرض من 100px إلى 120px */
+    height: auto !important;
+    border-radius: 4px;
+    display: block;
+}
+
+.barcode-code-text {
+    font-size: 0.75rem; /* زيادة حجم الخط */
+    color: var(--primary-color);
+    text-align: center;
+    margin-top: 5px; /* زيادة المسافة */
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    background: rgba(13, 124, 102, 0.1);
+    padding: 3px 6px; /* زيادة الحشو */
+    border-radius: 4px;
+    word-break: break-all;
+    line-height: 1.2;
+}
+
+/* تحسينات للموبايل */
+@media (max-width: 768px) {
+    .model-barcode-container {
+        top: 8px;
+        left: 8px;
+        padding: 8px;
+        max-width: 110px; /* زيادة للموبايل أيضاً */
+    }
+    
+    .model-barcode-container canvas {
+        width: 95px !important; /* زيادة للموبايل من 80px إلى 95px */
+    }
+    
+    .barcode-code-text {
+        font-size: 0.65rem;
+        padding: 2px 4px;
+    }
+}
+
+/* تأثير للباركود الجديد */
+@keyframes barcodeAppear {
+    0% { 
+        opacity: 0; 
+        transform: translateX(-20px) scale(0.8); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateX(0) scale(1); 
+    }
+}
+
+.model-barcode-container.new-barcode {
+    animation: barcodeAppear 0.5s ease-out;
+}
+
+/* وضع الطباعة */
+@media print {
+    .model-barcode-container {
+        position: relative;
+        display: inline-block;
+        margin: 5px;
+        page-break-inside: avoid;
+        max-width: none;
+    }
+    
+    .model-barcode-container canvas {
+        width: 150px !important; /* حجم أكبر للطباعة */
+    }
+}
 
 
 
@@ -994,6 +1165,31 @@
                 <span id="modelUploadPlaceholder" data-ar="📸 صورة الموديل" data-en="📸 Model Image" data-tr="📸 Model Resmi">📸 صورة الموديل</span>
             </div>
             <input type="file" id="modelImgInput" hidden accept="image/*" onchange="handleModelImageUpload(this)">
+
+
+<!-- قسم الباركود - أضف هذا بعد قسم رفع الصورة -->
+<div class="barcode-section">
+    <label class="label-text" data-ar="باركود الموديل" data-en="Model Barcode" data-tr="Model Barkodu">باركود الموديل</label>
+    
+    <div class="barcode-controls">
+        <input type="text" id="modelBarcodeInput" class="input-field" style="flex:1; margin:0;" 
+               data-ph-ar="أدخل كود الموديل أو اتركه فارغ للتوليد التلقائي"
+               data-ph-en="Enter model code or leave empty for auto generation"
+               data-ph-tr="Model kodunu girin veya otomatik oluşturma için boş bırakın"
+               placeholder="أدخل كود الموديل أو اتركه فارغ للتوليد التلقائي"
+               oninput="generateBarcode()">
+        <button type="button" onclick="generateRandomCode()" 
+                style="padding:8px 12px; background:var(--primary-color); color:white; border:none; border-radius:6px; font-weight:bold;">
+            🎲 <span data-ar="توليد" data-en="Generate" data-tr="Oluştur">توليد</span>
+        </button>
+    </div>
+    
+    <div id="barcodeDisplay" class="barcode-display">
+        <span style="color:#999;" data-ar="سيظهر الباركود هنا" data-en="Barcode will appear here" data-tr="Barkod burada görünecek">سيظهر الباركود هنا</span>
+    </div>
+</div>
+
+
 
             <!-- اسم القطعة (3 لغات) -->
             <label class="label-text" data-ar="اسم القطعة" data-en="Piece Name" data-tr="Parça Adı">اسم القطعة</label>
@@ -1680,6 +1876,40 @@ function changeLanguage(lang) {
         loadModelTypesData();
     }
     
+
+// تحديث نصوص الباركود - أضف هذا في نهاية دالة changeLanguage
+updateBarcodePlaceholder();
+
+// تحديث عرض الباركود إذا كان موجود
+const barcodeInput = document.getElementById('modelBarcodeInput');
+if (barcodeInput && barcodeInput.value.trim()) {
+    generateBarcode();
+}
+
+// إعادة عرض الباركود في البطاقات المحفوظة
+if (typeof allModels !== 'undefined' && allModels.length > 0) {
+    setTimeout(() => {
+        allModels.forEach(model => {
+            if (model.barcode) {
+                const cards = document.querySelectorAll('.model-card');
+                cards.forEach(card => {
+                    const cardTitle = card.querySelector('.model-card-title');
+                    if (cardTitle) {
+                        let modelName = model.name;
+                        if (typeof model.name === 'object') {
+                            modelName = model.name[currentLang] || model.name.ar;
+                        }
+                        if (cardTitle.textContent === modelName) {
+                            addBarcodeToSavedCard(card, model.barcode);
+                        }
+                    }
+                });
+            }
+        });
+    }, 500);
+}
+
+
     // تحديث نص زر الإجراءات
     updateActionButtonText();
 }
@@ -3861,6 +4091,9 @@ function loadModelForEdit(id) {
             });
         }
         
+
+
+
         // CBM
         if (model.cbmCalculations && model.cbmCalculations.length > 0) {
             const container = document.getElementById('cbmContainer');
@@ -3885,16 +4118,28 @@ function loadModelForEdit(id) {
         document.getElementById('modelSellingPrice').value = model.sellingPrice || '';
         document.getElementById('modelNotes').value = model.notes || '';
         
+
+// تحميل الباركود إن وجد - أضف هذا في نهاية دالة loadModelForEdit
+if (model.barcode && document.getElementById('modelBarcodeInput')) {
+    document.getElementById('modelBarcodeInput').value = model.barcode;
+    setTimeout(() => generateBarcode(), 100);
+}
+
         // الصورة
         if (model.image) {
             document.getElementById('modelPreview').src = model.image;
             document.getElementById('modelPreview').style.display = 'block';
             document.getElementById('modelUploadPlaceholder').style.display = 'none';
         }
+
+
+
         
         // المواد
         selectedModelMaterials = model.materials || [];
         updateSelectedMaterialsDisplay();
+
+
     };
 }
 
@@ -4043,7 +4288,10 @@ function saveModel() {
         materials: selectedModelMaterials,
         materialsCost,
         totalCost,
-        image: image.includes('data:image') ? image : '',
+
+image: image.includes('data:image') ? image : '',
+barcode: document.getElementById('modelBarcodeInput') ? document.getElementById('modelBarcodeInput').value.trim() : '',
+
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     };
@@ -4166,7 +4414,7 @@ function renderModels(modelsList) {
     }
 }
 
-// إنشاء بطاقة موديل
+// إنشاء بطاقة موديل محسنة مع باركود كبير وواضح
 function createModelCard(model) {
     // استخراج النصوص حسب اللغة
     let modelName = model.name;
@@ -4180,16 +4428,22 @@ function createModelCard(model) {
     }
 
     // حساب الأسعار بالعملة الثانوية
-    const totalCostSecondary = (model.totalCost * currencyConfig.rate).toFixed(2);
-    const sellingPriceSecondary = (model.sellingPrice * currencyConfig.rate).toFixed(2);
+    const totalCostSecondary = model.totalCost ? (model.totalCost * currencyConfig.rate).toFixed(2) : '0.00';
+    const sellingPriceSecondary = model.sellingPrice ? (model.sellingPrice * currencyConfig.rate).toFixed(2) : '0.00';
 
+    // إنشاء البطاقة
     const card = document.createElement('div');
     card.className = 'model-card';
+    card.style.position = 'relative'; // مهم للباركود
     card.onclick = () => openModelModal(model.id);
     
+    // محتوى البطاقة
     card.innerHTML = `
         <div class="model-card-header">
-            <img src="${model.image || 'https://via.placeholder.com/80?text=Model'}" class="model-card-image" alt="Model Image">
+            <img src="${model.image || 'https://via.placeholder.com/80?text=Model'}" 
+                 class="model-card-image" 
+                 alt="Model Image"
+                 onerror="this.src='https://via.placeholder.com/80?text=Model'">
             <div class="model-card-info">
                 <div class="model-card-title">${modelName}</div>
                 <div class="model-card-type">${typeName}</div>
@@ -4203,17 +4457,29 @@ function createModelCard(model) {
         
         <div class="model-card-details">
             <div class="model-detail-item">
-                <div class="model-detail-label" data-ar="الحجم الكلي" data-en="Total Volume" data-tr="Toplam Hacim">الحجم الكلي</div>
+                <div class="model-detail-label">
+                    <span data-ar="الحجم الكلي" data-en="Total Volume" data-tr="Toplam Hacim">
+                        ${currentLang === 'ar' ? 'الحجم الكلي' : currentLang === 'en' ? 'Total Volume' : 'Toplam Hacim'}
+                    </span>
+                </div>
                 <div class="model-detail-value">${model.totalCBM ? model.totalCBM.toFixed(4) : '0.0000'} CBM</div>
             </div>
             
             <div class="model-detail-item">
-                <div class="model-detail-label" data-ar="عدد المواد" data-en="Materials Count" data-tr="Malzeme Sayısı">عدد المواد</div>
+                <div class="model-detail-label">
+                    <span data-ar="عدد المواد" data-en="Materials Count" data-tr="Malzeme Sayısı">
+                        ${currentLang === 'ar' ? 'عدد المواد' : currentLang === 'en' ? 'Materials Count' : 'Malzeme Sayısı'}
+                    </span>
+                </div>
                 <div class="model-detail-value">${model.materials ? model.materials.length : 0}</div>
             </div>
             
             <div class="model-detail-item">
-                <div class="model-detail-label" data-ar="التكلفة الإجمالية" data-en="Total Cost" data-tr="Toplam Maliyet">التكلفة الإجمالية</div>
+                <div class="model-detail-label">
+                    <span data-ar="التكلفة الإجمالية" data-en="Total Cost" data-tr="Toplam Maliyet">
+                        ${currentLang === 'ar' ? 'التكلفة الإجمالية' : currentLang === 'en' ? 'Total Cost' : 'Toplam Maliyet'}
+                    </span>
+                </div>
                 <div class="model-detail-value">
                     ${model.totalCost ? model.totalCost.toFixed(2) : '0.00'} ${currencyConfig.primary}
                     <br><small style="opacity:0.7;">${totalCostSecondary} ${currencyConfig.secondary}</small>
@@ -4222,18 +4488,261 @@ function createModelCard(model) {
             
             ${model.sellingPrice ? `
             <div class="model-detail-item">
-                <div class="model-detail-label" data-ar="سعر البيع" data-en="Selling Price" data-tr="Satış Fiyatı">سعر البيع</div>
+                <div class="model-detail-label">
+                    <span data-ar="سعر البيع" data-en="Selling Price" data-tr="Satış Fiyatı">
+                        ${currentLang === 'ar' ? 'سعر البيع' : currentLang === 'en' ? 'Selling Price' : 'Satış Fiyatı'}
+                    </span>
+                </div>
                 <div class="model-detail-value">
                     ${model.sellingPrice.toFixed(2)} ${currencyConfig.primary}
                     <br><small style="opacity:0.7;">${sellingPriceSecondary} ${currencyConfig.secondary}</small>
                 </div>
             </div>
             ` : ''}
+            
+            ${model.description && (model.description.ar || model.description.en || model.description.tr) ? `
+            <div class="model-detail-item" style="grid-column: 1 / -1;">
+                <div class="model-detail-label">
+                    <span data-ar="الوصف" data-en="Description" data-tr="Açıklama">
+                        ${currentLang === 'ar' ? 'الوصف' : currentLang === 'en' ? 'Description' : 'Açıklama'}
+                    </span>
+                </div>
+                <div class="model-detail-value" style="font-size: 0.85rem; line-height: 1.4; text-align: start;">
+                    ${typeof model.description === 'object' ? 
+                        (model.description[currentLang] || model.description.ar || model.description.en || model.description.tr) : 
+                        model.description}
+                </div>
+            </div>
+            ` : ''}
         </div>
+        
+        ${model.notes ? `
+        <div style="margin-top: 10px; padding: 10px; background: rgba(255, 193, 7, 0.1); border-left: 3px solid #ffc107; border-radius: 4px;">
+            <div style="font-size: 0.75rem; font-weight: bold; color: #856404; margin-bottom: 3px;">
+                ${currentLang === 'ar' ? 'ملاحظات:' : currentLang === 'en' ? 'Notes:' : 'Notlar:'}
+            </div>
+            <div style="font-size: 0.8rem; color: #856404; line-height: 1.3;">
+                ${model.notes}
+            </div>
+        </div>
+        ` : ''}
     `;
+
+    // إضافة الباركود الكبير والواضح في الطرف الأيسر
+    if (model.barcode) {
+        // تأخير بسيط للتأكد من رسم البطاقة أولاً
+        setTimeout(() => {
+            addEnhancedBarcodeToCard(card, model.barcode);
+        }, 50);
+    }
+
+    // إضافة تأثير hover للبطاقة
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-2px)';
+        card.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.boxShadow = 'var(--shadow)';
+    });
 
     return card;
 }
+
+// دالة إضافة الباركود الكبير والواضح للبطاقة - حجم محسن
+function addEnhancedBarcodeToCard(cardElement, barcode) {
+    if (!barcode || !cardElement) return;
+    
+    // إزالة أي باركود موجود مسبقاً
+    const existingBarcode = cardElement.querySelector('.model-barcode-container');
+    if (existingBarcode) {
+        existingBarcode.remove();
+    }
+    
+    try {
+        // إنشاء حاوية الباركود
+        const barcodeContainer = document.createElement('div');
+        barcodeContainer.className = 'model-barcode-container new-barcode';
+        
+        // إنشاء الباركود بحجم أكبر وأوضح
+        const canvas = document.createElement('canvas');
+        JsBarcode(canvas, barcode, {
+            format: "CODE128",
+            width: 2.5, // زيادة سماكة الخطوط من 2 إلى 2.5
+            height: 50, // زيادة الارتفاع من 40 إلى 50
+            displayValue: false,
+            background: "#ffffff",
+            lineColor: "#000000",
+            margin: 4 // زيادة الهامش
+        });
+        
+        // إضافة نص الكود بحجم أكبر
+        const codeText = document.createElement('div');
+        codeText.className = 'barcode-code-text';
+        codeText.textContent = barcode;
+        
+        // تجميع العناصر
+        barcodeContainer.appendChild(canvas);
+        barcodeContainer.appendChild(codeText);
+        
+        // إضافة tooltip
+        const tooltipTexts = {
+            ar: `انقر لنسخ: ${barcode}`,
+            en: `Click to copy: ${barcode}`,
+            tr: `Kopyalamak için tıkla: ${barcode}`
+        };
+        barcodeContainer.title = tooltipTexts[currentLang] || tooltipTexts.ar;
+        
+        // إضافة وظيفة النسخ
+        barcodeContainer.addEventListener('click', (e) => {
+            e.stopPropagation(); // منع فتح نافذة التعديل
+            copyBarcodeToClipboard(barcode);
+        });
+        
+        // إضافة للبطاقة
+        cardElement.appendChild(barcodeContainer);
+        
+        // إزالة تأثير الظهور بعد انتهاء الأنيميشن
+        setTimeout(() => {
+            barcodeContainer.classList.remove('new-barcode');
+        }, 500);
+        
+    } catch (error) {
+        console.error('خطأ في إنشاء الباركود:', error);
+    }
+}
+
+// دالة نسخ الباركود للحافظة
+function copyBarcodeToClipboard(barcode) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(barcode).then(() => {
+            showBarcodeNotification('copied', barcode);
+        }).catch(() => {
+            fallbackCopyTextToClipboard(barcode);
+        });
+    } else {
+        fallbackCopyTextToClipboard(barcode);
+    }
+}
+
+// دالة احتياطية للنسخ
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+    `;
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showBarcodeNotification('copied', text);
+    } catch (err) {
+        showBarcodeNotification('error', text);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// إشعار نسخ محسن
+function showBarcodeNotification(type, barcode = '') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${type === 'copied' ? 'linear-gradient(135deg, #28a745, #20c997)' : 'linear-gradient(135deg, #dc3545, #c82333)'};
+        color: white;
+        padding: 15px 25px;
+        border-radius: 12px;
+        font-weight: bold;
+        z-index: 10000;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        animation: notificationSlide 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        max-width: 90vw;
+        text-align: center;
+    `;
+    
+    const messages = {
+        copied: {
+            ar: `✅ تم نسخ الباركود: ${barcode}`,
+            en: `✅ Barcode copied: ${barcode}`,
+            tr: `✅ Barkod kopyalandı: ${barcode}`
+        },
+        error: {
+            ar: '❌ خطأ في نسخ الباركود',
+            en: '❌ Error copying barcode',
+            tr: '❌ Barkod kopyalama hatası'
+        }
+    };
+    
+    notification.innerHTML = `
+        <div style="font-size: 1.1rem; margin-bottom: 5px;">
+            ${type === 'copied' ? '✅' : '❌'}
+        </div>
+        <div style="font-size: 0.9rem;">
+            ${messages[type][currentLang] || messages[type].ar}
+        </div>
+    `;
+    
+    // إضافة تأثيرات CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes notificationSlide {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(-30px) scale(0.8); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(0) scale(1); 
+            }
+        }
+        @keyframes notificationFadeOut {
+            0% { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(0) scale(1); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(-20px) scale(0.9); 
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(notification);
+    
+    // إزالة الإشعار بعد 3 ثوانٍ
+    setTimeout(() => {
+        notification.style.animation = 'notificationFadeOut 0.3s ease-out forwards';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+            if (style.parentNode) {
+                style.parentNode.removeChild(style);
+            }
+        }, 300);
+    }, 3000);
+}
+
+
+
+
+
+
 
 // البحث في الموديلات
 function debouncedModelSearch() {
@@ -4926,6 +5435,219 @@ console.log(`
 
 
 
+
+
+
+
+
+
+// دوال الباركود مع دعم 3 لغات - أضف في النهاية
+function generateBarcode() {
+    const code = document.getElementById('modelBarcodeInput').value.trim();
+    const display = document.getElementById('barcodeDisplay');
+    
+    if (!code) {
+        const emptyTexts = {
+            ar: 'سيظهر الباركود هنا',
+            en: 'Barcode will appear here',
+            tr: 'Barkod burada görünecek'
+        };
+        display.innerHTML = `<span style="color:#999;">${emptyTexts[currentLang]}</span>`;
+        return;
+    }
+    
+    if (typeof JsBarcode === 'undefined') {
+        const errorTexts = {
+            ar: 'مكتبة الباركود غير محملة',
+            en: 'Barcode library not loaded',
+            tr: 'Barkod kütüphanesi yüklenmedi'
+        };
+        display.innerHTML = `<span style="color:red;">${errorTexts[currentLang]}</span>`;
+        return;
+    }
+    
+    // التحقق من صحة الكود (أرقام وحروف إنجليزية فقط)
+    if (!/^[A-Za-z0-9]+$/.test(code)) {
+        const invalidTexts = {
+            ar: 'كود غير صحيح - استخدم أرقام وحروف إنجليزية فقط',
+            en: 'Invalid code - use numbers and English letters only',
+            tr: 'Geçersiz kod - sadece rakam ve İngilizce harf kullanın'
+        };
+        display.innerHTML = `<span style="color:red;">${invalidTexts[currentLang]}</span>`;
+        return;
+    }
+    
+    try {
+        const canvas = document.createElement('canvas');
+        JsBarcode(canvas, code, {
+            format: "CODE128",
+            width: 2,
+            height: 50,
+            displayValue: true,
+            fontSize: 12,
+            background: "#ffffff",
+            lineColor: "#000000"
+        });
+        
+        display.innerHTML = '';
+        display.appendChild(canvas);
+        
+        // إضافة معلومات الباركود
+        const info = document.createElement('div');
+        info.className = 'barcode-info';
+        const infoTexts = {
+            ar: `كود: ${code} | نوع: CODE128`,
+            en: `Code: ${code} | Type: CODE128`,
+            tr: `Kod: ${code} | Tür: CODE128`
+        };
+        info.textContent = infoTexts[currentLang];
+        display.appendChild(info);
+        
+        // إضافة الباركود للبطاقة
+        addBarcodeToCard(code);
+        
+    } catch (error) {
+        const errorTexts = {
+            ar: 'خطأ في إنشاء الباركود',
+            en: 'Error generating barcode',
+            tr: 'Barkod oluşturma hatası'
+        };
+        display.innerHTML = `<span style="color:red;">${errorTexts[currentLang]}</span>`;
+    }
+}
+
+function generateRandomCode() {
+    const prefix = 'MDL';
+    const timestamp = Date.now().toString().slice(-6);
+    const random = Math.floor(Math.random() * 999).toString().padStart(3, '0');
+    const code = prefix + timestamp + random;
+    
+    document.getElementById('modelBarcodeInput').value = code;
+    generateBarcode();
+}
+
+function addBarcodeToCard(code) {
+    const imageBox = document.querySelector('.image-upload-box');
+    if (!imageBox) return;
+    
+    // إزالة الباركود القديم إن وجد
+    const oldBarcode = imageBox.querySelector('.barcode-card');
+    if (oldBarcode) oldBarcode.remove();
+    
+    // إنشاء الباركود الجديد
+    const barcodeDiv = document.createElement('div');
+    barcodeDiv.className = 'barcode-card';
+    
+    const canvas = document.createElement('canvas');
+    try {
+        JsBarcode(canvas, code, {
+            format: "CODE128",
+            width: 1,
+            height: 25,
+            displayValue: false,
+            background: "#ffffff",
+            lineColor: "#000000"
+        });
+        
+        barcodeDiv.appendChild(canvas);
+        imageBox.appendChild(barcodeDiv);
+    } catch (error) {
+        console.error('خطأ في باركود البطاقة:', error);
+    }
+}
+
+// إضافة الباركود لبطاقات الموديلات المحفوظة
+function addBarcodeToSavedCard(cardElement, barcode) {
+    if (!barcode || !cardElement) return;
+    
+    const imageContainer = cardElement.querySelector('.model-card-header');
+    if (!imageContainer) return;
+    
+    // التأكد من عدم وجود باركود مسبق
+    const existingBarcode = imageContainer.querySelector('.barcode-card');
+    if (existingBarcode) existingBarcode.remove();
+    
+    // إنشاء الباركود
+    const barcodeDiv = document.createElement('div');
+    barcodeDiv.className = 'barcode-card';
+    
+    const canvas = document.createElement('canvas');
+    try {
+        JsBarcode(canvas, barcode, {
+            format: "CODE128",
+            width: 1,
+            height: 20,
+            displayValue: false,
+            background: "#ffffff",
+            lineColor: "#000000"
+        });
+        
+        barcodeDiv.appendChild(canvas);
+        
+        // إضافة tooltip مع معلومات الباركود
+        const tooltipTexts = {
+            ar: `باركود: ${barcode}`,
+            en: `Barcode: ${barcode}`,
+            tr: `Barkod: ${barcode}`
+        };
+        barcodeDiv.title = tooltipTexts[currentLang];
+        
+        imageContainer.style.position = 'relative';
+        imageContainer.appendChild(barcodeDiv);
+        
+    } catch (error) {
+        console.error('خطأ في إنشاء باركود البطاقة:', error);
+    }
+}
+
+// تحديث placeholder حسب اللغة
+function updateBarcodePlaceholder() {
+    const input = document.getElementById('modelBarcodeInput');
+    if (input) {
+        const placeholder = input.getAttribute(`data-ph-${currentLang}`);
+        if (placeholder) {
+            input.placeholder = placeholder;
+        }
+    }
+}
+
+// تنظيف الباركود عند فتح نافذة جديدة
+document.addEventListener('DOMContentLoaded', function() {
+    // مراقب فتح النافذة
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const modal = document.getElementById('modelModal');
+                if (modal && modal.style.display === 'flex') {
+                    // تحديث placeholder
+                    updateBarcodePlaceholder();
+                    
+                    // تنظيف الباركود عند فتح نافذة جديدة
+                    const isEdit = document.getElementById('modelId').value;
+                    if (!isEdit) {
+                        document.getElementById('modelBarcodeInput').value = '';
+                        const emptyTexts = {
+                            ar: 'سيظهر الباركود هنا',
+                            en: 'Barcode will appear here',
+                            tr: 'Barkod burada görünecek'
+                        };
+                        document.getElementById('barcodeDisplay').innerHTML = 
+                            `<span style="color:#999;">${emptyTexts[currentLang]}</span>`;
+                    }
+                }
+            }
+        });
+    });
+    
+    const modal = document.getElementById('modelModal');
+    if (modal) {
+        observer.observe(modal, { attributes: true });
+    }
+});
+
+
+
+
         /* ============================================================ */
         /* 🎨 تحسينات واجهة المستخدم */
         /* ============================================================ */
@@ -5022,5 +5744,4 @@ console.log(`
     </script>
 </body>
 </html>
-
 
