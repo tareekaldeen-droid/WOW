@@ -659,6 +659,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -1369,7 +1379,7 @@
     <!-- 🔘 قائمة الإجراءات المنبثقة (تظهر عند الضغط على الزر الجديد) -->
     <div id="matActionMenu" class="action-menu">
         <button onclick="openMaterialModal(); toggleMatMenu()" class="action-item">
-            <span>➕</span> <span data-ar="إضافة مادة" data-tr="Ekle" data-en="Add">إضافة مادة</span>
+        <span>➕</span> <span data-ar="إضافة مادة" data-tr="Malzeme Ekle" data-en="Add Material">إضافة مادة</span>
         </button>
         <button onclick="showPrintOptions(); toggleMatMenu()" class="action-item">
             <span>🖨️</span> <span data-ar="طباعة" data-tr="Yazdır" data-en="Print">طباعة</span>
@@ -1390,11 +1400,11 @@
             <span data-ar="الإعدادات" data-tr="Ayarlar" data-en="Settings">الإعدادات</span>
         </div>
 
-       <!-- زر المواد والموديلات (يظهر في الأقسام المناسبة) -->
-<div id="navMaterialsBtn" class="nav-link" style="display:none;" onclick="toggleMatMenu()">
+    <div id="navMaterialsBtn" class="nav-link" style="display:none;" onclick="toggleMatMenu()">
     <div class="bottom-fab-btn">⚡</div>
-    <span data-ar="إجراءات" data-tr="İşlemler" data-en="Actions" style="font-weight:bold; color:var(--primary-color);">إجراءات</span>
+    <span id="navActionText" style="font-weight:bold; color:var(--primary-color);">إجراءات</span>
 </div>
+
 
 
     <script>
@@ -1406,8 +1416,8 @@
         const sectionsDB = [
             { id: 1,  icon: '📖', color: 'bg-green',  ar: 'القرآن الكريم', tr: 'Kuran-ı Kerim', en: 'The Holy Quran' },
             { id: 2,  icon: '🪵', color: 'bg-brown',   ar: 'المواد والخامات', tr: 'Malzemeler', en: 'Materials' },
-                     { id: 3,  icon: '🛋️', color: 'bg-purple', ar: 'الموديلات',    tr: 'Modeller',        en: 'Models' },
-            { id: 4,  icon: '📅', color: 'bg-orange', ar: 'التقويم الهجري',tr: 'Hicri Takvim',    en: 'Hijri Calendar' },
+            { id: 3,  icon: '🛋️', color: 'bg-purple', ar: 'الموديلات',    tr: 'Modeller',        en: 'Models' },
+            { id: 4,  icon: '📅', color: 'bg-orange', ar: 'التقويم الهجري س',tr: 'Hicri Takvim',    en: 'Hijri Calendar' },
             { id: 5,  icon: '🧭', color: 'bg-red',    ar: 'القبلة',        tr: 'Kıble',           en: 'Qibla' },
             { id: 6,  icon: '📚', color: 'bg-teal',   ar: 'المكتبة',       tr: 'Kütüphane',       en: 'Library' },
             { id: 7,  icon: '📻', color: 'bg-gray',   ar: 'الإذاعة',       tr: 'Radyo',           en: 'Radio' },
@@ -1454,50 +1464,29 @@
         /* ============================================================ */
         
         // فحص الإشعارات الجديدة من الخادم
-      // فحص الإشعارات الجديدة والتحديثات
-async function checkRemoteNotifications() {
-    try {
-        // إضافة طابع زمني لمنع الكاش من المتصفح نفسه
-        const response = await fetch(`notifications.json?t=${new Date().getTime()}`, {
-            cache: "no-store", // إجبار المتصفح على عدم التخزين
-            headers: { 'Cache-Control': 'no-cache' }
-        });
-        
-        if (!response.ok) return;
+        async function checkRemoteNotifications() {
+            try {
+                // جلب ملف الإشعارات مع منع التخزين المؤقت
+                const response = await fetch(`notifications.json?t=${new Date().getTime()}`);
+                if (!response.ok) return;
 
-        const data = await response.json();
-        
-        // مقارنة رقم التحديث الحالي بالمحفوظ
-        const lastId = Number(localStorage.getItem('dismissed_notif_id') || 0);
-        
-        // إذا كان رقم الإشعار في الملف أكبر من المحفوظ
-        if (data.id > currentNotifId) {
-            currentNotifId = data.id;
-            localStorage.setItem('latest_news_data', JSON.stringify(data));
+                const data = await response.json();
+                currentNotifId = data.id;
 
-            // إذا كان الإشعار نشطاً ولم يقرأه المستخدم بعد
-            if (data.id > lastId && data.active) {
-                showModal(data);
-            }
+                // حفظ بيانات الإشعار كاملة في التخزين المحلي
+                localStorage.setItem('latest_news_data', JSON.stringify(data));
 
-            // 🔥 كود سحري: إذا اكتشفنا تحديثاً جديداً في ملف notifications، نقوم بتحديث الكاش والصفحة
-            // نتحقق مما إذا كان هذا التحديث يتطلب إعادة تحميل الصفحة (يمكنك إضافة حقل reload: true في ملف json)
-            if (data.id > lastId) {
-                // تحديث الـ Service Worker يدوياً
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                        for (let registration of registrations) {
-                            registration.update();
-                        }
-                    });
+                // فحص ما إذا كان المستخدم قد رفض هذا الإشعار مسبقاً
+                const dismissedId = localStorage.getItem('dismissed_notif_id');
+
+                // عرض الإشعار إذا كان جديد ونشط
+                if (data.id > (dismissedId || 0) && data.active) {
+                    showModal(data);
                 }
+            } catch (error) { 
+                console.log('لا توجد إشعارات أو خطأ في الاتصال'); 
             }
         }
-    } catch (error) { 
-        console.log('لا توجد إشعارات أو خطأ في الاتصال'); 
-    }
-}
-
 
         // عرض نافذة الإشعار المنبثقة
         function showModal(data) {
@@ -1534,31 +1523,6 @@ async function checkRemoteNotifications() {
             document.getElementById('notificationModal').style.display = 'none';
         }
 
-
-// دالة لعمل تحديث قوي للصفحة
-function forceUpdateApp() {
-    // مسح الكاشات القديمة
-    if ('caches' in window) {
-        caches.keys().then((names) => {
-            names.forEach((name) => {
-                caches.delete(name);
-            });
-        });
-    }
-    // إلغاء تسجيل الـ Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for(let registration of registrations) {
-                registration.unregister();
-            }
-        });
-    }
-    // إعادة تحميل الصفحة من السيرفر
-    window.location.reload(true);
-}
-
-
-        
         /* ============================================================ */
         /* 📰 صفحة "ما الجديد" */
         /* ============================================================ */
@@ -1662,35 +1626,57 @@ function forceUpdateApp() {
         /* ============================================================ */
         
         // تغيير لغة التطبيق
-        function changeLanguage(lang) {
-            currentLang = lang; 
-            localStorage.setItem('appLang', lang); 
-            document.getElementById('langSelect').value = lang;
-            
-            // تحديث اتجاه النص وخاصية اللغة
-            document.documentElement.lang = lang; 
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            
-            // تحديث جميع النصوص في الواجهة
-            document.querySelectorAll('[data-ar]').forEach(el => 
-                el.textContent = el.getAttribute(`data-${lang}`)
-            );
-            
-            // إعادة عرض القوائم والخطوط
-            renderMenu(); 
-            renderFontOptions();
-            
-            // تطبيق الخط المناسب للغة
-            const f = localStorage.getItem(`appFont_${lang}`); 
-            setFontFamily(f || (lang === 'ar' ? 'Cairo' : 'Roboto'));
-            
-            // تحديث نص البحث
-            const searchInput = document.getElementById('matSearch');
-            if(searchInput) {
-                const newPh = searchInput.getAttribute(`data-ph-${currentLang}`);
-                if(newPh) searchInput.placeholder = newPh;
-            }
-        }
+       // تغيير لغة التطبيق
+function changeLanguage(lang) {
+    currentLang = lang; 
+    localStorage.setItem('appLang', lang); 
+    document.getElementById('langSelect').value = lang;
+    
+    // تحديث اتجاه النص وخاصية اللغة
+    document.documentElement.lang = lang; 
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    
+    // تحديث جميع النصوص في الواجهة
+    document.querySelectorAll('[data-ar]').forEach(el => 
+        el.textContent = el.getAttribute(`data-${lang}`)
+    );
+    
+    // إعادة عرض القوائم والخطوط
+    renderMenu(); 
+    renderFontOptions();
+    
+    // تطبيق الخط المناسب للغة
+    const f = localStorage.getItem(`appFont_${lang}`); 
+    setFontFamily(f || (lang === 'ar' ? 'Cairo' : 'Roboto'));
+    
+    // تحديث نص البحث للمواد
+    const searchInput = document.getElementById('matSearch');
+    if(searchInput) {
+        const newPh = searchInput.getAttribute(`data-ph-${currentLang}`);
+        if(newPh) searchInput.placeholder = newPh;
+    }
+    
+    // تحديث نص البحث للموديلات
+    const modelSearchInput = document.getElementById('modelSearch');
+    if (modelSearchInput) {
+        const newPh = modelSearchInput.getAttribute(`data-ph-${currentLang}`);
+        if (newPh) modelSearchInput.placeholder = newPh;
+    }
+    
+    // إعادة تحميل بيانات الموديلات لتحديث العرض
+    if (typeof allModels !== 'undefined' && allModels.length > 0) {
+        renderModels(allModels);
+    }
+    
+    // تحديث قوائم أنواع الموديلات
+    if (typeof loadModelTypesData === 'function') {
+        loadModelTypesData();
+    }
+    
+    // تحديث نص زر الإجراءات
+    updateActionButtonText();
+}
+
         
         // كشف اللغة المفضلة عند البدء
         function detectInitialLanguage() { 
@@ -1705,6 +1691,67 @@ function forceUpdateApp() {
                 else changeLanguage('en'); 
             } 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+// دالة لتحديث نص زر الإجراءات
+function updateActionButtonText() {
+    const actionText = document.getElementById('navActionText');
+    if (!actionText) return;
+    
+    const currentPage = document.querySelector('.page.active');
+    if (!currentPage) return;
+    
+    let newText = '';
+    
+    switch (currentPage.id) {
+        case 'materialsPage':
+            const materialTexts = {
+                ar: 'المواد والخامات',
+                en: 'Materials', 
+                tr: 'Malzemeler'
+            };
+            newText = materialTexts[currentLang];
+            break;
+            
+        case 'modelsPage':
+            const modelTexts = {
+                ar: 'الموديلات',
+                en: 'Models',
+                tr: 'Modeller'
+            };
+            newText = modelTexts[currentLang];
+            break;
+            
+        default:
+            const defaultTexts = {
+                ar: 'إجراءات',
+                en: 'Actions',
+                tr: 'İşlemler'
+            };
+            newText = defaultTexts[currentLang];
+            break;
+    }
+    
+    actionText.textContent = newText;
+}
+
+
+
+
+
+
+
+
 
         /* ============================================================ */
         /* 🏠 عرض القائمة الرئيسية والتنقل */
@@ -1801,25 +1848,44 @@ function forceUpdateApp() {
         }
 
         // العودة للصفحة الرئيسية
-        function goHome() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
-            document.getElementById('homePage').classList.add('active');
-            
-            // إعادة تعيين نصوص الهيدر
-            const t = document.getElementById('headerTitle'); 
-            t.setAttribute('data-ar','الرئيسية'); 
-            t.setAttribute('data-tr','Ana Sayfa'); 
-            t.setAttribute('data-en','Home');
-            t.textContent = t.getAttribute(`data-${currentLang}`); 
-            document.getElementById('headerIcon').textContent = '🏠'; 
-            
-            // إعادة تعيين أزرار التنقل
-            document.getElementById('navSettingsBtn').style.display = 'flex';
-            document.getElementById('navMaterialsBtn').style.display = 'none';
-            document.getElementById('matActionMenu').classList.remove('active');
-            
-            window.scrollTo(0,0);
-        }
+function goHome() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
+    document.getElementById('homePage').classList.add('active');
+    
+    // إعادة تعيين نصوص الهيدر
+    const t = document.getElementById('headerTitle'); 
+    t.setAttribute('data-ar','الرئيسية'); 
+    t.setAttribute('data-tr','Ana Sayfa'); 
+    t.setAttribute('data-en','Home');
+    t.textContent = t.getAttribute(`data-${currentLang}`); 
+    document.getElementById('headerIcon').textContent = '🏠'; 
+    
+    // إعادة تعيين أزرار التنقل
+    document.getElementById('navSettingsBtn').style.display = 'flex';
+    document.getElementById('navMaterialsBtn').style.display = 'none';
+    document.getElementById('matActionMenu').classList.remove('active');
+    
+    // إعادة تعيين نص زر الإجراءات للافتراضي
+    const actionText = document.getElementById('navActionText');
+    if (actionText) {
+        const defaultTexts = {
+            ar: 'إجراءات',
+            en: 'Actions',
+            tr: 'İşlemler'
+        };
+        actionText.textContent = defaultTexts[currentLang];
+    }
+    
+    // إخفاء قائمة الموديلات إذا كانت موجودة
+    const modelMenu = document.getElementById('modelActionMenu');
+    if (modelMenu) {
+        modelMenu.classList.remove('active');
+        modelMenu.style.display = 'none';
+    }
+    
+    window.scrollTo(0,0);
+}
+
 
         /* ============================================================ */
         /* ✏️ نظام الخطوط وأحجام النصوص */
@@ -3179,13 +3245,20 @@ function initModelsDB() {
     }
 }
 
-// تحديث openSection للتعامل مع الموديلات
+// فتح قسم معين
 function openSection(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     
     // إخفاء القوائم المنبثقة
     document.getElementById('matActionMenu').classList.remove('active');
     document.getElementById('matActionMenu').style.display = 'none';
+    
+    // إخفاء قائمة الموديلات إذا كانت موجودة
+    const modelMenu = document.getElementById('modelActionMenu');
+    if (modelMenu) {
+        modelMenu.classList.remove('active');
+        modelMenu.style.display = 'none';
+    }
 
     const s = sectionsDB.find(x => x.id === id);
     const t = document.getElementById('headerTitle'); 
@@ -3201,6 +3274,7 @@ function openSection(id) {
     // التبديل بين أزرار التنقل السفلي
     const settingsBtn = document.getElementById('navSettingsBtn');
     const materialsBtn = document.getElementById('navMaterialsBtn');
+    const actionText = document.getElementById('navActionText');
 
     if (id === 2) { 
         // قسم المواد والخامات
@@ -3209,24 +3283,35 @@ function openSection(id) {
         
         settingsBtn.style.display = 'none';
         materialsBtn.style.display = 'flex';
+        
+        // تحديث نص زر الإجراءات للمواد والخامات
+        if (actionText) {
+            const materialTexts = {
+                ar: 'المواد والخامات',
+                en: 'Materials',
+                tr: 'Malzemeler'
+            };
+            actionText.textContent = materialTexts[currentLang];
+        }
     } 
     else if (id === 3) {
         // قسم الموديلات
         document.getElementById('modelsPage').classList.add('active');
-        initModelsDB();
-        loadModels();
-        loadModelTypesData();
+        if(typeof initModelsDB === 'function') initModelsDB();
+        if(typeof loadModels === 'function') loadModels();
+        if(typeof loadModelTypesData === 'function') loadModelTypesData();
         
         settingsBtn.style.display = 'none';
         materialsBtn.style.display = 'flex';
         
-        // تغيير نص زر الإجراءات
-        const actionBtn = document.querySelector('#navMaterialsBtn span:last-child');
-        if (actionBtn) {
-            actionBtn.setAttribute('data-ar', 'موديلات');
-            actionBtn.setAttribute('data-en', 'Models');
-            actionBtn.setAttribute('data-tr', 'Modeller');
-            actionBtn.textContent = actionBtn.getAttribute(`data-${currentLang}`);
+        // تحديث نص زر الإجراءات للموديلات
+        if (actionText) {
+            const modelTexts = {
+                ar: 'الموديلات',
+                en: 'Models',
+                tr: 'Modeller'
+            };
+            actionText.textContent = modelTexts[currentLang];
         }
     }
     else {
@@ -3247,43 +3332,64 @@ function openSection(id) {
     window.scrollTo(0,0);
 }
 
-// تحديث قائمة الإجراءات للموديلات
+// تبديل قائمة الإجراءات - محدث لحل التضارب
 function toggleMatMenu() {
-    const currentPage = document.querySelector('.page.active').id;
+    const currentPage = document.querySelector('.page.active');
+    if (!currentPage) return;
     
-    if (currentPage === 'modelsPage') {
+    const pageId = currentPage.id;
+    
+    if (pageId === 'modelsPage') {
         toggleModelMenu();
-    } else {
-        // الكود الأصلي للمواد
-        const menu = document.getElementById('matActionMenu');
-        if (menu.classList.contains('active')) {
-            menu.classList.remove('active');
-            setTimeout(() => menu.style.display = 'none', 200);
-        } else {
-            menu.style.display = 'flex';
-            setTimeout(() => menu.classList.add('active'), 10);
-        }
+    } else if (pageId === 'materialsPage') {
+        toggleMaterialMenu();
     }
 }
 
+// قائمة إجراءات المواد
+function toggleMaterialMenu() {
+    const menu = document.getElementById('matActionMenu');
+    if (menu.classList.contains('active')) {
+        menu.classList.remove('active');
+        setTimeout(() => menu.style.display = 'none', 200);
+    } else {
+        menu.style.display = 'flex';
+        setTimeout(() => menu.classList.add('active'), 10);
+    }
+}
+
+// قائمة إجراءات الموديلات
 function toggleModelMenu() {
-    // إنشاء قائمة إجراءات الموديلات ديناميكياً
     let modelMenu = document.getElementById('modelActionMenu');
     if (!modelMenu) {
         modelMenu = document.createElement('div');
         modelMenu.id = 'modelActionMenu';
         modelMenu.className = 'action-menu';
         modelMenu.style.bottom = '90px';
-        modelMenu.innerHTML = `
-            <button onclick="openModelModal(); toggleModelMenu()" class="action-item">
-                <span>➕</span> <span data-ar="إضافة موديل" data-tr="Model Ekle" data-en="Add Model">إضافة موديل</span>
-            </button>
-            <button onclick="showModelPrintOptions(); toggleModelMenu()" class="action-item">
-                <span>🖨️</span> <span data-ar="طباعة" data-tr="Yazdır" data-en="Print">طباعة</span>
-            </button>
-        `;
         document.body.appendChild(modelMenu);
     }
+    
+    // تحديث محتوى القائمة بالنصوص الصحيحة
+    const addTexts = {
+        ar: 'إضافة موديل',
+        en: 'Add Model', 
+        tr: 'Model Ekle'
+    };
+    
+    const printTexts = {
+        ar: 'طباعة',
+        en: 'Print',
+        tr: 'Yazdır'
+    };
+    
+    modelMenu.innerHTML = `
+        <button onclick="openModelModal(); toggleModelMenu()" class="action-item">
+            <span>➕</span> <span>${addTexts[currentLang]}</span>
+        </button>
+        <button onclick="showModelPrintOptions(); toggleModelMenu()" class="action-item">
+            <span>🖨️</span> <span>${printTexts[currentLang]}</span>
+        </button>
+    `;
     
     if (modelMenu.classList.contains('active')) {
         modelMenu.classList.remove('active');
@@ -3293,6 +3399,7 @@ function toggleModelMenu() {
         setTimeout(() => modelMenu.classList.add('active'), 10);
     }
 }
+
 
 // تحميل أنواع الموديلات
 function loadModelTypesData() {
@@ -3938,17 +4045,27 @@ function loadModels() {
     };
 }
 
-// عرض الموديلات
+// عرض الموديلات - محدث مع النصوص الصحيحة
 function renderModels(modelsList) {
     const container = document.getElementById('modelsList');
+    if (!container) return;
+    
     container.innerHTML = '';
 
     if (modelsList.length === 0) {
+        const emptyTexts = {
+            ar: { title: 'لا يوجد موديلات', desc: 'ابدأ بإضافة موديل جديد' },
+            en: { title: 'No Models', desc: 'Start by adding a new model' },
+            tr: { title: 'Model Yok', desc: 'Yeni bir model ekleyerek başlayın' }
+        };
+        
+        const texts = emptyTexts[currentLang];
+        
         container.innerHTML = `
             <div class="empty-content">
-                <div style="font-size: 4rem; margin-bottom: 1rem;">🛋️</div>
-                <h3 data-ar="لا يوجد موديلات" data-en="No Models" data-tr="Model Yok">لا يوجد موديلات</h3>
-                <p data-ar="ابدأ بإضافة موديل جديد" data-en="Start by adding a new model" data-tr="Yeni bir model ekleyerek başlayın">ابدأ بإضافة موديل جديد</p>
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🏗️</div>
+                <h3>${texts.title}</h3>
+                <p>${texts.desc}</p>
             </div>
         `;
         return;
@@ -4840,7 +4957,4 @@ console.log(`
     </script>
 </body>
 </html>
-
-
-
 
